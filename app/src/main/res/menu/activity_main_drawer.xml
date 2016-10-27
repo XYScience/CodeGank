@@ -1,0 +1,62 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <group android:checkableBehavior="single">
+        <item
+            android:id="@+id/nav_home"
+            android:checked="true"
+            android:icon="@drawable/ic_home_white"
+            android:title="@string/home"/>
+        <item
+            android:id="@+id/nav_collections"
+            android:icon="@drawable/ic_collections_white"
+            android:title="@string/collections"/>
+        <item
+            android:id="@+id/nav_android"
+            android:icon="@drawable/ic_android_white"
+            android:title="@string/android"/>
+        <item
+            android:id="@+id/nav_ios"
+            android:icon="@drawable/ic_ios_white"
+            android:title="@string/ios"/>
+        <item
+            android:id="@+id/nav_web"
+            android:icon="@drawable/ic_web_white"
+            android:title="@string/web"/>
+        <item
+            android:id="@+id/nav_other_resource"
+            android:icon="@drawable/ic_resource_white"
+            android:title="@string/other_resource"/>
+        <item
+            android:id="@+id/nav_more"
+            android:icon="@drawable/ic_more_white"
+            android:title="@string/more"/>
+        <!---<item
+            android:id="@+id/nav_app"
+            android:icon="@drawable/ic_apps_white"
+            android:title="@string/app"/>
+            -->
+        <item
+            android:id="@+id/nav_welfare"
+            android:icon="@drawable/ic_welfare_white"
+            android:title="@string/welfare"/>
+        <item
+            android:id="@+id/nav_break_video"
+            android:icon="@drawable/ic_video_library_white"
+            android:title="@string/break_video"/>
+    </group>
+
+    <item android:title="@string/other">
+        <menu>
+            <item
+                android:id="@+id/nav_settings"
+                android:icon="@drawable/ic_settings_white"
+                android:title="@string/settings"/>
+            <item
+                android:id="@+id/nav_about"
+                android:icon="@drawable/ic_help_outline_white"
+                android:title="@string/about"/>
+        </menu>
+    </item>
+
+</menu>

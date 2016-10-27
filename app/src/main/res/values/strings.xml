@@ -1,0 +1,23 @@
+<resources>
+    <string name="app_name">CodeGank</string>
+
+    <!-- 侧边栏菜单 -->
+    <string name="home">主页</string>
+    <string name="collections">收藏</string>
+    <string name="android">Android</string>
+    <string name="ios">iOS</string>
+    <string name="web">前端</string>
+    <string name="other_resource">拓展资源</string>
+    <string name="app">App</string>
+    <string name="more">瞎推荐</string>
+    <string name="welfare">福利</string>
+    <string name="break_video">休息视频</string>
+    <string name="settings">设置</string>
+    <string name="about">关于</string>
+    <string name="other">其它</string>
+    <string name="navigation_drawer_open">Open navigation drawer</string>
+    <string name="navigation_drawer_close">Close navigation drawer</string>
+
+    <string name="search">搜索</string>
+    <string name="search_hint">请输入关键字</string>
+</resources>
