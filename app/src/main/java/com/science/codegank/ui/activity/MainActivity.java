@@ -3,11 +3,13 @@ package com.science.codegank.ui.activity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.design.internal.NavigationMenuView;
+import android.support.design.widget.AppBarLayout;
 import android.support.design.widget.NavigationView;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v4.view.GravityCompat;
+import android.support.v4.view.ViewCompat;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.widget.Toolbar;
@@ -15,18 +17,19 @@ import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.ImageView;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.science.codegank.R;
 import com.science.codegank.ui.fragment.HomeFragment;
+import com.science.codegank.ui.fragment.WelfareFragment;
 import com.science.materialsearch.MaterialSearchView;
 import com.science.materialsearch.adapter.SearchAdapter;
 
 import java.util.List;
 
 import butterknife.BindView;
-
-import static com.science.codegank.R.id.toolbar;
 
 public class MainActivity extends BaseActivity
         implements NavigationView.OnNavigationItemSelectedListener {
@@ -35,9 +38,8 @@ public class MainActivity extends BaseActivity
     MaterialSearchView mSearchView;
     @BindView(R.id.drawer_layout)
     DrawerLayout mDrawerLayout;
-    @BindView(toolbar)
-    Toolbar mToolbar;
     private HomeFragment mHomeFragment;
+    private WelfareFragment mWelfareFragment;
     private String strQuery;
 
     @Override
@@ -62,11 +64,13 @@ public class MainActivity extends BaseActivity
     }
 
     private void initDrawerLayout() {
-        mToolbar.setTitle(getString(R.string.home));
-        setSupportActionBar(mToolbar);
+        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
+        toolbar.setTitle("");
+        setSupportActionBar(toolbar);
+        setCollapsingToolbar(getString(R.string.home));
 
         ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(
-                this, mDrawerLayout, mToolbar, R.string.navigation_drawer_open, R.string.navigation_drawer_close) {
+                this, mDrawerLayout, toolbar, R.string.navigation_drawer_open, R.string.navigation_drawer_close) {
             @Override
             public void onDrawerOpened(View drawerView) {
                 super.onDrawerOpened(drawerView);
@@ -130,23 +134,23 @@ public class MainActivity extends BaseActivity
         int id = item.getItemId();
 
         if (id == R.id.nav_home) {
-            mToolbar.setTitle(getString(R.string.home));
+            setCollapsingToolbar(getString(R.string.home));
         } else if (id == R.id.nav_collections) {
-            mToolbar.setTitle(getString(R.string.collections));
+            setCommonToolbar(getString(R.string.collections));
         } else if (id == R.id.nav_android) {
-            mToolbar.setTitle(getString(R.string.android));
+            setCommonToolbar(getString(R.string.android));
         } else if (id == R.id.nav_ios) {
-            mToolbar.setTitle(getString(R.string.ios));
+            setCommonToolbar(getString(R.string.ios));
         } else if (id == R.id.nav_web) {
-            mToolbar.setTitle(getString(R.string.web));
+            setCommonToolbar(getString(R.string.web));
         } else if (id == R.id.nav_other_resource) {
-            mToolbar.setTitle(getString(R.string.other_resource));
+            setCommonToolbar(getString(R.string.other_resource));
         } else if (id == R.id.nav_more) {
-            mToolbar.setTitle(getString(R.string.more));
+            setCommonToolbar(getString(R.string.more));
         } else if (id == R.id.nav_welfare) {
-            mToolbar.setTitle(getString(R.string.welfare));
+            setCommonToolbar(getString(R.string.welfare));
         } else if (id == R.id.nav_break_video) {
-            mToolbar.setTitle(getString(R.string.break_video));
+            setCommonToolbar(getString(R.string.break_video));
         } else if (id == R.id.nav_settings) {
             Intent intent = new Intent(this, SettingActivity.class);
             startActivity(intent);
@@ -159,6 +163,39 @@ public class MainActivity extends BaseActivity
         showFragment(id);
         mDrawerLayout.closeDrawer(GravityCompat.START);
         return true;
+    }
+
+    private void setCommonToolbar(String title) {
+        AppBarLayout appBarLayout = (AppBarLayout) findViewById(R.id.appbar_layout);
+        appBarLayout.setFitsSystemWindows(false);
+        ImageView imageView = (ImageView) findViewById(R.id.backdrop);
+        imageView.setVisibility(View.GONE);
+        View tvTime = findViewById(R.id.tv_time);
+        tvTime.setVisibility(View.GONE);
+        TextView tvTitle = (TextView) findViewById(R.id.toolbar_title);
+        tvTitle.setVisibility(View.VISIBLE);
+        tvTitle.setText(title);
+    }
+
+    private void setCollapsingToolbar(String title) {
+        AppBarLayout appBarLayout = (AppBarLayout) findViewById(R.id.appbar_layout);
+        appBarLayout.setFitsSystemWindows(true);
+        View imageView = findViewById(R.id.backdrop);
+        imageView.setVisibility(View.VISIBLE);
+        final View tvTime = findViewById(R.id.tv_time);
+        tvTime.setVisibility(View.VISIBLE);
+        final TextView tvTitle = (TextView) findViewById(R.id.toolbar_title);
+        tvTitle.setVisibility(View.VISIBLE);
+        tvTitle.setText(title);
+        appBarLayout.addOnOffsetChangedListener(new AppBarLayout.OnOffsetChangedListener() {
+            @Override
+            public void onOffsetChanged(AppBarLayout appBarLayout, int verticalOffset) {
+                int maxScroll = appBarLayout.getTotalScrollRange();
+                float percentage = (float) Math.abs(verticalOffset) / (float) maxScroll;
+                ViewCompat.setAlpha(tvTime, 1 - percentage);
+                ViewCompat.setAlpha(tvTitle, percentage);
+            }
+        });
     }
 
     private void showFragment(int index) {
@@ -175,11 +212,11 @@ public class MainActivity extends BaseActivity
                 }
                 break;
             case R.id.nav_collections:
-                if (mHomeFragment == null) {
-                    mHomeFragment = new HomeFragment();
-                    ft.add(R.id.content_main, mHomeFragment);
+                if (mWelfareFragment == null) {
+                    mWelfareFragment = new WelfareFragment();
+                    ft.add(R.id.content_main, mWelfareFragment);
                 } else {
-                    ft.show(mHomeFragment);
+                    ft.show(mWelfareFragment);
                 }
                 break;
             case R.id.nav_android:
@@ -281,8 +318,7 @@ public class MainActivity extends BaseActivity
                 Toast.makeText(this, getString(R.string.quit_again), Toast.LENGTH_SHORT).show();
                 exitTime = System.currentTimeMillis();
             } else {
-                finish();
-                System.exit(0);
+                super.onBackPressed();
             }
         }
     }

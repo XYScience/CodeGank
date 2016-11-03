@@ -17,7 +17,7 @@ public class HomeFragment extends BaseFragment {
 
     @Override
     protected int getContentLayout() {
-        return R.layout.activity_setting;
+        return R.layout.fragment_home;
     }
 
     @Override
