@@ -5,7 +5,6 @@ import android.os.Bundle;
 import android.support.design.internal.NavigationMenuView;
 import android.support.design.widget.AppBarLayout;
 import android.support.design.widget.NavigationView;
-import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v4.view.GravityCompat;
@@ -23,11 +22,8 @@ import android.widget.Toast;
 
 import com.science.codegank.R;
 import com.science.codegank.ui.fragment.HomeFragment;
-import com.science.codegank.ui.fragment.WelfareFragment;
 import com.science.materialsearch.MaterialSearchView;
 import com.science.materialsearch.adapter.SearchAdapter;
-
-import java.util.List;
 
 import butterknife.BindView;
 
@@ -38,8 +34,9 @@ public class MainActivity extends BaseActivity
     MaterialSearchView mSearchView;
     @BindView(R.id.drawer_layout)
     DrawerLayout mDrawerLayout;
+    @BindView(R.id.nav_view)
+    NavigationView mNavigationView;
     private HomeFragment mHomeFragment;
-    private WelfareFragment mWelfareFragment;
     private String strQuery;
 
     @Override
@@ -53,9 +50,8 @@ public class MainActivity extends BaseActivity
         super.onCreate(savedInstanceState);
         getWindow().setStatusBarColor(getResources().getColor(android.R.color.transparent));
         initDrawerLayout();
-        showFragment(R.id.nav_home);
+        showHomeFragment();
         setSearchView();
-
         getData();
     }
 
@@ -67,7 +63,6 @@ public class MainActivity extends BaseActivity
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         toolbar.setTitle("");
         setSupportActionBar(toolbar);
-        setCollapsingToolbar(getString(R.string.home));
 
         ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(
                 this, mDrawerLayout, toolbar, R.string.navigation_drawer_open, R.string.navigation_drawer_close) {
@@ -82,9 +77,8 @@ public class MainActivity extends BaseActivity
         mDrawerLayout.setDrawerListener(toggle);
         toggle.syncState();
 
-        NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
-        navigationView.setNavigationItemSelectedListener(this);
-        NavigationMenuView menuView = (NavigationMenuView) navigationView.getChildAt(0);
+        mNavigationView.setNavigationItemSelectedListener(this);
+        NavigationMenuView menuView = (NavigationMenuView) mNavigationView.getChildAt(0);
         if (menuView != null) {
             menuView.setVerticalScrollBarEnabled(false);
         }
@@ -123,8 +117,12 @@ public class MainActivity extends BaseActivity
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
-        // 在搜索结果界面清除历史记录后，需要调用onTextChanged，以更新历史界面
-        mSearchView.onTextChanged(strQuery);
+        if (requestCode == 1) {
+            // 在搜索结果界面清除历史记录后，需要调用onTextChanged，以更新历史界面
+            mSearchView.onTextChanged(strQuery);
+        } else if (requestCode == 2) {
+            mNavigationView.getMenu().getItem(0).setChecked(true);
+        }
     }
 
     @SuppressWarnings("StatementWithEmptyBody")
@@ -134,34 +132,30 @@ public class MainActivity extends BaseActivity
         int id = item.getItemId();
 
         if (id == R.id.nav_home) {
-            setCollapsingToolbar(getString(R.string.home));
+            showHomeFragment();
+            mDrawerLayout.closeDrawer(GravityCompat.START);
+        } else if (id == R.id.nav_category) {
+            Intent intent = new Intent(this, SettingActivity.class);
+            startActivityForResult(intent, 2);
+        } else if (id == R.id.nav_random) {
+            Intent intent = new Intent(this, SettingActivity.class);
+            startActivityForResult(intent, 2);
         } else if (id == R.id.nav_collections) {
-            setCommonToolbar(getString(R.string.collections));
-        } else if (id == R.id.nav_android) {
-            setCommonToolbar(getString(R.string.android));
-        } else if (id == R.id.nav_ios) {
-            setCommonToolbar(getString(R.string.ios));
-        } else if (id == R.id.nav_web) {
-            setCommonToolbar(getString(R.string.web));
-        } else if (id == R.id.nav_other_resource) {
-            setCommonToolbar(getString(R.string.other_resource));
-        } else if (id == R.id.nav_more) {
-            setCommonToolbar(getString(R.string.more));
+            Intent intent = new Intent(this, SettingActivity.class);
+            startActivityForResult(intent, 2);
         } else if (id == R.id.nav_welfare) {
-            setCommonToolbar(getString(R.string.welfare));
+            Intent intent = new Intent(this, SettingActivity.class);
+            startActivityForResult(intent, 2);
         } else if (id == R.id.nav_break_video) {
-            setCommonToolbar(getString(R.string.break_video));
+            Intent intent = new Intent(this, SettingActivity.class);
+            startActivityForResult(intent, 2);
         } else if (id == R.id.nav_settings) {
             Intent intent = new Intent(this, SettingActivity.class);
             startActivity(intent);
-            return true;
         } else if (id == R.id.nav_about) {
             Intent intent = new Intent(this, SettingActivity.class);
             startActivity(intent);
-            return true;
         }
-        showFragment(id);
-        mDrawerLayout.closeDrawer(GravityCompat.START);
         return true;
     }
 
@@ -177,16 +171,11 @@ public class MainActivity extends BaseActivity
         tvTitle.setText(title);
     }
 
-    private void setCollapsingToolbar(String title) {
+    private void showHomeFragment() {
         AppBarLayout appBarLayout = (AppBarLayout) findViewById(R.id.appbar_layout);
-        appBarLayout.setFitsSystemWindows(true);
-        View imageView = findViewById(R.id.backdrop);
-        imageView.setVisibility(View.VISIBLE);
         final View tvTime = findViewById(R.id.tv_time);
-        tvTime.setVisibility(View.VISIBLE);
         final TextView tvTitle = (TextView) findViewById(R.id.toolbar_title);
-        tvTitle.setVisibility(View.VISIBLE);
-        tvTitle.setText(title);
+        tvTitle.setText(getString(R.string.home));
         appBarLayout.addOnOffsetChangedListener(new AppBarLayout.OnOffsetChangedListener() {
             @Override
             public void onOffsetChanged(AppBarLayout appBarLayout, int verticalOffset) {
@@ -196,97 +185,16 @@ public class MainActivity extends BaseActivity
                 ViewCompat.setAlpha(tvTitle, percentage);
             }
         });
-    }
 
-    private void showFragment(int index) {
         FragmentManager fm = getSupportFragmentManager();
         FragmentTransaction ft = fm.beginTransaction();
-        hideFragment(fm);
-        switch (index) {
-            case R.id.nav_home:
-                if (mHomeFragment == null) {
-                    mHomeFragment = new HomeFragment();
-                    ft.add(R.id.content_main, mHomeFragment);
-                } else {
-                    ft.show(mHomeFragment);
-                }
-                break;
-            case R.id.nav_collections:
-                if (mWelfareFragment == null) {
-                    mWelfareFragment = new WelfareFragment();
-                    ft.add(R.id.content_main, mWelfareFragment);
-                } else {
-                    ft.show(mWelfareFragment);
-                }
-                break;
-            case R.id.nav_android:
-                if (mHomeFragment == null) {
-                    mHomeFragment = new HomeFragment();
-                    ft.add(R.id.content_main, mHomeFragment);
-                } else {
-                    ft.show(mHomeFragment);
-                }
-                break;
-            case R.id.nav_ios:
-                if (mHomeFragment == null) {
-                    mHomeFragment = new HomeFragment();
-                    ft.add(R.id.content_main, mHomeFragment);
-                } else {
-                    ft.show(mHomeFragment);
-                }
-                break;
-            case R.id.nav_web:
-                if (mHomeFragment == null) {
-                    mHomeFragment = new HomeFragment();
-                    ft.add(R.id.content_main, mHomeFragment);
-                } else {
-                    ft.show(mHomeFragment);
-                }
-                break;
-            case R.id.nav_other_resource:
-                if (mHomeFragment == null) {
-                    mHomeFragment = new HomeFragment();
-                    ft.add(R.id.content_main, mHomeFragment);
-                } else {
-                    ft.show(mHomeFragment);
-                }
-                break;
-            case R.id.nav_more:
-                if (mHomeFragment == null) {
-                    mHomeFragment = new HomeFragment();
-                    ft.add(R.id.content_main, mHomeFragment);
-                } else {
-                    ft.show(mHomeFragment);
-                }
-                break;
-            case R.id.nav_welfare:
-                if (mHomeFragment == null) {
-                    mHomeFragment = new HomeFragment();
-                    ft.add(R.id.content_main, mHomeFragment);
-                } else {
-                    ft.show(mHomeFragment);
-                }
-                break;
-            case R.id.nav_break_video:
-                if (mHomeFragment == null) {
-                    mHomeFragment = new HomeFragment();
-                    ft.add(R.id.content_main, mHomeFragment);
-                } else {
-                    ft.show(mHomeFragment);
-                }
-                break;
+        if (mHomeFragment == null) {
+            mHomeFragment = new HomeFragment();
+            ft.add(R.id.content_main, mHomeFragment);
+        } else {
+            ft.show(mHomeFragment);
         }
-
         ft.commit();
-    }
-
-    private void hideFragment(FragmentManager fm) {
-        List<Fragment> fragmentList = fm.getFragments();
-        if (fragmentList != null && !fragmentList.isEmpty()) {
-            for (Fragment fragment : fragmentList) {
-                fm.beginTransaction().hide(fragment).commit();
-            }
-        }
     }
 
     @Override

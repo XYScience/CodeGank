@@ -5,6 +5,8 @@
 
     <!-- 侧边栏菜单 -->
     <string name="home">主页</string>
+    <string name="category">分类</string>
+    <string name="random">随机</string>
     <string name="collections">收藏</string>
     <string name="android">Android</string>
     <string name="ios">iOS</string>

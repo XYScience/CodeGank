@@ -1,5 +1,6 @@
 package com.science.codegank.ui.activity;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 
@@ -24,5 +25,13 @@ public class SettingActivity extends BaseActivity {
         super.onCreate(savedInstanceState);
 
         setToolbar(getString(R.string.setting));
+    }
+
+    @Override
+    public void onBackPressed() {
+        super.onBackPressed();
+        Intent intent = new Intent(SettingActivity.this, MainActivity.class);
+        setResult(RESULT_OK, intent);
+        finish();
     }
 }
