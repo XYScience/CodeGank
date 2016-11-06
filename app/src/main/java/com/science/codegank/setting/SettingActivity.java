@@ -1,10 +1,12 @@
-package com.science.codegank.ui.activity;
+package com.science.codegank.setting;
 
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 
 import com.science.codegank.R;
+import com.science.codegank.base.BaseActivity;
+import com.science.codegank.homeday.MainActivity;
 
 /**
  * @author 幸运Science

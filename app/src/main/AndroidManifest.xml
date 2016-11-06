@@ -11,7 +11,7 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
         <activity
-            android:name=".ui.activity.MainActivity"
+            android:name=".homeday.MainActivity"
             android:screenOrientation="portrait"
             android:theme="@style/SplashScreenTheme">
             <intent-filter>
@@ -22,12 +22,12 @@
         </activity>
 
         <activity
-            android:name=".ui.activity.SearchResultActivity"
+            android:name=".searchresult.SearchResultActivity"
             android:launchMode="singleTop"
             android:screenOrientation="portrait" />
 
         <activity
-            android:name=".ui.activity.SettingActivity"
+            android:name=".setting.SettingActivity"
             android:launchMode="singleTop"
             android:screenOrientation="portrait" />
     </application>

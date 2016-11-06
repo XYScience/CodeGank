@@ -1,4 +1,4 @@
-package com.science.codegank.ui.activity;
+package com.science.codegank.homeday;
 
 import android.content.Intent;
 import android.os.Bundle;
@@ -21,7 +21,9 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.science.codegank.R;
-import com.science.codegank.ui.fragment.HomeFragment;
+import com.science.codegank.base.BaseActivity;
+import com.science.codegank.searchresult.SearchResultActivity;
+import com.science.codegank.setting.SettingActivity;
 import com.science.materialsearch.MaterialSearchView;
 import com.science.materialsearch.adapter.SearchAdapter;
 
@@ -52,11 +54,7 @@ public class MainActivity extends BaseActivity
         initDrawerLayout();
         showHomeFragment();
         setSearchView();
-        getData();
-    }
-
-    private void getData() {
-        String url = "http://gank.io/api/";
+        new HomePresenter(mHomeFragment);
     }
 
     private void initDrawerLayout() {

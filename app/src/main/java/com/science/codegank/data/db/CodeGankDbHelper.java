@@ -1,4 +1,4 @@
-package com.science.codegank.model.db;
+package com.science.codegank.data.db;
 
 import android.content.Context;
 import android.database.sqlite.SQLiteDatabase;

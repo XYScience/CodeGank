@@ -1,4 +1,4 @@
-package com.science.codegank.ui.activity;
+package com.science.codegank.base;
 
 import android.content.Context;
 import android.os.Bundle;

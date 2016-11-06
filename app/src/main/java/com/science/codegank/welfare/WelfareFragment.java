@@ -1,10 +1,11 @@
-package com.science.codegank.ui.fragment;
+package com.science.codegank.welfare;
 
 import android.support.design.widget.Snackbar;
 import android.view.View;
 import android.widget.TextView;
 
 import com.science.codegank.R;
+import com.science.codegank.base.BaseFragment;
 
 /**
  * @author 幸运Science

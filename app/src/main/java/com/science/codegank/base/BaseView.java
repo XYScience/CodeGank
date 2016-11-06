@@ -1,4 +1,4 @@
-package com.science.codegank.ui.view;
+package com.science.codegank.base;
 
 /**
  * @author SScience

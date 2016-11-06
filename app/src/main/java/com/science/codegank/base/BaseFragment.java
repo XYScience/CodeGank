@@ -1,4 +1,4 @@
-package com.science.codegank.ui.fragment;
+package com.science.codegank.base;
 
 import android.os.Bundle;
 import android.support.annotation.Nullable;

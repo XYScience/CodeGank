@@ -1,4 +1,4 @@
-package com.science.codegank.model.bean;
+package com.science.codegank.data.bean;
 
 import java.util.List;
 
