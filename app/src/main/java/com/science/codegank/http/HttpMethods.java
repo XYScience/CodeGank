@@ -25,7 +25,7 @@ import rx.schedulers.Schedulers;
 public class HttpMethods {
 
     private static final String BASE_URL = "http://gank.io/api/";
-    private CodeGank mCodeGank;
+    private CodeGankHttpService mCodeGankHttpService;
 
     public HttpMethods() {
         HttpLoggingInterceptor interceptor = new HttpLoggingInterceptor();
@@ -43,7 +43,11 @@ public class HttpMethods {
                 .baseUrl(BASE_URL)
                 .build();
 
-        mCodeGank = retrofit.create(CodeGank.class);
+        mCodeGankHttpService = retrofit.create(CodeGankHttpService.class);
+    }
+
+    private static class SingletonHolder {
+        private static final HttpMethods INSTANCE = new HttpMethods();
     }
 
     /**
@@ -55,10 +59,6 @@ public class HttpMethods {
         return SingletonHolder.INSTANCE;
     }
 
-    private static class SingletonHolder {
-        private static final HttpMethods INSTANCE = new HttpMethods();
-    }
-
     /**
      * 获取每日干货数据
      *
@@ -66,10 +66,20 @@ public class HttpMethods {
      * @param month
      * @param day
      */
-    public Observable<GankDayEntity> getGankDay(int year, int month, int day) {
-        Observable<GankDayEntity> observable = mCodeGank.getGankDay(year, month, day)
-                .compose(this.<GankDayEntity>applySchedulers());
+    public Observable<GankDayEntity.GankDayResults> getGankDay(int year, int month, int day) {
+        Observable<GankDayEntity.GankDayResults> observable = mCodeGankHttpService.getGankDay(year, month, day)
+                .compose(this.<GankDayEntity>applySchedulers())
+                .map(new Func1<GankDayEntity, GankDayEntity.GankDayResults>() {
+                    @Override
+                    public GankDayEntity.GankDayResults call(GankDayEntity gankDayEntity) {
+                        return gankDayEntity.results;
+                    }
+                });
         return observable;
+    }
+
+    public void getCategory(String catefory, int page) {
+
     }
 
     /**

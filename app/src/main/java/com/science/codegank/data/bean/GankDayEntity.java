@@ -102,11 +102,11 @@ public class GankDayEntity {
 
         public List<Gank> Android;
         public List<Gank> iOS;
-        public List<Gank> 休息视频;
         public List<Gank> 前端;
         public List<Gank> 拓展资源;
         public List<Gank> 瞎推荐;
-        public List<Gank> 福利;
         public List<Gank> App;
+        public List<Gank> 福利;
+        public List<Gank> 休息视频;
     }
 }
