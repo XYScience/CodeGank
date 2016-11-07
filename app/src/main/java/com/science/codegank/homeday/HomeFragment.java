@@ -5,9 +5,15 @@ import android.view.View;
 
 import com.science.codegank.R;
 import com.science.codegank.base.BaseFragment;
+import com.science.codegank.data.bean.Gank;
+import com.science.codegank.data.bean.GankDayEntity;
+import com.science.codegank.http.HttpMethods;
+
+import java.util.List;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
+import rx.functions.Func1;
 
 /**
  * @author 幸运Science
@@ -33,7 +39,23 @@ public class HomeFragment extends BaseFragment implements HomeContract.View {
         mRootView = view;
         ButterKnife.bind(this, mRootView);
 
+        HttpMethods.getInstance().getGankDay(2016, 10, 24)
+                .map(new Func1<GankDayEntity, GankDayEntity.GankDayResults>() {
+                    @Override
+                    public GankDayEntity.GankDayResults call(GankDayEntity gankDayEntity) {
+                        return gankDayEntity.results;
+                    }
+                })
+                .map(new Func1<GankDayEntity.GankDayResults, List<Gank>>() {
+                    @Override
+                    public List<Gank> call(GankDayEntity.GankDayResults gankDayResults) {
+                        return null;
+                    }
+                });
+    }
 
+    private List<Gank> getAllResults() {
+        return null;
     }
 
     @Override
@@ -48,4 +70,6 @@ public class HomeFragment extends BaseFragment implements HomeContract.View {
         super.onResume();
         mHomePresenter.start();
     }
+
+
 }
