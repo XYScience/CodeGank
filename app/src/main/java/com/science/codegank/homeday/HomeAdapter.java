@@ -8,4 +8,6 @@ package com.science.codegank.homeday;
  */
 
 public class HomeAdapter {
+
+
 }

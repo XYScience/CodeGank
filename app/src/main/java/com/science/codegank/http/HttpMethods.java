@@ -1,8 +1,10 @@
 package com.science.codegank.http;
 
-import com.science.codegank.data.bean.GankDayEntity;
+import com.science.codegank.data.bean.Gank;
+import com.science.codegank.data.bean.GankDayResults;
 import com.science.codegank.data.bean.HttpResult;
 
+import java.util.List;
 import java.util.concurrent.TimeUnit;
 
 import okhttp3.OkHttpClient;
@@ -66,20 +68,37 @@ public class HttpMethods {
      * @param month
      * @param day
      */
-    public Observable<GankDayEntity.GankDayResults> getGankDay(int year, int month, int day) {
-        Observable<GankDayEntity.GankDayResults> observable = mCodeGankHttpService.getGankDay(year, month, day)
-                .compose(this.<GankDayEntity>applySchedulers())
-                .map(new Func1<GankDayEntity, GankDayEntity.GankDayResults>() {
-                    @Override
-                    public GankDayEntity.GankDayResults call(GankDayEntity gankDayEntity) {
-                        return gankDayEntity.results;
-                    }
-                });
+    public Observable<GankDayResults> getGankDay(int year, int month, int day) {
+        Observable<GankDayResults> observable = mCodeGankHttpService.getGankDay(year, month, day)
+                .compose(this.<HttpResult<GankDayResults>>applySchedulers())
+                .map(new HttpResultFunc<GankDayResults>());
         return observable;
     }
 
-    public void getCategory(String catefory, int page) {
+    /**
+     * 分类数据
+     * @param category 数据类型： ["Android","瞎推荐","前端","拓展资源","iOS","福利","休息视频", "App", "all"]
+     * @param page 第几页：数字，大于0
+     * @return
+     */
+    public Observable<List<Gank>> getCategory(String category, int page) {
+        Observable<List<Gank>> observable = mCodeGankHttpService.getCategory(category, page)
+                .compose(this.<HttpResult<List<Gank>>>applySchedulers())
+                .map(new HttpResultFunc<List<Gank>>());
+        return observable;
+    }
 
+    /**
+     * 随机数据
+     * @param category 数据类型： ["Android","瞎推荐","前端","拓展资源","iOS","福利","休息视频", "App", "all]
+     * @param count 个数： 数字，大于0
+     * @return
+     */
+    public Observable<List<Gank>> getRandomData(String category, int count) {
+        Observable<List<Gank>> observable = mCodeGankHttpService.getRandomData(category, count)
+                .compose(this.<HttpResult<List<Gank>>>applySchedulers())
+                .map(new HttpResultFunc<List<Gank>>());
+        return observable;
     }
 
     /**
@@ -91,9 +110,6 @@ public class HttpMethods {
 
         @Override
         public T call(HttpResult<T> httpResult) {
-            if (httpResult.isError()) {
-                // TODO: 2016/11/7
-            }
             return httpResult.getResults();
         }
     }

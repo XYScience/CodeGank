@@ -11,6 +11,8 @@ import android.view.ViewGroup;
 import com.science.codegank.R;
 
 import butterknife.ButterKnife;
+import rx.Subscription;
+import rx.subscriptions.CompositeSubscription;
 
 /**
  * @author SScience
@@ -22,6 +24,7 @@ import butterknife.ButterKnife;
 public abstract class BaseFragment extends Fragment implements SwipeRefreshLayout.OnRefreshListener {
 
     private SwipeRefreshLayout mSwipeRefreshLayout;
+    private CompositeSubscription mCompositeSubscription;
 
     protected abstract int getContentLayout();
 
@@ -34,6 +37,26 @@ public abstract class BaseFragment extends Fragment implements SwipeRefreshLayou
         ButterKnife.bind(this, view);
         doCreateView(view);
         return view;
+    }
+
+    /**
+     * 创建一个CompositeSubscription对象来进行管理异步处理与Activity生命周期
+     *
+     * @param subscription
+     */
+    protected void addCompositeSubscription(Subscription subscription) {
+        if (mCompositeSubscription == null) {
+            mCompositeSubscription = new CompositeSubscription();
+        }
+        this.mCompositeSubscription.add(subscription);
+    }
+
+    @Override
+    public void onDestroy() {
+        super.onDestroy();
+        if (this.mCompositeSubscription != null) {
+            this.mCompositeSubscription.unsubscribe();
+        }
     }
 
     protected SwipeRefreshLayout initRefreshLayout(View view) {

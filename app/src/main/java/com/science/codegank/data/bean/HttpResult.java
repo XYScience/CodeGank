@@ -1,5 +1,7 @@
 package com.science.codegank.data.bean;
 
+import java.util.List;
+
 /**
  * @author 幸运Science
  * @description
@@ -8,6 +10,7 @@ package com.science.codegank.data.bean;
  */
 
 public class HttpResult<T> {
+    private List<String> category;
     private boolean error;
     private T results;
 

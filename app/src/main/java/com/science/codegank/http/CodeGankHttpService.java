@@ -1,7 +1,7 @@
 package com.science.codegank.http;
 
 import com.science.codegank.data.bean.Gank;
-import com.science.codegank.data.bean.GankDayEntity;
+import com.science.codegank.data.bean.GankDayResults;
 import com.science.codegank.data.bean.HttpResult;
 
 import java.util.List;
@@ -28,7 +28,7 @@ public interface CodeGankHttpService {
      * @return
      */
     @GET("day/{year}/{month}/{day}")
-    Observable<GankDayEntity> getGankDay(@Path("year") int year, @Path("month") int month, @Path("day") int day);
+    Observable<HttpResult<GankDayResults>> getGankDay(@Path("year") int year, @Path("month") int month, @Path("day") int day);
 
     /**
      * 分类数据
@@ -37,5 +37,14 @@ public interface CodeGankHttpService {
      * @return
      */
     @GET("data/{category}/10/{page}")
-    Observable<HttpResult<List<Gank>>> getCategory(@Path("category") int category, @Path("page") int page);
+    Observable<HttpResult<List<Gank>>> getCategory(@Path("category") String category, @Path("page") int page);
+
+    /**
+     * 随机数据
+     * @param category
+     * @param count
+     * @return
+     */
+    @GET("random/data/{category}/{count}")
+    Observable<HttpResult<List<Gank>>> getRandomData(@Path("category") String category, @Path("count") int count);
 }
