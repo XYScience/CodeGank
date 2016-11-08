@@ -4,9 +4,13 @@ import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
 
+import com.science.baserecyclerviewadapter.base.ViewHolder;
+import com.science.baserecyclerviewadapter.interfaces.OnItemClickListener;
+import com.science.baserecyclerviewadapter.widget.StickyHeaderItemDecoration;
 import com.science.codegank.R;
 import com.science.codegank.base.BaseFragment;
 import com.science.codegank.data.bean.Gank;
+import com.science.codegank.util.MyLogger;
 
 import java.util.List;
 
@@ -27,6 +31,7 @@ public class HomeFragment extends BaseFragment implements HomeContract.View<Gank
 
     @BindView(recyclerView)
     RecyclerView mRecyclerView;
+    private HomeAdapter mHomeAdapter;
     private View mRootView;
     private HomeContract.Presenter mHomePresenter;
 
@@ -42,7 +47,21 @@ public class HomeFragment extends BaseFragment implements HomeContract.View<Gank
 
         mRecyclerView.setHasFixedSize(true);
         mRecyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
-//        mRecyclerView.addItemDecoration(new StickyHeaderItemDecoration());
+        mRecyclerView.addItemDecoration(new StickyHeaderItemDecoration());
+        mHomeAdapter = new HomeAdapter(getActivity());
+        mHomeAdapter.setOnItemClickListener(new OnItemClickListener<List<Gank>>() {
+
+            @Override
+            public void onItemClick(ViewHolder viewHolder, List<Gank> ganks, int i) {
+
+            }
+
+            @Override
+            public void onItemEmptyClick() {
+                mHomePresenter.start();
+            }
+        });
+        mRecyclerView.setAdapter(mHomeAdapter);
     }
 
     @Override
@@ -58,10 +77,9 @@ public class HomeFragment extends BaseFragment implements HomeContract.View<Gank
         mHomePresenter.start();
     }
 
-
     @Override
-    public void getGankDayData(List<Gank> data) {
-
+    public void getGankDayData(List data) {
+        mHomeAdapter.setData(false, data);
     }
 
     @Override
@@ -72,5 +90,11 @@ public class HomeFragment extends BaseFragment implements HomeContract.View<Gank
     @Override
     public void hasNoMoreData() {
 
+    }
+
+    @Override
+    public void getDataError(String msg) {
+        MyLogger.e(msg);
+        mHomeAdapter.showLoadFailed();
     }
 }

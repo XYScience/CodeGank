@@ -34,8 +34,8 @@ public class HttpMethods {
         interceptor.setLevel(HttpLoggingInterceptor.Level.BODY);
         OkHttpClient httpClientBuilder = new OkHttpClient.Builder()
                 .addInterceptor(interceptor)
-                .connectTimeout(5, TimeUnit.MINUTES)
-                .retryOnConnectionFailure(true) // 设置出现错误进行重新连接。
+                .connectTimeout(5, TimeUnit.SECONDS)
+//                .retryOnConnectionFailure(true) // 设置出现错误进行重新连接。
                 .build();
 
         Retrofit retrofit = new Retrofit.Builder()
