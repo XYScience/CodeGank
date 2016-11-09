@@ -44,9 +44,18 @@ public class HomeAdapter extends BaseStickyAdapter<List<GankDayResults>> {
     public void convertCommon(ViewHolder viewHolder, List<GankDayResults> ganks, int section, int position) {
         if ("福利".equals(ganks.get(section).getHeader())) {
             viewHolder.getView(R.id.iv_day_welfare).setVisibility(View.VISIBLE);
-            ImageLoadUtil.loadImage(mContext, ganks.get(section).getWelfareUrl(), (ImageView) viewHolder.getView(R.id.iv_day_welfare));
+            viewHolder.getView(R.id.tv_date).setVisibility(View.VISIBLE);
+            viewHolder.getView(R.id.tv_desc).setVisibility(View.GONE);
+            viewHolder.getView(R.id.tv_who).setVisibility(View.GONE);
+            ImageLoadUtil.loadImage(mContext, ganks.get(section).getGankList().get(0).getUrl(), 0, (ImageView) viewHolder.getView(R.id.iv_day_welfare));
+            String timeToday = ganks.get(section).getGankList().get(0).getPublishedAt();
+            String[] s = timeToday.split("T");
+            viewHolder.setText(R.id.tv_date, s[0]);
         } else {
             viewHolder.getView(R.id.iv_day_welfare).setVisibility(View.GONE);
+            viewHolder.getView(R.id.tv_date).setVisibility(View.GONE);
+            viewHolder.getView(R.id.tv_desc).setVisibility(View.VISIBLE);
+            viewHolder.getView(R.id.tv_who).setVisibility(View.VISIBLE);
             viewHolder.setText(R.id.tv_desc, ganks.get(section).getGankList().get(position).getDesc());
             viewHolder.setText(R.id.tv_who, ganks.get(section).getGankList().get(position).getWho());
         }
@@ -56,9 +65,12 @@ public class HomeAdapter extends BaseStickyAdapter<List<GankDayResults>> {
     public void convertHeader(ViewHolder viewHolder, List<GankDayResults> ganks, int section) {
         String header = ganks.get(section).getHeader();
         if ("福利".equals(header)) {
-            viewHolder.getView(R.id.tv_gank_day_header).setVisibility(View.GONE);
+            viewHolder.getView(R.id.tv_gank_day_header).setBackgroundColor(mContext.getResources().getColor(R.color.colorPrimary));
+            String timeToday = ganks.get(section).getGankList().get(0).getPublishedAt();
+            String[] s = timeToday.split("T");
+            viewHolder.setText(R.id.tv_gank_day_header, s[0]);
         } else {
-            viewHolder.getView(R.id.tv_gank_day_header).setVisibility(View.VISIBLE);
+            viewHolder.getView(R.id.tv_gank_day_header).setBackgroundColor(mContext.getResources().getColor(R.color.statusBarBg));
             viewHolder.setText(R.id.tv_gank_day_header, ganks.get(section).getHeader());
         }
     }

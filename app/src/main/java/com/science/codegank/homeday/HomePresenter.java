@@ -122,7 +122,7 @@ public class HomePresenter implements HomeContract.Presenter {
     private List<GankDayResults> getAllResults(boolean isLatestData, GankDayResults gankDayResults) {
         List<GankDayResults> gankDayResultses = new ArrayList<>();
         if (gankDayResults.福利 != null) {
-            gankDayResultses.add(new GankDayResults(gankDayResults.福利.get(0).getUrl(), "福利", gankDayResults.福利));
+            gankDayResultses.add(new GankDayResults("福利", gankDayResults.福利));
         }
         if (gankDayResults.Android != null) {
             gankDayResultses.add(new GankDayResults("Android", gankDayResults.Android));

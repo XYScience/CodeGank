@@ -12,7 +12,6 @@ import java.util.List;
 public class GankDayResults extends BaseData{
 
     private String header;
-    private String welfareUrl;
     private List<Gank> gankList;
     public List<Gank> Android;
     public List<Gank> iOS;
@@ -31,14 +30,6 @@ public class GankDayResults extends BaseData{
         this.header = header;
     }
 
-    public String getWelfareUrl() {
-        return welfareUrl;
-    }
-
-    public void setWelfareUrl(String welfareUrl) {
-        this.welfareUrl = welfareUrl;
-    }
-
     public List<Gank> getGankList() {
         return gankList;
     }
@@ -48,12 +39,6 @@ public class GankDayResults extends BaseData{
     }
 
     public GankDayResults(String header, List<Gank> gankList) {
-        this.header = header;
-        this.gankList = gankList;
-    }
-
-    public GankDayResults(String welfareUrl, String header, List<Gank> gankList) {
-        this.welfareUrl = welfareUrl;
         this.header = header;
         this.gankList = gankList;
     }

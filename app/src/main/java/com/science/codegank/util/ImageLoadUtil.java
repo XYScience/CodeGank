@@ -5,7 +5,6 @@ import android.widget.ImageView;
 
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.load.engine.DiskCacheStrategy;
-import com.science.codegank.R;
 
 /**
  * @author 幸运Science
@@ -16,11 +15,12 @@ import com.science.codegank.R;
 
 public class ImageLoadUtil {
 
-    public static void loadImage(Context context, String url, ImageView imageView ) {
+    public static void loadImage(Context context, String url, int placeholderImg, ImageView imageView) {
         Glide.with(context)
                 .load(url)
-//                .centerCrop()
-                .placeholder(R.drawable.welfare)
+                //.asBitmap() //当设置placeholder占位图时，Glide首次加载图片变形/拉伸解决办法
+                .centerCrop()
+                .placeholder(placeholderImg)
                 .diskCacheStrategy(DiskCacheStrategy.ALL)
                 .crossFade()
                 .into(imageView);

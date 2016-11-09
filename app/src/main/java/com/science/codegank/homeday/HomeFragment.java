@@ -88,7 +88,7 @@ public class HomeFragment extends BaseFragment implements HomeContract.View<Gank
         if (isFirst) {
             String todayWelfareUrl = data.get(0).getGankList().get(0).getUrl();
             ImageView ivWelfareToday = (ImageView) getActivity().findViewById(R.id.iv_welfare_today);
-            ImageLoadUtil.loadImage(getActivity(), todayWelfareUrl, ivWelfareToday);
+            ImageLoadUtil.loadImage(getActivity(), todayWelfareUrl, R.drawable.welfare, ivWelfareToday);
             TextView tvTimeToday = (TextView) getActivity().findViewById(R.id.tv_time_today);
             String timeToday = data.get(0).getGankList().get(0).getPublishedAt();
             String[] s = timeToday.split("T");
@@ -112,6 +112,7 @@ public class HomeFragment extends BaseFragment implements HomeContract.View<Gank
 
     @Override
     public void getDataError(String msg) {
+        Toast.makeText(getActivity(), msg, Toast.LENGTH_SHORT).show();
         mHomeAdapter.showLoadFailed();
     }
 }
