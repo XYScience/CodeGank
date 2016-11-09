@@ -19,7 +19,7 @@ import rx.Subscription;
 public interface HomeContract {
 
     interface View<T extends BaseData> extends BaseView<Presenter> {
-        void getGankDayData(List<List<T>> data);
+        void getGankDayData(boolean isFirst, List<T> data);
 
         void addSubscription(Subscription subscription);
 

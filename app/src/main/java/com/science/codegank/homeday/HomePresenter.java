@@ -1,6 +1,5 @@
 package com.science.codegank.homeday;
 
-import com.science.codegank.data.bean.Gank;
 import com.science.codegank.data.bean.GankDayResults;
 import com.science.codegank.http.HttpMethods;
 import com.science.codegank.http.MySubscriber;
@@ -9,9 +8,7 @@ import com.science.codegank.util.MyLogger;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
 import rx.Subscription;
 import rx.functions.Func1;
@@ -29,7 +26,6 @@ public class HomePresenter implements HomeContract.Presenter {
     private static final int DAY_OF_MILLISECOND = 24 * 60 * 60 * 1000;
     private Date mCurrentDate;
     private int mCountOfGetMoreDataEmpty = 0;
-    private int gankPosition = 0;
 
     public HomePresenter(HomeContract.View homeView) {
         mHomeView = homeView;
@@ -49,15 +45,15 @@ public class HomePresenter implements HomeContract.Presenter {
         int year = calendar.get(Calendar.YEAR);
         int month = calendar.get(Calendar.MONTH) + 1;
         int day = calendar.get(Calendar.DAY_OF_MONTH);
-        gankPosition = 0;
-        Subscription subscription = HttpMethods.getInstance().getGankDay(year, month, day - 1)
-                .map(new Func1<GankDayResults, List<List<Gank>>>() {
+        MyLogger.e("今天：" + year + "-" + month + "-" + day);
+        Subscription subscription = HttpMethods.getInstance().getGankDay(year, month, day)
+                .map(new Func1<GankDayResults, List<GankDayResults>>() {
                     @Override
-                    public List<List<Gank>> call(GankDayResults gankDayResults) {
-                        return getAllResults(gankDayResults);
+                    public List<GankDayResults> call(GankDayResults gankDayResults) {
+                        return getAllResults(true, gankDayResults);
                     }
                 })
-                .subscribe(new MySubscriber<List<List<Gank>>>() {
+                .subscribe(new MySubscriber<List<GankDayResults>>() {
                     @Override
                     protected void onMyCompleted() {
                         mCurrentDate = new Date(date.getTime() - DAY_OF_MILLISECOND);
@@ -69,11 +65,11 @@ public class HomePresenter implements HomeContract.Presenter {
                     }
 
                     @Override
-                    protected void onMyNext(List<List<Gank>> ganks) {
+                    protected void onMyNext(List<GankDayResults> ganks) {
                         if (ganks.isEmpty()) {
                             getGankDayData(new Date(date.getTime() - DAY_OF_MILLISECOND));
                         } else {
-                            mHomeView.getGankDayData(ganks);
+                            mHomeView.getGankDayData(true, ganks);
                             MyLogger.e(ganks.toString());
                         }
                     }
@@ -89,13 +85,13 @@ public class HomePresenter implements HomeContract.Presenter {
         int month = calendar.get(Calendar.MONTH) + 1;
         int day = calendar.get(Calendar.DAY_OF_MONTH);
         Subscription subscription = HttpMethods.getInstance().getGankDay(year, month, day)
-                .map(new Func1<GankDayResults, List>() {
+                .map(new Func1<GankDayResults, List<GankDayResults>>() {
                     @Override
-                    public List call(GankDayResults gankDayResults) {
-                        return getAllResults(gankDayResults);
+                    public List<GankDayResults> call(GankDayResults gankDayResults) {
+                        return getAllResults(false, gankDayResults);
                     }
                 })
-                .subscribe(new MySubscriber<List>() {
+                .subscribe(new MySubscriber<List<GankDayResults>>() {
                     @Override
                     protected void onMyCompleted() {
                         mCurrentDate = new Date(mCurrentDate.getTime() - DAY_OF_MILLISECOND);
@@ -107,7 +103,7 @@ public class HomePresenter implements HomeContract.Presenter {
                     }
 
                     @Override
-                    protected void onMyNext(List ganks) {
+                    protected void onMyNext(List<GankDayResults> ganks) {
                         if (ganks.isEmpty()) {
                             mCountOfGetMoreDataEmpty += 1;
                             if (mCountOfGetMoreDataEmpty >= 8) {
@@ -117,47 +113,38 @@ public class HomePresenter implements HomeContract.Presenter {
                             }
                         } else {
                             mCountOfGetMoreDataEmpty = 0;
-                            mHomeView.getGankDayData(ganks);
+                            mHomeView.getGankDayData(false, ganks);
                         }
                     }
                 });
     }
 
-    private List<List<Gank>> getAllResults(GankDayResults gankDayResults) {
-        Map<Integer, List<Gank>> map = new HashMap<>();
+    private List<GankDayResults> getAllResults(boolean isLatestData, GankDayResults gankDayResults) {
+        List<GankDayResults> gankDayResultses = new ArrayList<>();
         if (gankDayResults.福利 != null) {
-            map.put(gankPosition, gankDayResults.福利);
-            gankPosition++;
+            gankDayResultses.add(new GankDayResults(gankDayResults.福利.get(0).getUrl(), "福利", gankDayResults.福利));
         }
         if (gankDayResults.Android != null) {
-            map.put(gankPosition, gankDayResults.Android);
-            gankPosition++;
+            gankDayResultses.add(new GankDayResults("Android", gankDayResults.Android));
         }
         if (gankDayResults.iOS != null) {
-            map.put(gankPosition, gankDayResults.iOS);
-            gankPosition++;
+            gankDayResultses.add(new GankDayResults("iOS", gankDayResults.iOS));
         }
         if (gankDayResults.前端 != null) {
-            map.put(gankPosition, gankDayResults.前端);
-            gankPosition++;
+            gankDayResultses.add(new GankDayResults("前端", gankDayResults.前端));
         }
         if (gankDayResults.拓展资源 != null) {
-            map.put(gankPosition, gankDayResults.拓展资源);
-            gankPosition++;
+            gankDayResultses.add(new GankDayResults("拓展资源", gankDayResults.拓展资源));
         }
         if (gankDayResults.瞎推荐 != null) {
-            map.put(gankPosition, gankDayResults.瞎推荐);
-            gankPosition++;
+            gankDayResultses.add(new GankDayResults("瞎推荐", gankDayResults.瞎推荐));
         }
         if (gankDayResults.App != null) {
-            map.put(gankPosition, gankDayResults.App);
-            gankPosition++;
+            gankDayResultses.add(new GankDayResults("App", gankDayResults.App));
         }
         if (gankDayResults.休息视频 != null) {
-            map.put(gankPosition, gankDayResults.休息视频);
-            gankPosition++;
+            gankDayResultses.add(new GankDayResults("休息视频", gankDayResults.休息视频));
         }
-        List<List<Gank>> list = new ArrayList(map.values());
-        return list;
+        return gankDayResultses;
     }
 }

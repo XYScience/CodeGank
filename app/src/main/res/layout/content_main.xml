@@ -20,12 +20,12 @@
             app:contentScrim="?attr/colorPrimary"
             app:expandedTitleMarginBottom="16dp"
             app:expandedTitleTextAppearance="@style/TextAppearance.Widget.AppCompat.Toolbar.Title"
-            app:layout_scrollFlags="scroll|exitUntilCollapsed|snap">
+            app:layout_scrollFlags="scroll|enterAlwaysCollapsed|enterAlways|snap">
 
             <ImageView
-                android:id="@+id/backdrop"
+                android:id="@+id/iv_welfare_today"
                 android:layout_width="match_parent"
-                android:layout_height="350dp"
+                android:layout_height="match_parent"
                 android:fitsSystemWindows="true"
                 android:scaleType="centerCrop"
                 android:src="@drawable/welfare"
@@ -36,29 +36,29 @@
                 android:layout_width="match_parent"
                 android:layout_height="?attr/actionBarSize"
                 app:layout_collapseMode="pin"
-                app:layout_scrollFlags="scroll|exitUntilCollapsed|snap"
                 app:popupTheme="@style/AppTheme.PopupOverlay">
 
                 <TextView
                     android:id="@+id/toolbar_title"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:textAppearance="@style/TextAppearance.Widget.AppCompat.Toolbar.Title"
-                    android:alpha="0" />
+                    android:alpha="0"
+                    android:textAppearance="@style/TextAppearance.Widget.AppCompat.Toolbar.Title" />
 
             </android.support.v7.widget.Toolbar>
 
             <TextView
-                android:id="@+id/tv_time"
+                android:id="@+id/tv_time_today"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_gravity="bottom"
                 android:layout_marginBottom="10dp"
-                android:layout_marginLeft="32dp"
+                android:layout_marginLeft="16dp"
                 android:layout_marginRight="32dp"
                 android:text="2016-11-11"
                 android:textAppearance="@style/TextAppearance.Widget.AppCompat.Toolbar.Title"
-                android:textColor="@color/white" />
+                android:textColor="@color/white"
+                android:textSize="30sp" />
 
         </android.support.design.widget.CollapsingToolbarLayout>
 

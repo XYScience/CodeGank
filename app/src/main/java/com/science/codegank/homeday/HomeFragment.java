@@ -3,14 +3,18 @@ package com.science.codegank.homeday;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
+import android.widget.ImageView;
+import android.widget.TextView;
+import android.widget.Toast;
 
 import com.science.baserecyclerviewadapter.base.ViewHolder;
 import com.science.baserecyclerviewadapter.interfaces.OnItemClickListener;
+import com.science.baserecyclerviewadapter.interfaces.OnLoadMoreListener;
 import com.science.baserecyclerviewadapter.widget.StickyHeaderItemDecoration;
 import com.science.codegank.R;
 import com.science.codegank.base.BaseFragment;
-import com.science.codegank.data.bean.Gank;
-import com.science.codegank.util.MyLogger;
+import com.science.codegank.data.bean.GankDayResults;
+import com.science.codegank.util.ImageLoadUtil;
 
 import java.util.List;
 
@@ -27,7 +31,7 @@ import static com.science.codegank.R.id.recyclerView;
  * @data 2016/10/31
  */
 
-public class HomeFragment extends BaseFragment implements HomeContract.View<Gank> {
+public class HomeFragment extends BaseFragment implements HomeContract.View<GankDayResults> {
 
     @BindView(recyclerView)
     RecyclerView mRecyclerView;
@@ -49,11 +53,11 @@ public class HomeFragment extends BaseFragment implements HomeContract.View<Gank
         mRecyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
         mRecyclerView.addItemDecoration(new StickyHeaderItemDecoration());
         mHomeAdapter = new HomeAdapter(getActivity());
-        mHomeAdapter.setOnItemClickListener(new OnItemClickListener<List<Gank>>() {
+        mHomeAdapter.setOnItemClickListener(new OnItemClickListener<GankDayResults>() {
 
             @Override
-            public void onItemClick(ViewHolder viewHolder, List<Gank> ganks, int i) {
-
+            public void onItemClick(ViewHolder viewHolder, GankDayResults ganks, int i) {
+                Toast.makeText(getActivity(), ganks.getGankList().get(i).getDesc(), Toast.LENGTH_SHORT).show();
             }
 
             @Override
@@ -61,7 +65,15 @@ public class HomeFragment extends BaseFragment implements HomeContract.View<Gank
                 mHomePresenter.start();
             }
         });
+        mHomeAdapter.setOnLoadMoreListener(new OnLoadMoreListener() {
+            @Override
+            public void onLoadMore(int i) {
+                mHomePresenter.getGankDayDataMore();
+            }
+        });
         mRecyclerView.setAdapter(mHomeAdapter);
+
+        mHomePresenter.start();
     }
 
     @Override
@@ -72,14 +84,20 @@ public class HomeFragment extends BaseFragment implements HomeContract.View<Gank
     }
 
     @Override
-    public void onResume() {
-        super.onResume();
-        mHomePresenter.start();
-    }
-
-    @Override
-    public void getGankDayData(List data) {
-        mHomeAdapter.setData(false, data);
+    public void getGankDayData(boolean isFirst, List<GankDayResults> data) {
+        if (isFirst) {
+            String todayWelfareUrl = data.get(0).getGankList().get(0).getUrl();
+            ImageView ivWelfareToday = (ImageView) getActivity().findViewById(R.id.iv_welfare_today);
+            ImageLoadUtil.loadImage(getActivity(), todayWelfareUrl, ivWelfareToday);
+            TextView tvTimeToday = (TextView) getActivity().findViewById(R.id.tv_time_today);
+            String timeToday = data.get(0).getGankList().get(0).getPublishedAt();
+            String[] s = timeToday.split("T");
+            tvTimeToday.setText(s[0]);
+            data.remove(0);
+            mHomeAdapter.setData(false, data);
+        } else {
+            mHomeAdapter.setData(true, data);
+        }
     }
 
     @Override
@@ -89,12 +107,11 @@ public class HomeFragment extends BaseFragment implements HomeContract.View<Gank
 
     @Override
     public void hasNoMoreData() {
-
+        mHomeAdapter.showFooterNoMoreData();
     }
 
     @Override
     public void getDataError(String msg) {
-        MyLogger.e(msg);
         mHomeAdapter.showLoadFailed();
     }
 }

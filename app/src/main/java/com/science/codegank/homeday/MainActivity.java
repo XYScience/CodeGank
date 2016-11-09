@@ -160,9 +160,9 @@ public class MainActivity extends BaseActivity
     private void setCommonToolbar(String title) {
         AppBarLayout appBarLayout = (AppBarLayout) findViewById(R.id.appbar_layout);
         appBarLayout.setFitsSystemWindows(false);
-        ImageView imageView = (ImageView) findViewById(R.id.backdrop);
+        ImageView imageView = (ImageView) findViewById(R.id.iv_welfare_today);
         imageView.setVisibility(View.GONE);
-        View tvTime = findViewById(R.id.tv_time);
+        View tvTime = findViewById(R.id.tv_time_today);
         tvTime.setVisibility(View.GONE);
         TextView tvTitle = (TextView) findViewById(R.id.toolbar_title);
         tvTitle.setVisibility(View.VISIBLE);
@@ -171,13 +171,13 @@ public class MainActivity extends BaseActivity
 
     private void showHomeFragment() {
         AppBarLayout appBarLayout = (AppBarLayout) findViewById(R.id.appbar_layout);
-        final View tvTime = findViewById(R.id.tv_time);
+        final View tvTime = findViewById(R.id.tv_time_today);
         final TextView tvTitle = (TextView) findViewById(R.id.toolbar_title);
         tvTitle.setText(getString(R.string.home));
         appBarLayout.addOnOffsetChangedListener(new AppBarLayout.OnOffsetChangedListener() {
             @Override
             public void onOffsetChanged(AppBarLayout appBarLayout, int verticalOffset) {
-                int maxScroll = appBarLayout.getTotalScrollRange();
+                int maxScroll = appBarLayout.getTotalScrollRange() - (int) getResources().getDimension(R.dimen.abc_action_bar_default_height_material);
                 float percentage = (float) Math.abs(verticalOffset) / (float) maxScroll;
                 ViewCompat.setAlpha(tvTime, 1 - percentage);
                 ViewCompat.setAlpha(tvTitle, percentage);
