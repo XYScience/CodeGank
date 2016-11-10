@@ -6,7 +6,7 @@ import android.support.annotation.Nullable;
 
 import com.science.codegank.R;
 import com.science.codegank.base.BaseActivity;
-import com.science.codegank.homeday.MainActivity;
+import com.science.codegank.MainActivity;
 
 /**
  * @author 幸运Science

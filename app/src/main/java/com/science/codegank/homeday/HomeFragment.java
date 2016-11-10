@@ -19,7 +19,6 @@ import com.science.codegank.util.ImageLoadUtil;
 import java.util.List;
 
 import butterknife.BindView;
-import butterknife.ButterKnife;
 import rx.Subscription;
 
 import static com.science.codegank.R.id.recyclerView;
@@ -41,13 +40,12 @@ public class HomeFragment extends BaseFragment implements HomeContract.View<Gank
 
     @Override
     protected int getContentLayout() {
-        return R.layout.fragment_home;
+        return R.layout.fragment_gank;
     }
 
     @Override
     protected void doCreateView(View view) {
         mRootView = view;
-        ButterKnife.bind(this, mRootView);
 
         mRecyclerView.setHasFixedSize(true);
         mRecyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));

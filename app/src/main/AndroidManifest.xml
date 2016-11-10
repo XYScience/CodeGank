@@ -14,7 +14,7 @@
             android:name="com.science.codegank.view.MyGlideModule"
             android:value="GlideModule" />
         <activity
-            android:name=".homeday.MainActivity"
+            android:name=".MainActivity"
             android:screenOrientation="portrait"
             android:theme="@style/SplashScreenTheme">
             <intent-filter>
@@ -23,6 +23,11 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+
+        <activity
+            android:name=".category.CategoryActivity"
+            android:launchMode="singleTop"
+            android:screenOrientation="portrait" />
 
         <activity
             android:name=".searchresult.SearchResultActivity"

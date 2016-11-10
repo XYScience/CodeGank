@@ -8,7 +8,7 @@ import android.widget.Toast;
 
 import com.science.codegank.R;
 import com.science.codegank.base.BaseActivity;
-import com.science.codegank.homeday.MainActivity;
+import com.science.codegank.MainActivity;
 import com.science.materialsearch.MaterialSearchView;
 import com.science.materialsearch.adapter.SearchAdapter;
 

@@ -1,4 +1,4 @@
-package com.science.codegank.homeday;
+package com.science.codegank;
 
 import android.content.Intent;
 import android.os.Bundle;
@@ -20,8 +20,10 @@ import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.science.codegank.R;
 import com.science.codegank.base.BaseActivity;
+import com.science.codegank.category.CategoryActivity;
+import com.science.codegank.homeday.HomeFragment;
+import com.science.codegank.homeday.HomePresenter;
 import com.science.codegank.searchresult.SearchResultActivity;
 import com.science.codegank.setting.SettingActivity;
 import com.science.materialsearch.MaterialSearchView;
@@ -133,7 +135,7 @@ public class MainActivity extends BaseActivity
             showHomeFragment();
             mDrawerLayout.closeDrawer(GravityCompat.START);
         } else if (id == R.id.nav_category) {
-            Intent intent = new Intent(this, SettingActivity.class);
+            Intent intent = new Intent(this, CategoryActivity.class);
             startActivityForResult(intent, 2);
         } else if (id == R.id.nav_random) {
             Intent intent = new Intent(this, SettingActivity.class);
