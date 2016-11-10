@@ -9,9 +9,10 @@ import java.util.List;
  * @data 2016/11/8
  */
 
-public class GankDayResults extends BaseData{
+public class GankDayResults extends BaseData {
 
     private String header;
+    private int headerImg;
     private List<Gank> gankList;
     public List<Gank> Android;
     public List<Gank> iOS;
@@ -30,6 +31,14 @@ public class GankDayResults extends BaseData{
         this.header = header;
     }
 
+    public int getHeaderImg() {
+        return headerImg;
+    }
+
+    public void setHeaderImg(int headerImg) {
+        this.headerImg = headerImg;
+    }
+
     public List<Gank> getGankList() {
         return gankList;
     }
@@ -38,8 +47,9 @@ public class GankDayResults extends BaseData{
         this.gankList = gankList;
     }
 
-    public GankDayResults(String header, List<Gank> gankList) {
+    public GankDayResults(String header, int headerImg, List<Gank> gankList) {
         this.header = header;
+        this.headerImg = headerImg;
         this.gankList = gankList;
     }
 }

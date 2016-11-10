@@ -1,5 +1,6 @@
 package com.science.codegank.homeday;
 
+import com.science.codegank.R;
 import com.science.codegank.data.bean.GankDayResults;
 import com.science.codegank.http.HttpMethods;
 import com.science.codegank.http.MySubscriber;
@@ -50,7 +51,7 @@ public class HomePresenter implements HomeContract.Presenter {
                 .map(new Func1<GankDayResults, List<GankDayResults>>() {
                     @Override
                     public List<GankDayResults> call(GankDayResults gankDayResults) {
-                        return getAllResults(true, gankDayResults);
+                        return getAllResults(gankDayResults);
                     }
                 })
                 .subscribe(new MySubscriber<List<GankDayResults>>() {
@@ -88,7 +89,7 @@ public class HomePresenter implements HomeContract.Presenter {
                 .map(new Func1<GankDayResults, List<GankDayResults>>() {
                     @Override
                     public List<GankDayResults> call(GankDayResults gankDayResults) {
-                        return getAllResults(false, gankDayResults);
+                        return getAllResults(gankDayResults);
                     }
                 })
                 .subscribe(new MySubscriber<List<GankDayResults>>() {
@@ -119,31 +120,31 @@ public class HomePresenter implements HomeContract.Presenter {
                 });
     }
 
-    private List<GankDayResults> getAllResults(boolean isLatestData, GankDayResults gankDayResults) {
+    private List<GankDayResults> getAllResults( GankDayResults gankDayResults) {
         List<GankDayResults> gankDayResultses = new ArrayList<>();
         if (gankDayResults.福利 != null) {
-            gankDayResultses.add(new GankDayResults("福利", gankDayResults.福利));
+            gankDayResultses.add(new GankDayResults("福利", R.drawable.ic_welfare_white, gankDayResults.福利));
         }
         if (gankDayResults.Android != null) {
-            gankDayResultses.add(new GankDayResults("Android", gankDayResults.Android));
+            gankDayResultses.add(new GankDayResults("Android", R.drawable.ic_android_white, gankDayResults.Android));
         }
         if (gankDayResults.iOS != null) {
-            gankDayResultses.add(new GankDayResults("iOS", gankDayResults.iOS));
+            gankDayResultses.add(new GankDayResults("iOS", R.drawable.ic_ios_white, gankDayResults.iOS));
         }
         if (gankDayResults.前端 != null) {
-            gankDayResultses.add(new GankDayResults("前端", gankDayResults.前端));
+            gankDayResultses.add(new GankDayResults("前端", R.drawable.ic_web_white, gankDayResults.前端));
         }
         if (gankDayResults.拓展资源 != null) {
-            gankDayResultses.add(new GankDayResults("拓展资源", gankDayResults.拓展资源));
+            gankDayResultses.add(new GankDayResults("拓展资源", R.drawable.ic_resource_white, gankDayResults.拓展资源));
         }
         if (gankDayResults.瞎推荐 != null) {
-            gankDayResultses.add(new GankDayResults("瞎推荐", gankDayResults.瞎推荐));
+            gankDayResultses.add(new GankDayResults("瞎推荐", R.drawable.ic_more_white, gankDayResults.瞎推荐));
         }
         if (gankDayResults.App != null) {
-            gankDayResultses.add(new GankDayResults("App", gankDayResults.App));
+            gankDayResultses.add(new GankDayResults("App", R.drawable.ic_apps_white, gankDayResults.App));
         }
         if (gankDayResults.休息视频 != null) {
-            gankDayResultses.add(new GankDayResults("休息视频", gankDayResults.休息视频));
+            gankDayResultses.add(new GankDayResults("休息视频", R.drawable.ic_video_library_white, gankDayResults.休息视频));
         }
         return gankDayResultses;
     }
