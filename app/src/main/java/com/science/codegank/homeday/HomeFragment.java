@@ -15,6 +15,7 @@ import com.science.codegank.R;
 import com.science.codegank.base.BaseFragment;
 import com.science.codegank.data.bean.GankDayResults;
 import com.science.codegank.util.ImageLoadUtil;
+import com.science.codegank.view.OnDoubleClickListener;
 
 import java.util.List;
 
@@ -22,6 +23,7 @@ import butterknife.BindView;
 import rx.Subscription;
 
 import static com.science.codegank.R.id.recyclerView;
+import static com.science.codegank.R.id.toolbar;
 
 /**
  * @author 幸运Science
@@ -72,6 +74,13 @@ public class HomeFragment extends BaseFragment implements HomeContract.View<Gank
         mRecyclerView.setAdapter(mHomeAdapter);
 
         mHomePresenter.start();
+
+        getActivity().findViewById(toolbar).setOnClickListener(new OnDoubleClickListener() {
+            @Override
+            public void onClicks(View v) {
+                mRecyclerView.smoothScrollToPosition(0);
+            }
+        });
     }
 
     @Override

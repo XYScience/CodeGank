@@ -26,6 +26,7 @@ import com.science.codegank.homeday.HomeFragment;
 import com.science.codegank.homeday.HomePresenter;
 import com.science.codegank.searchresult.SearchResultActivity;
 import com.science.codegank.setting.SettingActivity;
+import com.science.codegank.view.OnDoubleClickListener;
 import com.science.materialsearch.MaterialSearchView;
 import com.science.materialsearch.adapter.SearchAdapter;
 
