@@ -1,32 +1,28 @@
-package com.science.codegank.homeday;
+package com.science.codegank.random;
 
 import com.science.codegank.base.BasePresenter;
 import com.science.codegank.base.BaseView;
 import com.science.codegank.data.bean.BaseData;
 
-import java.util.Date;
 import java.util.List;
 
 /**
  * @author SScience
  * @description
  * @email chentushen.science@gmail.com
- * @data 2016/11/6
+ * @data 2016/11/12
  */
 
-public interface HomeContract {
+public interface RandomContract {
 
     interface View<T extends BaseData> extends BaseView<Presenter> {
-        void getGankDayData(boolean isFirst, List<T> data);
-
-        void hasNoMoreData();
+        void getRandomData(List<T> data);
 
         void refreshFinish();
     }
 
     interface Presenter extends BasePresenter {
-        void getGankDayData(Date date);
-
-        void getGankDayDataMore();
+        void getRandomData(String category, int count);
     }
+
 }

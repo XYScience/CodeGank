@@ -57,6 +57,7 @@ public class HomePresenter implements HomeContract.Presenter {
                 .subscribe(new MySubscriber<List<GankDayResults>>() {
                     @Override
                     protected void onMyCompleted() {
+                        mHomeView.refreshFinish();
                         mCurrentDate = new Date(date.getTime() - DAY_OF_MILLISECOND);
                     }
 
@@ -120,7 +121,7 @@ public class HomePresenter implements HomeContract.Presenter {
                 });
     }
 
-    private List<GankDayResults> getAllResults( GankDayResults gankDayResults) {
+    private List<GankDayResults> getAllResults(GankDayResults gankDayResults) {
         List<GankDayResults> gankDayResultses = new ArrayList<>();
         if (gankDayResults.福利 != null) {
             gankDayResultses.add(new GankDayResults("福利", R.drawable.ic_welfare_white, gankDayResults.福利));

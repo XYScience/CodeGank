@@ -11,5 +11,6 @@ import rx.Subscription;
 
 public interface BaseView<T> {
     void setPresenter(T presenter);
+    void getDataError(String msg);
     void addSubscription(Subscription subscription);
 }

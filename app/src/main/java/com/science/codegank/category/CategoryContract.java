@@ -17,7 +17,7 @@ public interface CategoryContract {
 
     interface View<T extends BaseData> extends BaseView<Presenter> {
         void getCategoryData(boolean isFirst, List<T> data);
-        void getDataError(String msg);
+        void refreshFinish();
     }
 
     interface Presenter extends BasePresenter {

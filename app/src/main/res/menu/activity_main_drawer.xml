@@ -24,9 +24,9 @@
             android:icon="@drawable/ic_welfare_white"
             android:title="@string/welfare" />
         <item
-            android:id="@+id/nav_break_video"
+            android:id="@+id/nav_rest_video"
             android:icon="@drawable/ic_video_library_white"
-            android:title="@string/break_video" />
+            android:title="@string/rest_video" />
     </group>
 
     <item android:title="@string/other">

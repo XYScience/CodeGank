@@ -29,7 +29,7 @@ import rx.Subscription;
 
 public class CategoryFragment extends BaseFragment implements CategoryContract.View<Gank> {
 
-    private static final String TAB_CATEGORY = "tab_category";
+    public static final String TAB_CATEGORY = "tab_category";
     @BindView(R.id.recyclerView)
     RecyclerView mRecyclerView;
     private CategoryAdapter mCategoryAdapter;
@@ -61,6 +61,11 @@ public class CategoryFragment extends BaseFragment implements CategoryContract.V
             public void onItemClick(ViewHolder viewHolder, Gank gank, int i) {
                 Toast.makeText(getActivity(), gank.getDesc(), Toast.LENGTH_SHORT).show();
             }
+
+            @Override
+            public void onItemEmptyClick() {
+                mCategoryPresenter.getCategoryData(args.getString(TAB_CATEGORY), 1);
+            }
         });
         mCategoryAdapter.setOnLoadMoreListener(new OnLoadMoreListener() {
             @Override
@@ -73,6 +78,8 @@ public class CategoryFragment extends BaseFragment implements CategoryContract.V
 
         new CategoryPresenter(this);
         mCategoryPresenter.getCategoryData(args.getString(TAB_CATEGORY), 1);
+
+        initRefreshLayout(view);
     }
 
     @Override
@@ -104,6 +111,18 @@ public class CategoryFragment extends BaseFragment implements CategoryContract.V
 
     @Override
     public void getDataError(String msg) {
+        Toast.makeText(getActivity(), msg, Toast.LENGTH_SHORT).show();
+        setRefreshing(false);
         mCategoryAdapter.showLoadFailed();
+    }
+
+    @Override
+    public void onRefresh() {
+        mCategoryPresenter.getCategoryData(getArguments().getString(TAB_CATEGORY), 1);
+    }
+
+    @Override
+    public void refreshFinish() {
+        setRefreshing(false);
     }
 }

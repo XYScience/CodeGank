@@ -60,10 +60,10 @@ public abstract class BaseFragment extends Fragment implements SwipeRefreshLayou
     }
 
     protected SwipeRefreshLayout initRefreshLayout(View view) {
-//        mSwipeRefreshLayout = (SwipeRefreshLayout) view.findViewById(R.id.swipeRefreshLayout);
+        mSwipeRefreshLayout = (SwipeRefreshLayout) view.findViewById(R.id.swipeRefreshLayout);
         mSwipeRefreshLayout.setOnRefreshListener(this);
         mSwipeRefreshLayout.setColorSchemeResources(R.color.colorPrimary, R.color.swipe_red, R.color.swipe_yellow, R.color.swipe_blue);
-//        mSwipeRefreshLayout.setProgressViewOffset(true, -200, 50);
+        //mSwipeRefreshLayout.setProgressViewOffset(true, -200, 50);
         return mSwipeRefreshLayout;
     }
 

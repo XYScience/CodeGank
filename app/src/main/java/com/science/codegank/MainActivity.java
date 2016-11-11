@@ -22,11 +22,12 @@ import android.widget.Toast;
 
 import com.science.codegank.base.BaseActivity;
 import com.science.codegank.category.CategoryActivity;
+import com.science.codegank.category.restvideo.RestVideoActivity;
 import com.science.codegank.homeday.HomeFragment;
 import com.science.codegank.homeday.HomePresenter;
+import com.science.codegank.random.RandomActivity;
 import com.science.codegank.searchresult.SearchResultActivity;
 import com.science.codegank.setting.SettingActivity;
-import com.science.codegank.view.OnDoubleClickListener;
 import com.science.materialsearch.MaterialSearchView;
 import com.science.materialsearch.adapter.SearchAdapter;
 
@@ -139,7 +140,7 @@ public class MainActivity extends BaseActivity
             Intent intent = new Intent(this, CategoryActivity.class);
             startActivityForResult(intent, 2);
         } else if (id == R.id.nav_random) {
-            Intent intent = new Intent(this, SettingActivity.class);
+            Intent intent = new Intent(this, RandomActivity.class);
             startActivityForResult(intent, 2);
         } else if (id == R.id.nav_collections) {
             Intent intent = new Intent(this, SettingActivity.class);
@@ -147,8 +148,8 @@ public class MainActivity extends BaseActivity
         } else if (id == R.id.nav_welfare) {
             Intent intent = new Intent(this, SettingActivity.class);
             startActivityForResult(intent, 2);
-        } else if (id == R.id.nav_break_video) {
-            Intent intent = new Intent(this, SettingActivity.class);
+        } else if (id == R.id.nav_rest_video) {
+            Intent intent = new Intent(this, RestVideoActivity.class);
             startActivityForResult(intent, 2);
         } else if (id == R.id.nav_settings) {
             Intent intent = new Intent(this, SettingActivity.class);

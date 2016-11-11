@@ -81,6 +81,8 @@ public class HomeFragment extends BaseFragment implements HomeContract.View<Gank
                 mRecyclerView.smoothScrollToPosition(0);
             }
         });
+
+        initRefreshLayout(view);
     }
 
     @Override
@@ -121,5 +123,16 @@ public class HomeFragment extends BaseFragment implements HomeContract.View<Gank
     public void getDataError(String msg) {
         Toast.makeText(getActivity(), msg, Toast.LENGTH_SHORT).show();
         mHomeAdapter.showLoadFailed();
+        setRefreshing(false);
+    }
+
+    @Override
+    public void onRefresh() {
+        mHomePresenter.start();
+    }
+
+    @Override
+    public void refreshFinish() {
+        setRefreshing(false);
     }
 }

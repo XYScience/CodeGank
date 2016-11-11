@@ -31,12 +31,11 @@ public class CategoryPresenter implements CategoryContract.Presenter {
 
     @Override
     public void getCategoryData(final String category, final int page) {
-        MyLogger.e("getCategoryData");
         Subscription subscription = HttpMethods.getInstance().getCategory(category, page)
                 .subscribe(new MySubscriber<List<Gank>>() {
                     @Override
                     protected void onMyCompleted() {
-                        MyLogger.e("onMyCompleted");
+                        mCategoryView.refreshFinish();
                     }
 
                     @Override
@@ -48,7 +47,6 @@ public class CategoryPresenter implements CategoryContract.Presenter {
                     protected void onMyNext(List<Gank> ganks) {
                         if (ganks.isEmpty()) {
                             getCategoryData(category, page);
-                            MyLogger.e("isEmpty");
                         } else {
                             if (page == 1) {
                                 mCategoryView.getCategoryData(true, ganks);
