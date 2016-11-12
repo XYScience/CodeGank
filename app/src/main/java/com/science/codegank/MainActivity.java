@@ -37,6 +37,9 @@ import butterknife.BindView;
 public class MainActivity extends BaseActivity
         implements NavigationView.OnNavigationItemSelectedListener {
 
+    private static final int SEARCH = 1;
+    private static final int CATEGORY = 2;
+    public static final String SEARCH_QUERY = "query";
     @BindView(R.id.searchView)
     MaterialSearchView mSearchView;
     @BindView(R.id.drawer_layout)
@@ -100,8 +103,8 @@ public class MainActivity extends BaseActivity
             public boolean onQueryTextSubmit(String query) {
                 strQuery = query;
                 Intent intent = new Intent(MainActivity.this, SearchResultActivity.class);
-                intent.putExtra("query", query);
-                startActivityForResult(intent, 1);
+                intent.putExtra(SEARCH_QUERY, query);
+                startActivityForResult(intent, SEARCH);
                 return true;
             }
         });
@@ -111,8 +114,8 @@ public class MainActivity extends BaseActivity
             public void onItemClick(View view, int position, String queryHistory) {
                 strQuery = queryHistory;
                 Intent intent = new Intent(MainActivity.this, SearchResultActivity.class);
-                intent.putExtra("query", queryHistory);
-                startActivityForResult(intent, 1);
+                intent.putExtra(SEARCH_QUERY, queryHistory);
+                startActivityForResult(intent, SEARCH);
             }
         });
     }
@@ -120,10 +123,10 @@ public class MainActivity extends BaseActivity
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
-        if (requestCode == 1) {
+        if (requestCode == SEARCH) {
             // 在搜索结果界面清除历史记录后，需要调用onTextChanged，以更新历史界面
             mSearchView.onTextChanged(strQuery);
-        } else if (requestCode == 2) {
+        } else if (requestCode == CATEGORY) {
             mNavigationView.getMenu().getItem(0).setChecked(true);
         }
     }
@@ -139,19 +142,19 @@ public class MainActivity extends BaseActivity
             mDrawerLayout.closeDrawer(GravityCompat.START);
         } else if (id == R.id.nav_category) {
             Intent intent = new Intent(this, CategoryActivity.class);
-            startActivityForResult(intent, 2);
+            startActivityForResult(intent, CATEGORY);
         } else if (id == R.id.nav_random) {
             Intent intent = new Intent(this, RandomActivity.class);
-            startActivityForResult(intent, 2);
+            startActivityForResult(intent, CATEGORY);
         } else if (id == R.id.nav_collections) {
             Intent intent = new Intent(this, SettingActivity.class);
-            startActivityForResult(intent, 2);
+            startActivityForResult(intent, CATEGORY);
         } else if (id == R.id.nav_welfare) {
             Intent intent = new Intent(this, WelfareListActivity.class);
-            startActivityForResult(intent, 2);
+            startActivityForResult(intent, CATEGORY);
         } else if (id == R.id.nav_rest_video) {
             Intent intent = new Intent(this, RestVideoActivity.class);
-            startActivityForResult(intent, 2);
+            startActivityForResult(intent, CATEGORY);
         } else if (id == R.id.nav_settings) {
             Intent intent = new Intent(this, SettingActivity.class);
             startActivity(intent);

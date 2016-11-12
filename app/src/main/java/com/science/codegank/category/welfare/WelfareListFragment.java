@@ -42,7 +42,7 @@ public class WelfareListFragment extends BaseFragment implements WelfareListCont
         StaggeredGridLayoutManager layoutManager = new StaggeredGridLayoutManager(2, StaggeredGridLayoutManager.VERTICAL);
         mRecyclerView.setHasFixedSize(true);
         mRecyclerView.setLayoutManager(layoutManager);
-        mRecyclerView.setPadding(CommonUtil.dipToPx(getActivity(), 4), 0, CommonUtil.dipToPx(getActivity(), 4), CommonUtil.dipToPx(getActivity(), 16));
+        mRecyclerView.setPadding(CommonUtil.dipToPx(getActivity(), 4), 0, CommonUtil.dipToPx(getActivity(), 4), 0);
         mWelfareAdapter = new WelfareListAdapter(getActivity());
         mWelfareAdapter.setOnItemClickListener(new OnItemClickListener<Gank>() {
             @Override

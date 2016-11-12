@@ -13,7 +13,6 @@ import com.science.baserecyclerviewadapter.interfaces.OnLoadMoreListener;
 import com.science.codegank.R;
 import com.science.codegank.base.BaseFragment;
 import com.science.codegank.data.bean.Gank;
-import com.science.codegank.util.MyLogger;
 
 import java.util.List;
 
@@ -70,7 +69,6 @@ public class CategoryFragment extends BaseFragment implements CategoryContract.V
         mCategoryAdapter.setOnLoadMoreListener(new OnLoadMoreListener() {
             @Override
             public void onLoadMore(int i) {
-                MyLogger.e("i=" + i);
                 mCategoryPresenter.getCategoryData(args.getString(TAB_CATEGORY), i);
             }
         });

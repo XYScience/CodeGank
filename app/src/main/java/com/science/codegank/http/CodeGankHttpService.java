@@ -3,6 +3,7 @@ package com.science.codegank.http;
 import com.science.codegank.data.bean.Gank;
 import com.science.codegank.data.bean.GankDayResults;
 import com.science.codegank.data.bean.HttpResult;
+import com.science.codegank.data.bean.SearchResult;
 
 import java.util.List;
 
@@ -47,4 +48,14 @@ public interface CodeGankHttpService {
      */
     @GET("random/data/{category}/{count}")
     Observable<HttpResult<List<Gank>>> getRandomData(@Path("category") String category, @Path("count") int count);
+
+    /**
+     * 搜索数据
+     * @param queryStr
+     * @param categoryStr
+     * @param pageInt
+     * @return
+     */
+    @GET("search/query/{queryStr}/category/{categoryStr}/count/10/page/{pageInt}")
+    Observable<HttpResult<List<SearchResult>>> getSearchResult(@Path("queryStr") String queryStr, @Path("categoryStr") String categoryStr, @Path("pageInt") int pageInt);
 }

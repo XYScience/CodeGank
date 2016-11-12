@@ -3,6 +3,7 @@ package com.science.codegank.http;
 import com.science.codegank.data.bean.Gank;
 import com.science.codegank.data.bean.GankDayResults;
 import com.science.codegank.data.bean.HttpResult;
+import com.science.codegank.data.bean.SearchResult;
 
 import java.util.List;
 import java.util.concurrent.TimeUnit;
@@ -77,8 +78,9 @@ public class HttpMethods {
 
     /**
      * 分类数据
+     *
      * @param category 数据类型： ["Android","瞎推荐","前端","拓展资源","iOS","福利","休息视频", "App", "all"]
-     * @param page 第几页：数字，大于0
+     * @param page     第几页：数字，大于0
      * @return
      */
     public Observable<List<Gank>> getCategory(String category, int page) {
@@ -90,14 +92,29 @@ public class HttpMethods {
 
     /**
      * 随机数据
+     *
      * @param category 数据类型： ["Android","瞎推荐","前端","拓展资源","iOS","福利","休息视频", "App", "all]
-     * @param count 个数： 数字，大于0
+     * @param count    个数： 数字，大于0
      * @return
      */
     public Observable<List<Gank>> getRandomData(String category, int count) {
         Observable<List<Gank>> observable = mCodeGankHttpService.getRandomData(category, count)
                 .compose(this.<HttpResult<List<Gank>>>applySchedulers())
                 .map(new HttpResultFunc<List<Gank>>());
+        return observable;
+    }
+
+    /**
+     * 搜索数据
+     * @param query 搜索关键字
+     * @param category 搜索分类
+     * @param page 搜索页数
+     * @return
+     */
+    public Observable<List<SearchResult>> getSearchResultData(String query, String category, int page) {
+        Observable<List<SearchResult>> observable = mCodeGankHttpService.getSearchResult(query, category, page)
+                .compose(this.<HttpResult<List<SearchResult>>>applySchedulers())
+                .map(new HttpResultFunc<List<SearchResult>>());
         return observable;
     }
 

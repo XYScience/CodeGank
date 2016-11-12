@@ -4,11 +4,10 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.view.View;
-import android.widget.Toast;
 
+import com.science.codegank.MainActivity;
 import com.science.codegank.R;
 import com.science.codegank.base.BaseActivity;
-import com.science.codegank.MainActivity;
 import com.science.materialsearch.MaterialSearchView;
 import com.science.materialsearch.adapter.SearchAdapter;
 
@@ -24,6 +23,7 @@ public class SearchResultActivity extends BaseActivity {
 
     @BindView(R.id.searchView)
     MaterialSearchView mSearchView;
+    private SearchResultFragment mSearchResultFragment;
 
     @Override
     protected int getContentLayout() {
@@ -35,7 +35,9 @@ public class SearchResultActivity extends BaseActivity {
         super.onCreate(savedInstanceState);
 
         getWindow().setStatusBarColor(getResources().getColor(R.color.statusBarBg));
-
+        mSearchResultFragment = new SearchResultFragment();
+        getSupportFragmentManager().beginTransaction().add(R.id.content_random, mSearchResultFragment).commit();
+        new SearchResultPresenter(mSearchResultFragment);
         setSearchView();
     }
 
@@ -44,7 +46,7 @@ public class SearchResultActivity extends BaseActivity {
         // 设置搜索样式（默认不显示）：浮于Toolbar上
         mSearchView.setVersion(MaterialSearchView.VERSION_TOOLBAR);
         // 设置搜索输入框文字
-        mSearchView.setTextInput(getIntent().getStringExtra("query"));
+        mSearchView.setTextInput(getIntent().getStringExtra(MainActivity.SEARCH_QUERY));
         // 设置软键盘搜索键监听
         mSearchView.setOnQueryTextListener(new MaterialSearchView.OnQueryTextListener() {
             @Override
@@ -54,7 +56,8 @@ public class SearchResultActivity extends BaseActivity {
 
             @Override
             public boolean onQueryTextSubmit(String query) {
-                Toast.makeText(SearchResultActivity.this, "搜索关键字:" + query, Toast.LENGTH_SHORT).show();
+                mSearchView.close();
+                mSearchResultFragment.searchGank(query, 1);
                 return true;
             }
         });
@@ -62,7 +65,8 @@ public class SearchResultActivity extends BaseActivity {
         mSearchView.setAdapter(new SearchAdapter.OnItemClickListener() {
             @Override
             public void onItemClick(View view, int position, String queryHistory) {
-                Toast.makeText(SearchResultActivity.this, "搜索关键字:" + queryHistory, Toast.LENGTH_SHORT).show();
+                mSearchView.close();
+                mSearchResultFragment.searchGank(queryHistory, 1);
             }
         });
         // 设置搜索框左边返回箭头监听
@@ -74,6 +78,7 @@ public class SearchResultActivity extends BaseActivity {
                 finish();
             }
         });
+        mSearchResultFragment.searchGank(getIntent().getStringExtra(MainActivity.SEARCH_QUERY), 1);
     }
 
     @Override

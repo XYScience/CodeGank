@@ -11,6 +11,7 @@ import java.util.List;
 
 public class HttpResult<T> {
     private List<String> category;
+    private int count;
     private boolean error;
     private T results;
 
