@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+      xmlns:app="http://schemas.android.com/apk/res-auto"
+      xmlns:tools="http://schemas.android.com/tools"
+      tools:context=".toolbar.LightToolbarActivity">
+
+    <item
+        android:id="@+id/menu_all"
+        android:orderInCategory="1"
+        android:title="@string/all"
+        app:showAsAction="never"/>
+
+    <item
+        android:id="@+id/menu_android"
+        android:orderInCategory="1"
+        android:title="@string/android"
+        app:showAsAction="never"/>
+
+    <item
+        android:id="@+id/menu_ios"
+        android:orderInCategory="1"
+        android:title="@string/ios"
+        app:showAsAction="never"/>
+
+    <item
+        android:id="@+id/menu_web"
+        android:orderInCategory="1"
+        android:title="@string/web"
+        app:showAsAction="never"/>
+
+    <item
+        android:id="@+id/menu_other_resource"
+        android:orderInCategory="1"
+        android:title="@string/other_resource"
+        app:showAsAction="never"/>
+
+    <item
+        android:id="@+id/menu_more"
+        android:orderInCategory="1"
+        android:title="@string/more"
+        app:showAsAction="never"/>
+
+    <item
+        android:id="@+id/menu_rest_video"
+        android:orderInCategory="1"
+        android:title="@string/rest_video"
+        app:showAsAction="never"/>
+
+</menu>

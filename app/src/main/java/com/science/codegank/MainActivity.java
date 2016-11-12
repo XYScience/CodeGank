@@ -23,6 +23,7 @@ import android.widget.Toast;
 import com.science.codegank.base.BaseActivity;
 import com.science.codegank.category.CategoryActivity;
 import com.science.codegank.category.restvideo.RestVideoActivity;
+import com.science.codegank.category.welfare.WelfareListActivity;
 import com.science.codegank.homeday.HomeFragment;
 import com.science.codegank.homeday.HomePresenter;
 import com.science.codegank.random.RandomActivity;
@@ -146,7 +147,7 @@ public class MainActivity extends BaseActivity
             Intent intent = new Intent(this, SettingActivity.class);
             startActivityForResult(intent, 2);
         } else if (id == R.id.nav_welfare) {
-            Intent intent = new Intent(this, SettingActivity.class);
+            Intent intent = new Intent(this, WelfareListActivity.class);
             startActivityForResult(intent, 2);
         } else if (id == R.id.nav_rest_video) {
             Intent intent = new Intent(this, RestVideoActivity.class);

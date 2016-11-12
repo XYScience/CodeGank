@@ -3,6 +3,7 @@ package com.science.codegank.random;
 import android.support.v7.widget.DividerItemDecoration;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.support.v7.widget.Toolbar;
 import android.view.View;
 import android.widget.Toast;
 
@@ -30,6 +31,8 @@ public class RandomFragment extends BaseFragment implements RandomContract.View<
     RecyclerView mRecyclerView;
     private RandomAdapter mRandomAdapter;
     private RandomContract.Presenter mRandomPresenter;
+    private Toolbar mToolbar;
+    private String mCategory;
 
     @Override
     protected int getContentLayout() {
@@ -38,6 +41,7 @@ public class RandomFragment extends BaseFragment implements RandomContract.View<
 
     @Override
     protected void doCreateView(View view) {
+        mCategory = getString(R.string.all);
         LinearLayoutManager linearLayoutManager = new LinearLayoutManager(getActivity());
         mRecyclerView.setHasFixedSize(true);
         mRecyclerView.setLayoutManager(linearLayoutManager);
@@ -51,13 +55,28 @@ public class RandomFragment extends BaseFragment implements RandomContract.View<
 
             @Override
             public void onItemEmptyClick() {
-                mRandomPresenter.getRandomData("all", 10);
+                mRandomPresenter.getRandomData(mCategory, 10);
             }
         });
         mRecyclerView.setAdapter(mRandomAdapter);
-        mRandomPresenter.getRandomData("all", 10);
+        mRandomPresenter.getRandomData(mCategory, 10);
 
         initRefreshLayout(view);
+    }
+
+    /**
+     * 在RandomActivity调用
+     *
+     * @param toolbar
+     * @param category
+     * @param count
+     */
+    public void getRandomDataFromMenu(Toolbar toolbar, String category, int count) {
+        mToolbar = toolbar;
+        mCategory = category;
+        setRefreshing(true);
+        mRandomAdapter.setCategory(mCategory);
+        mRandomPresenter.getRandomData(category, count);
     }
 
     @Override
@@ -69,6 +88,9 @@ public class RandomFragment extends BaseFragment implements RandomContract.View<
 
     @Override
     public void getRandomData(List<Gank> data) {
+        if (mToolbar != null) {
+            mToolbar.setTitle(getString(R.string.random_, mCategory));
+        }
         mRandomAdapter.setData(false, data);
     }
 
@@ -86,7 +108,7 @@ public class RandomFragment extends BaseFragment implements RandomContract.View<
 
     @Override
     public void onRefresh() {
-        mRandomPresenter.getRandomData("all", 10);
+        mRandomPresenter.getRandomData(mCategory, 10);
     }
 
     @Override

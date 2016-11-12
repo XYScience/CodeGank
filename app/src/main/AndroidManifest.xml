@@ -35,6 +35,11 @@
             android:screenOrientation="portrait" />
 
         <activity
+            android:name=".category.welfare.WelfareListActivity"
+            android:launchMode="singleTop"
+            android:screenOrientation="portrait" />
+
+        <activity
             android:name=".random.RandomActivity"
             android:launchMode="singleTop"
             android:screenOrientation="portrait" />

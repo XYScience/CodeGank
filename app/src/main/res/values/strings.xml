@@ -7,6 +7,7 @@
     <string name="home">主页</string>
     <string name="category">分类</string>
     <string name="random">随机</string>
+    <string name="random_">随机--%s</string>
     <string name="collections">收藏</string>
     <string name="android">Android</string>
     <string name="ios">iOS</string>
@@ -16,6 +17,7 @@
     <string name="more">瞎推荐</string>
     <string name="welfare">福利</string>
     <string name="rest_video">休息视频</string>
+    <string name="all">all</string>
     <string name="settings">设置</string>
     <string name="about">关于</string>
     <string name="other">其它</string>

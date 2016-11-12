@@ -9,6 +9,7 @@ import com.science.baserecyclerviewadapter.base.ViewHolder;
 import com.science.codegank.R;
 import com.science.codegank.data.bean.Gank;
 import com.science.codegank.data.bean.GankDayResults;
+import com.science.codegank.util.CommonUtil;
 import com.science.codegank.util.ImageLoadUtil;
 
 import java.util.ArrayList;
@@ -52,9 +53,7 @@ public class HomeAdapter extends BaseStickyAdapter<List<GankDayResults>> {
             viewHolder.getView(R.id.view_bottom).setVisibility(View.GONE);
             viewHolder.getView(R.id.view_bg).setVisibility(View.GONE);
             viewHolder.getView(R.id.rl_item).setElevation(0);
-            String timeToday = gankList.get(0).getPublishedAt();
-            String[] date = timeToday.split("T");
-            viewHolder.setText(R.id.tv_welfare_desc, date[0]);
+            viewHolder.setText(R.id.tv_welfare_desc, CommonUtil.toDate(gankList.get(0).getPublishedAt()));
             ImageLoadUtil.loadImage(mContext, gankList.get(0).getUrl(), 0, (ImageView) viewHolder.getView(R.id.iv_day_welfare));
         } else {
             viewHolder.getView(R.id.iv_day_welfare).setVisibility(View.GONE);
@@ -77,18 +76,15 @@ public class HomeAdapter extends BaseStickyAdapter<List<GankDayResults>> {
 
     @Override
     public void convertHeader(ViewHolder viewHolder, List<GankDayResults> ganks, int section) {
-        if ("福利".equals(ganks.get(section).getHeader())) {
-            String timeToday = ganks.get(section).getGankList().get(0).getPublishedAt();
-            String[] date = timeToday.split("T");
-            String[] time = date[1].split("\\.");
-            viewHolder.setText(R.id.tv_gank_day_header, date[0] + " " + time[0], R.color.colorPrimary);
+        GankDayResults gankDayResults = ganks.get(section);
+        if ("福利".equals(gankDayResults.getHeader())) {
             viewHolder.getView(R.id.iv_category).setVisibility(View.GONE);
             viewHolder.getView(R.id.tv_gank_day_header).setVisibility(View.GONE);
         } else {
             viewHolder.getView(R.id.tv_gank_day_header).setVisibility(View.VISIBLE);
-            viewHolder.setText(R.id.tv_gank_day_header, ganks.get(section).getHeader(), R.color.textPrimary);
+            viewHolder.setText(R.id.tv_gank_day_header, gankDayResults.getHeader(), R.color.textPrimary);
             viewHolder.getView(R.id.iv_category).setVisibility(View.VISIBLE);
-            viewHolder.setImageResource(R.id.iv_category, ganks.get(section).getHeaderImg());
+            viewHolder.setImageResource(R.id.iv_category, gankDayResults.getHeaderImg());
         }
     }
 

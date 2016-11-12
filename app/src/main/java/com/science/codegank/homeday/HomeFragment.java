@@ -13,7 +13,9 @@ import com.science.baserecyclerviewadapter.interfaces.OnLoadMoreListener;
 import com.science.baserecyclerviewadapter.widget.StickyHeaderItemDecoration;
 import com.science.codegank.R;
 import com.science.codegank.base.BaseFragment;
+import com.science.codegank.data.bean.Gank;
 import com.science.codegank.data.bean.GankDayResults;
+import com.science.codegank.util.CommonUtil;
 import com.science.codegank.util.ImageLoadUtil;
 import com.science.codegank.view.OnDoubleClickListener;
 
@@ -95,13 +97,12 @@ public class HomeFragment extends BaseFragment implements HomeContract.View<Gank
     @Override
     public void getGankDayData(boolean isFirst, List<GankDayResults> data) {
         if (isFirst) {
-            String todayWelfareUrl = data.get(0).getGankList().get(0).getUrl();
+            Gank gank = data.get(0).getGankList().get(0);
+            String todayWelfareUrl = gank.getUrl();
             ImageView ivWelfareToday = (ImageView) getActivity().findViewById(R.id.iv_welfare_today);
             ImageLoadUtil.loadImage(getActivity(), todayWelfareUrl, R.drawable.welfare, ivWelfareToday);
             TextView tvTimeToday = (TextView) getActivity().findViewById(R.id.tv_time_today);
-            String timeToday = data.get(0).getGankList().get(0).getPublishedAt();
-            String[] s = timeToday.split("T");
-            tvTimeToday.setText(s[0]);
+            tvTimeToday.setText(CommonUtil.toDate(gank.getPublishedAt()));
             data.remove(0);
             mHomeAdapter.setData(false, data);
         } else {
