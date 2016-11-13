@@ -1,5 +1,6 @@
 package com.science.codegank.homeday;
 
+import android.support.v4.view.ViewCompat;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
@@ -103,6 +104,8 @@ public class HomeFragment extends BaseFragment implements HomeContract.View<Gank
             ImageLoadUtil.loadImage(getActivity(), todayWelfareUrl, R.drawable.welfare, ivWelfareToday);
             TextView tvTimeToday = (TextView) getActivity().findViewById(R.id.tv_time_today);
             tvTimeToday.setText(CommonUtil.toDate(gank.getPublishedAt()));
+            tvTimeToday.setVisibility(View.VISIBLE);
+            ViewCompat.animate(tvTimeToday).alpha(1).start();
             data.remove(0);
             mHomeAdapter.setData(false, data);
         } else {

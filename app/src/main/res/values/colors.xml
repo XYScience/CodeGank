@@ -12,6 +12,7 @@
 
     <color name="rippleColor">#E0E0E0</color>
     <color name="statusBarBg">#B2B2B2</color>
+    <color name="translucentBg">#4f000000</color>
     <color name="white">#FFFFFF</color>
 
     <!-- swipeRefresh color -->

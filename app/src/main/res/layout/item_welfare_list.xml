@@ -19,7 +19,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_alignParentBottom="true"
-        android:background="#4f000000"
+        android:background="@color/translucentBg"
         android:gravity="center"
         android:padding="10dp"
         android:textColor="@color/white"
