@@ -1,6 +1,6 @@
 package com.science.codegank.homeday;
 
-import android.support.v4.view.ViewCompat;
+import android.content.Intent;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
@@ -19,6 +19,7 @@ import com.science.codegank.data.bean.GankDayResults;
 import com.science.codegank.util.CommonUtil;
 import com.science.codegank.util.ImageLoadUtil;
 import com.science.codegank.view.OnDoubleClickListener;
+import com.science.codegank.welfaredetail.WelfareDetailActivity;
 
 import java.util.List;
 
@@ -37,6 +38,7 @@ import static com.science.codegank.R.id.toolbar;
 
 public class HomeFragment extends BaseFragment implements HomeContract.View<GankDayResults> {
 
+    public static final String WELFARE_URL = "welfare_url";
     @BindView(recyclerView)
     RecyclerView mRecyclerView;
     private HomeAdapter mHomeAdapter;
@@ -60,7 +62,9 @@ public class HomeFragment extends BaseFragment implements HomeContract.View<Gank
 
             @Override
             public void onItemClick(ViewHolder viewHolder, GankDayResults ganks, int i) {
-                Toast.makeText(getActivity(), ganks.getGankList().get(i).getDesc(), Toast.LENGTH_SHORT).show();
+                Intent intent = new Intent(getActivity(), WelfareDetailActivity.class);
+                intent.putExtra(WELFARE_URL, ganks.getGankList().get(i).getUrl());
+                startActivity(intent);
             }
 
             @Override
@@ -98,16 +102,23 @@ public class HomeFragment extends BaseFragment implements HomeContract.View<Gank
     @Override
     public void getGankDayData(boolean isFirst, List<GankDayResults> data) {
         if (isFirst) {
-            Gank gank = data.get(0).getGankList().get(0);
+            final Gank gank = data.get(0).getGankList().get(0);
             String todayWelfareUrl = gank.getUrl();
             ImageView ivWelfareToday = (ImageView) getActivity().findViewById(R.id.iv_welfare_today);
             ImageLoadUtil.loadImage(getActivity(), todayWelfareUrl, R.drawable.welfare, ivWelfareToday);
             TextView tvTimeToday = (TextView) getActivity().findViewById(R.id.tv_time_today);
             tvTimeToday.setText(CommonUtil.toDate(gank.getPublishedAt()));
-            tvTimeToday.setVisibility(View.VISIBLE);
-            ViewCompat.animate(tvTimeToday).alpha(1).start();
+            CommonUtil.animateIn(tvTimeToday, R.anim.viewer_toolbar_fade_in);
             data.remove(0);
             mHomeAdapter.setData(false, data);
+            ivWelfareToday.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    Intent intent = new Intent(getActivity(), WelfareDetailActivity.class);
+                    intent.putExtra(WELFARE_URL, gank.getUrl());
+                    startActivity(intent);
+                }
+            });
         } else {
             mHomeAdapter.setData(true, data);
         }

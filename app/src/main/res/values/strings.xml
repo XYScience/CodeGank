@@ -30,5 +30,8 @@
     <!-- 设置 -->
     <string name="setting">设置</string>
 
-    <!-- 分类数据 -->
+    <!-- 福利大图 -->
+    <string name="share">分享</string>
+    <string name="save_img">保存图片</string>
+    <string name="save_as_wallpaper">设为壁纸</string>
 </resources>
