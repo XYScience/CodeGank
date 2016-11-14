@@ -51,7 +51,7 @@ public class HomeFragment extends BaseFragment implements HomeContract.View<Gank
     }
 
     @Override
-    protected void doCreateView(View view) {
+    protected void doCreateView(final View view) {
         mRootView = view;
 
         mRecyclerView.setHasFixedSize(true);
@@ -62,9 +62,13 @@ public class HomeFragment extends BaseFragment implements HomeContract.View<Gank
 
             @Override
             public void onItemClick(ViewHolder viewHolder, GankDayResults ganks, int i) {
-                Intent intent = new Intent(getActivity(), WelfareDetailActivity.class);
-                intent.putExtra(WELFARE_URL, ganks.getGankList().get(i).getUrl());
-                startActivity(intent);
+                if (getResources().getString(R.string.welfare).equals(ganks.getHeader())) {
+                    WelfareDetailActivity.intentWelfareDetail(getActivity(),
+                            ganks.getGankList().get(i).getUrl(),
+                            CommonUtil.toDate(ganks.getGankList().get(i).getPublishedAt()),
+                            viewHolder.getView(R.id.iv_day_welfare),
+                            viewHolder.getView(R.id.tv_welfare_desc));
+                }
             }
 
             @Override
@@ -104,9 +108,9 @@ public class HomeFragment extends BaseFragment implements HomeContract.View<Gank
         if (isFirst) {
             final Gank gank = data.get(0).getGankList().get(0);
             String todayWelfareUrl = gank.getUrl();
-            ImageView ivWelfareToday = (ImageView) getActivity().findViewById(R.id.iv_welfare_today);
+            final ImageView ivWelfareToday = (ImageView) getActivity().findViewById(R.id.iv_welfare_today);
             ImageLoadUtil.loadImage(getActivity(), todayWelfareUrl, R.drawable.welfare, ivWelfareToday);
-            TextView tvTimeToday = (TextView) getActivity().findViewById(R.id.tv_time_today);
+            final TextView tvTimeToday = (TextView) getActivity().findViewById(R.id.tv_time_today);
             tvTimeToday.setText(CommonUtil.toDate(gank.getPublishedAt()));
             CommonUtil.animateIn(tvTimeToday, R.anim.viewer_toolbar_fade_in);
             data.remove(0);
@@ -117,6 +121,11 @@ public class HomeFragment extends BaseFragment implements HomeContract.View<Gank
                     Intent intent = new Intent(getActivity(), WelfareDetailActivity.class);
                     intent.putExtra(WELFARE_URL, gank.getUrl());
                     startActivity(intent);
+                    WelfareDetailActivity.intentWelfareDetail(getActivity(),
+                            gank.getUrl(),
+                            CommonUtil.toDate(gank.getPublishedAt()),
+                            ivWelfareToday,
+                            tvTimeToday);
                 }
             });
         } else {

@@ -45,7 +45,7 @@ public class HomeAdapter extends BaseStickyAdapter<List<GankDayResults>> {
     @Override
     public void convertCommon(ViewHolder viewHolder, List<GankDayResults> ganks, int section, int position) {
         List<Gank> gankList = ganks.get(section).getGankList();
-        if ("福利".equals(ganks.get(section).getHeader())) {
+        if (mContext.getResources().getString(R.string.welfare).equals(ganks.get(section).getHeader())) {
             viewHolder.getView(R.id.iv_day_welfare).setVisibility(View.VISIBLE);
             viewHolder.getView(R.id.tv_welfare_desc).setVisibility(View.VISIBLE);
             viewHolder.getView(R.id.tv_desc).setVisibility(View.GONE);
@@ -77,7 +77,7 @@ public class HomeAdapter extends BaseStickyAdapter<List<GankDayResults>> {
     @Override
     public void convertHeader(ViewHolder viewHolder, List<GankDayResults> ganks, int section) {
         GankDayResults gankDayResults = ganks.get(section);
-        if ("福利".equals(gankDayResults.getHeader())) {
+        if (mContext.getResources().getString(R.string.welfare).equals(gankDayResults.getHeader())) {
             viewHolder.getView(R.id.iv_category).setVisibility(View.GONE);
             viewHolder.getView(R.id.tv_gank_day_header).setVisibility(View.GONE);
         } else {
