@@ -59,6 +59,7 @@ public class RandomFragment extends BaseFragment implements RandomContract.View<
             }
         });
         mRecyclerView.setAdapter(mRandomAdapter);
+        mRandomAdapter.setCategory(mCategory);
         mRandomPresenter.getRandomData(mCategory, 10);
 
         initRefreshLayout(view);

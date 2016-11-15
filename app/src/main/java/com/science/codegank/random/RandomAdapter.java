@@ -1,6 +1,7 @@
 package com.science.codegank.random;
 
 import android.content.Context;
+import android.view.View;
 
 import com.science.baserecyclerviewadapter.base.BaseCommonAdapter;
 import com.science.baserecyclerviewadapter.base.ViewHolder;
@@ -36,7 +37,10 @@ public class RandomAdapter extends BaseCommonAdapter<List<Gank>> {
         Gank gank = ganks.get(i);
         viewHolder.setText(R.id.tv_desc, gank.getDesc());
         if (mContext.getString(R.string.all).equals(mCategory)) {
+            viewHolder.getView(R.id.tv_category).setVisibility(View.VISIBLE);
             viewHolder.setText(R.id.tv_category, gank.getType());
+        } else {
+            viewHolder.getView(R.id.tv_category).setVisibility(View.GONE);
         }
         viewHolder.setText(R.id.tv_who, gank.getWho());
         viewHolder.setText(R.id.tv_date, CommonUtil.toDate(gank.getPublishedAt()));
