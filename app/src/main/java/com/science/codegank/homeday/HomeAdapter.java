@@ -2,7 +2,6 @@ package com.science.codegank.homeday;
 
 import android.content.Context;
 import android.view.View;
-import android.widget.ImageView;
 
 import com.science.baserecyclerviewadapter.base.BaseStickyAdapter;
 import com.science.baserecyclerviewadapter.base.ViewHolder;
@@ -11,6 +10,7 @@ import com.science.codegank.data.bean.Gank;
 import com.science.codegank.data.bean.GankDayResults;
 import com.science.codegank.util.CommonUtil;
 import com.science.codegank.util.ImageLoadUtil;
+import com.science.codegank.view.RatioImageView;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -45,8 +45,10 @@ public class HomeAdapter extends BaseStickyAdapter<List<GankDayResults>> {
     @Override
     public void convertCommon(ViewHolder viewHolder, List<GankDayResults> ganks, int section, int position) {
         List<Gank> gankList = ganks.get(section).getGankList();
+        RatioImageView imgWelfare = viewHolder.getView(R.id.iv_day_welfare);
         if (mContext.getResources().getString(R.string.welfare).equals(ganks.get(section).getHeader())) {
-            viewHolder.getView(R.id.iv_day_welfare).setVisibility(View.VISIBLE);
+            imgWelfare.setOriginalSize(200, 110);
+            imgWelfare.setVisibility(View.VISIBLE);
             viewHolder.getView(R.id.tv_welfare_desc).setVisibility(View.VISIBLE);
             viewHolder.getView(R.id.tv_desc).setVisibility(View.GONE);
             viewHolder.getView(R.id.tv_who).setVisibility(View.GONE);
@@ -54,9 +56,9 @@ public class HomeAdapter extends BaseStickyAdapter<List<GankDayResults>> {
             viewHolder.getView(R.id.view_bg).setVisibility(View.GONE);
             viewHolder.getView(R.id.rl_item).setElevation(0);
             viewHolder.setText(R.id.tv_welfare_desc, CommonUtil.toDate(gankList.get(0).getPublishedAt()));
-            ImageLoadUtil.loadImage(mContext, gankList.get(0).getUrl(), 0, (ImageView) viewHolder.getView(R.id.iv_day_welfare));
+            ImageLoadUtil.loadImage(mContext, gankList.get(0).getUrl(), 0, imgWelfare);
         } else {
-            viewHolder.getView(R.id.iv_day_welfare).setVisibility(View.GONE);
+            imgWelfare.setVisibility(View.GONE);
             viewHolder.getView(R.id.tv_welfare_desc).setVisibility(View.GONE);
             viewHolder.getView(R.id.tv_desc).setVisibility(View.VISIBLE);
             viewHolder.getView(R.id.tv_who).setVisibility(View.VISIBLE);

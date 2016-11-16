@@ -29,6 +29,7 @@ import com.science.codegank.homeday.HomePresenter;
 import com.science.codegank.random.RandomActivity;
 import com.science.codegank.searchresult.SearchResultActivity;
 import com.science.codegank.setting.SettingActivity;
+import com.science.codegank.view.RatioImageView;
 import com.science.materialsearch.MaterialSearchView;
 import com.science.materialsearch.adapter.SearchAdapter;
 
@@ -46,6 +47,8 @@ public class MainActivity extends BaseActivity
     DrawerLayout mDrawerLayout;
     @BindView(R.id.nav_view)
     NavigationView mNavigationView;
+    @BindView(R.id.iv_welfare_today)
+    public RatioImageView mIvWelfareToday;
     private HomeFragment mHomeFragment;
     private String strQuery;
 

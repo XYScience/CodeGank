@@ -1,10 +1,8 @@
 package com.science.codegank.homeday;
 
-import android.content.Intent;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
-import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -12,6 +10,7 @@ import com.science.baserecyclerviewadapter.base.ViewHolder;
 import com.science.baserecyclerviewadapter.interfaces.OnItemClickListener;
 import com.science.baserecyclerviewadapter.interfaces.OnLoadMoreListener;
 import com.science.baserecyclerviewadapter.widget.StickyHeaderItemDecoration;
+import com.science.codegank.MainActivity;
 import com.science.codegank.R;
 import com.science.codegank.base.BaseFragment;
 import com.science.codegank.data.bean.Gank;
@@ -19,6 +18,7 @@ import com.science.codegank.data.bean.GankDayResults;
 import com.science.codegank.util.CommonUtil;
 import com.science.codegank.util.ImageLoadUtil;
 import com.science.codegank.view.OnDoubleClickListener;
+import com.science.codegank.view.RatioImageView;
 import com.science.codegank.welfaredetail.WelfareDetailActivity;
 
 import java.util.List;
@@ -108,7 +108,8 @@ public class HomeFragment extends BaseFragment implements HomeContract.View<Gank
         if (isFirst) {
             final Gank gank = data.get(0).getGankList().get(0);
             String todayWelfareUrl = gank.getUrl();
-            final ImageView ivWelfareToday = (ImageView) getActivity().findViewById(R.id.iv_welfare_today);
+            final RatioImageView ivWelfareToday = ((MainActivity) getActivity()).mIvWelfareToday;
+            ivWelfareToday.setOriginalSize(100, 100);
             ImageLoadUtil.loadImage(getActivity(), todayWelfareUrl, R.drawable.welfare, ivWelfareToday);
             final TextView tvTimeToday = (TextView) getActivity().findViewById(R.id.tv_time_today);
             tvTimeToday.setText(CommonUtil.toDate(gank.getPublishedAt()));
@@ -118,9 +119,6 @@ public class HomeFragment extends BaseFragment implements HomeContract.View<Gank
             ivWelfareToday.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
-                    Intent intent = new Intent(getActivity(), WelfareDetailActivity.class);
-                    intent.putExtra(WELFARE_URL, gank.getUrl());
-                    startActivity(intent);
                     WelfareDetailActivity.intentWelfareDetail(getActivity(),
                             gank.getUrl(),
                             CommonUtil.toDate(gank.getPublishedAt()),

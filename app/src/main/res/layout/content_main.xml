@@ -22,7 +22,7 @@
             app:expandedTitleTextAppearance="@style/TextAppearance.Widget.AppCompat.Toolbar.Title"
             app:layout_scrollFlags="scroll|enterAlwaysCollapsed|enterAlways|snap">
 
-            <ImageView
+            <com.science.codegank.view.RatioImageView
                 android:id="@+id/iv_welfare_today"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"

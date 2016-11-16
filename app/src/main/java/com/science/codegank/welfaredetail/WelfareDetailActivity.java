@@ -5,10 +5,6 @@ import android.content.Intent;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
-import android.support.v4.app.ActivityCompat;
-import android.support.v4.app.ActivityOptionsCompat;
-import android.support.v4.util.Pair;
-import android.support.v4.view.ViewCompat;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -33,8 +29,6 @@ public class WelfareDetailActivity extends BaseActivity {
 
     private static final String EXTRA_BUNDLE_URL = "bundle_url";
     private static final String EXTRA_BUNDLE_TITLE = "bundle_title";
-    private static final String TRANSTION_NAME_IMAGE = "transition_name_img";
-    private static final String TRANSTION_NAME_TITLE = "transition_name_title";
     private Toolbar mToolbar;
     private View mViewStatusBar;
 
@@ -42,12 +36,7 @@ public class WelfareDetailActivity extends BaseActivity {
         Intent intent = new Intent(activity, WelfareDetailActivity.class);
         intent.putExtra(EXTRA_BUNDLE_URL, url);
         intent.putExtra(EXTRA_BUNDLE_TITLE, title);
-        ActivityOptionsCompat activityOptionsCompat = ActivityOptionsCompat.makeSceneTransitionAnimation(
-                activity,
-                new Pair<View, String>(img, TRANSTION_NAME_IMAGE),
-                new Pair<View, String>(text, TRANSTION_NAME_TITLE)
-        );
-        ActivityCompat.startActivity(activity, intent, activityOptionsCompat.toBundle());
+        activity.startActivity(intent);
     }
 
     @Override
@@ -63,12 +52,9 @@ public class WelfareDetailActivity extends BaseActivity {
         mViewStatusBar = CommonUtil.setStatusBarColor(this, R.color.translucentBg);
         mToolbar = setToolbar("");
 
-        ImageView ivWelfare = (ImageView) findViewById(R.id.iv_welfare);
         TextView tvDate = (TextView) findViewById(R.id.toolbar_title);
         tvDate.setText(getIntent().getStringExtra(EXTRA_BUNDLE_TITLE));
-        ViewCompat.setTransitionName(tvDate, TRANSTION_NAME_TITLE);
-        ViewCompat.setTransitionName(ivWelfare, TRANSTION_NAME_IMAGE);
-
+        ImageView ivWelfare = (ImageView) findViewById(R.id.iv_welfare);
         ImageLoadUtil.loadImageIfCrop(this, getIntent().getStringExtra(EXTRA_BUNDLE_URL), 0, false, ivWelfare);
         ivWelfare.setOnClickListener(new View.OnClickListener() {
             @Override
