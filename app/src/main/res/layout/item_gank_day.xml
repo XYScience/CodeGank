@@ -1,8 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-              android:layout_width="match_parent"
-              android:layout_height="wrap_content"
-              android:orientation="vertical">
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="vertical">
 
     <RelativeLayout
         android:id="@+id/rl_item"
@@ -18,7 +19,7 @@
             android:layout_marginRight="16dp"
             android:layout_marginTop="16dp"
             android:textColor="@color/textPrimary"
-            android:textSize="16sp"/>
+            android:textSize="16sp" />
 
         <TextView
             android:id="@+id/tv_who"
@@ -30,7 +31,7 @@
             android:layout_marginRight="16dp"
             android:layout_marginTop="4dp"
             android:textColor="@color/textSecondary"
-            android:textSize="14sp"/>
+            android:textSize="14sp" />
 
         <View
             android:id="@+id/view_bottom"
@@ -38,15 +39,17 @@
             android:layout_height="8dp"
             android:layout_below="@+id/tv_who"
             android:background="@color/white"
-            android:visibility="gone"/>
+            android:visibility="gone" />
 
         <com.science.codegank.view.RatioImageView
             android:id="@+id/iv_day_welfare"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:adjustViewBounds="true"
             android:scaleType="centerCrop"
-            android:visibility="gone"/>
+            android:transitionName="@string/transition_name_welfare"
+            android:visibility="gone"
+            app:ratio_height="110"
+            app:ratio_width="200" />
 
         <TextView
             android:id="@+id/tv_welfare_desc"
@@ -56,7 +59,8 @@
             android:layout_margin="16dp"
             android:textColor="@color/white"
             android:textSize="30sp"
-            android:visibility="gone"/>
+            android:transitionName="@string/transition_name_title"
+            android:visibility="gone" />
 
     </RelativeLayout>
 
@@ -66,6 +70,6 @@
         android:layout_height="22dp"
         android:layout_below="@+id/tv_who"
         android:background="@color/colorBackground"
-        android:visibility="gone"/>
+        android:visibility="gone" />
 
 </LinearLayout>

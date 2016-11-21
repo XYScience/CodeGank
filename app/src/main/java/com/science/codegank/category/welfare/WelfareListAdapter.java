@@ -33,7 +33,6 @@ public class WelfareListAdapter extends BaseCommonAdapter<List<Gank>> {
         Gank gank = ganks.get(i);
         viewHolder.setText(R.id.tv_date, CommonUtil.toDate(gank.getPublishedAt()));
         RatioImageView imgWelfare = viewHolder.getView(R.id.iv_welfare);
-        imgWelfare.setOriginalSize(1, 1);
         ImageLoadUtil.loadImage(mContext, gank.getUrl(), 0, imgWelfare);
     }
 

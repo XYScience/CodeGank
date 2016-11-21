@@ -5,6 +5,9 @@ import android.content.Intent;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
+import android.support.v4.app.ActivityCompat;
+import android.support.v4.app.ActivityOptionsCompat;
+import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -14,48 +17,58 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.science.codegank.R;
-import com.science.codegank.base.BaseActivity;
 import com.science.codegank.util.CommonUtil;
 import com.science.codegank.util.ImageLoadUtil;
+
+import butterknife.BindView;
+import butterknife.ButterKnife;
 
 /**
  * @author SScience
  * @description
  * @email chentushen.science@gmail.com,274240671@qq.com
- * @data 2016/11/14
+ * @data 2016/11/17
  */
 
-public class WelfareDetailActivity extends BaseActivity {
+public class WelfareDetailActivity extends AppCompatActivity {
 
     private static final String EXTRA_BUNDLE_URL = "bundle_url";
     private static final String EXTRA_BUNDLE_TITLE = "bundle_title";
-    private Toolbar mToolbar;
+    @BindView(R.id.iv_welfare)
+    ImageView mIvWelfare;
+    @BindView(R.id.toolbar_title)
+    TextView mToolbarTitle;
+    @BindView(R.id.toolbar)
+    Toolbar mToolbar;
     private View mViewStatusBar;
 
-    public static void intentWelfareDetail(Activity activity, String url, String title, View img, View text) {
+    public static void intentWelfareDetail(Activity activity, String url, String title, View img) {
         Intent intent = new Intent(activity, WelfareDetailActivity.class);
         intent.putExtra(EXTRA_BUNDLE_URL, url);
         intent.putExtra(EXTRA_BUNDLE_TITLE, title);
-        activity.startActivity(intent);
-    }
+//        activity.startActivity(intent);
 
-    @Override
-    protected int getContentLayout() {
-        return R.layout.activity_welfare_detail;
+        ActivityOptionsCompat optionsCompat = ActivityOptionsCompat.makeSceneTransitionAnimation(
+                activity, img, activity.getString(R.string.transition_name_welfare));
+        ActivityCompat.startActivity(activity, intent, optionsCompat.toBundle());
     }
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         getWindow().addFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_NAVIGATION);
         getWindow().setStatusBarColor(Color.TRANSPARENT);
-        super.onCreate(savedInstanceState);
         mViewStatusBar = CommonUtil.setStatusBarColor(this, R.color.translucentBg);
-        mToolbar = setToolbar("");
+        super.onCreate(savedInstanceState);
+        setContentView(R.layout.activity_welfare_detail);
+        ButterKnife.bind(this);
+        mToolbar.setTitle("");
+        setSupportActionBar(mToolbar);
+        if (getSupportActionBar() != null) {
+            getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+        }
 
-        TextView tvDate = (TextView) findViewById(R.id.toolbar_title);
-        tvDate.setText(getIntent().getStringExtra(EXTRA_BUNDLE_TITLE));
         ImageView ivWelfare = (ImageView) findViewById(R.id.iv_welfare);
-        ImageLoadUtil.loadImageIfCrop(this, getIntent().getStringExtra(EXTRA_BUNDLE_URL), 0, false, ivWelfare);
+        ImageLoadUtil.loadImage(this, getIntent().getStringExtra(EXTRA_BUNDLE_URL), 0, ivWelfare);
         ivWelfare.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -86,6 +99,9 @@ public class WelfareDetailActivity extends BaseActivity {
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
+            case android.R.id.home:
+                onBackPressed();
+                break;
             case R.id.menu_share:
                 break;
             case R.id.menu_save_img:

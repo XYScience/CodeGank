@@ -66,8 +66,7 @@ public class HomeFragment extends BaseFragment implements HomeContract.View<Gank
                     WelfareDetailActivity.intentWelfareDetail(getActivity(),
                             ganks.getGankList().get(i).getUrl(),
                             CommonUtil.toDate(ganks.getGankList().get(i).getPublishedAt()),
-                            viewHolder.getView(R.id.iv_day_welfare),
-                            viewHolder.getView(R.id.tv_welfare_desc));
+                            viewHolder.getView(R.id.iv_day_welfare));
                 }
             }
 
@@ -109,7 +108,6 @@ public class HomeFragment extends BaseFragment implements HomeContract.View<Gank
             final Gank gank = data.get(0).getGankList().get(0);
             String todayWelfareUrl = gank.getUrl();
             final RatioImageView ivWelfareToday = ((MainActivity) getActivity()).mIvWelfareToday;
-            ivWelfareToday.setOriginalSize(100, 100);
             ImageLoadUtil.loadImage(getActivity(), todayWelfareUrl, R.drawable.welfare, ivWelfareToday);
             final TextView tvTimeToday = (TextView) getActivity().findViewById(R.id.tv_time_today);
             tvTimeToday.setText(CommonUtil.toDate(gank.getPublishedAt()));
@@ -122,8 +120,7 @@ public class HomeFragment extends BaseFragment implements HomeContract.View<Gank
                     WelfareDetailActivity.intentWelfareDetail(getActivity(),
                             gank.getUrl(),
                             CommonUtil.toDate(gank.getPublishedAt()),
-                            ivWelfareToday,
-                            tvTimeToday);
+                            ivWelfareToday);
                 }
             });
         } else {

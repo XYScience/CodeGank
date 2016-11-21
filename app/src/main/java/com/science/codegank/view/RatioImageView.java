@@ -1,8 +1,11 @@
 package com.science.codegank.view;
 
 import android.content.Context;
+import android.content.res.TypedArray;
 import android.util.AttributeSet;
 import android.widget.ImageView;
+
+import com.science.codegank.R;
 
 /**
  * @author SScience
@@ -17,20 +20,19 @@ public class RatioImageView extends ImageView {
     private int originalHeight;
 
     public RatioImageView(Context context) {
-        this(context, null);
+        super(context);
     }
 
     public RatioImageView(Context context, AttributeSet attrs) {
-        super(context, attrs, 0);
+        this(context, attrs, 0);
     }
 
     public RatioImageView(Context context, AttributeSet attrs, int defStyleAttr) {
         super(context, attrs, defStyleAttr);
-    }
-
-    public void setOriginalSize(int originalWidth, int originalHeight) {
-        this.originalWidth = originalWidth;
-        this.originalHeight = originalHeight;
+        TypedArray typedArray = context.obtainStyledAttributes(attrs, R.styleable.RatioImageView);
+        originalWidth = typedArray.getInteger(R.styleable.RatioImageView_ratio_width, 0);
+        originalHeight = typedArray.getInteger(R.styleable.RatioImageView_ratio_height, 0);
+        typedArray.recycle();
     }
 
     @Override

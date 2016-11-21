@@ -47,7 +47,6 @@ public class HomeAdapter extends BaseStickyAdapter<List<GankDayResults>> {
         List<Gank> gankList = ganks.get(section).getGankList();
         RatioImageView imgWelfare = viewHolder.getView(R.id.iv_day_welfare);
         if (mContext.getResources().getString(R.string.welfare).equals(ganks.get(section).getHeader())) {
-            imgWelfare.setOriginalSize(200, 110);
             imgWelfare.setVisibility(View.VISIBLE);
             viewHolder.getView(R.id.tv_welfare_desc).setVisibility(View.VISIBLE);
             viewHolder.getView(R.id.tv_desc).setVisibility(View.GONE);

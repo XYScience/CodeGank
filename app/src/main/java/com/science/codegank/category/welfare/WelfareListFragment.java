@@ -12,6 +12,7 @@ import com.science.codegank.R;
 import com.science.codegank.base.BaseFragment;
 import com.science.codegank.data.bean.Gank;
 import com.science.codegank.util.CommonUtil;
+import com.science.codegank.welfaredetail.WelfareDetailActivity;
 
 import java.util.List;
 
@@ -47,7 +48,10 @@ public class WelfareListFragment extends BaseFragment implements WelfareListCont
         mWelfareAdapter.setOnItemClickListener(new OnItemClickListener<Gank>() {
             @Override
             public void onItemClick(ViewHolder viewHolder, Gank gank, int i) {
-                Toast.makeText(getActivity(), gank.getDesc(), Toast.LENGTH_SHORT).show();
+                WelfareDetailActivity.intentWelfareDetail(getActivity(),
+                        gank.getUrl(),
+                        CommonUtil.toDate(gank.getPublishedAt()),
+                        viewHolder.getView(R.id.iv_welfare));
             }
 
             @Override

@@ -20,7 +20,7 @@ public class MyGlideModule implements GlideModule {
     @Override
     public void applyOptions(Context context, GlideBuilder builder) {
         File cacheDir = context.getExternalCacheDir(); //数据的缓存地址
-        int diskCacheSize = 1024 * 1024 * 100;
+        int diskCacheSize = 1024 * 1024 * 200;
         builder.setDiskCache(new DiskLruCacheFactory(cacheDir.getPath(), "glide", diskCacheSize));
     }
 
