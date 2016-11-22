@@ -30,8 +30,8 @@ public class WelfareListActivity extends BaseActivity {
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         getWindow().getDecorView().setSystemUiVisibility(View.SYSTEM_UI_FLAG_LAYOUT_FULLSCREEN);
-        super.onCreate(savedInstanceState);
         getWindow().setStatusBarColor(Color.TRANSPARENT);
+        super.onCreate(savedInstanceState);
         mStatusBarView = CommonUtil.setStatusBarColor(this, R.color.colorPrimaryDark);
         mTranslucentStatusBarView = CommonUtil.setTranslucentStatusBar(this, R.color.translucentBg);
         mTranslucentStatusBarView.setAlpha(0);

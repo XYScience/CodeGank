@@ -5,8 +5,6 @@ import android.content.Intent;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
-import android.support.v4.app.ActivityCompat;
-import android.support.v4.app.ActivityOptionsCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
@@ -30,7 +28,7 @@ import butterknife.ButterKnife;
  * @data 2016/11/17
  */
 
-public class WelfareDetailActivity extends AppCompatActivity {
+public class WelfareDetailActivity extends AppCompatActivity implements WelfareDetailContract.View {
 
     private static final String EXTRA_BUNDLE_URL = "bundle_url";
     private static final String EXTRA_BUNDLE_TITLE = "bundle_title";
@@ -41,16 +39,17 @@ public class WelfareDetailActivity extends AppCompatActivity {
     @BindView(R.id.toolbar)
     Toolbar mToolbar;
     private View mViewStatusBar;
+    private WelfareDetailContract.Presenter welfareDetailPresenter;
 
     public static void intentWelfareDetail(Activity activity, String url, String title, View img) {
         Intent intent = new Intent(activity, WelfareDetailActivity.class);
         intent.putExtra(EXTRA_BUNDLE_URL, url);
         intent.putExtra(EXTRA_BUNDLE_TITLE, title);
-//        activity.startActivity(intent);
+        activity.startActivity(intent);
 
-        ActivityOptionsCompat optionsCompat = ActivityOptionsCompat.makeSceneTransitionAnimation(
-                activity, img, activity.getString(R.string.transition_name_welfare));
-        ActivityCompat.startActivity(activity, intent, optionsCompat.toBundle());
+//        ActivityOptionsCompat optionsCompat = ActivityOptionsCompat.makeSceneTransitionAnimation(
+//                activity, img, activity.getString(R.string.transition_name_welfare));
+//        ActivityCompat.startActivity(activity, intent, optionsCompat.toBundle());
     }
 
     @Override
@@ -67,15 +66,16 @@ public class WelfareDetailActivity extends AppCompatActivity {
             getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         }
 
-        ImageView ivWelfare = (ImageView) findViewById(R.id.iv_welfare);
-        ImageLoadUtil.loadImage(this, getIntent().getStringExtra(EXTRA_BUNDLE_URL), 0, ivWelfare);
-        ivWelfare.setOnClickListener(new View.OnClickListener() {
+        mToolbarTitle.setText(getIntent().getStringExtra(EXTRA_BUNDLE_TITLE));
+        ImageLoadUtil.loadImage(this, getIntent().getStringExtra(EXTRA_BUNDLE_URL), 0, mIvWelfare);
+        mIvWelfare.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 toggleFade();
             }
         });
 
+        welfareDetailPresenter = new WelfareDetailPresenter(this, this);
     }
 
     private void toggleFade() {
@@ -103,12 +103,25 @@ public class WelfareDetailActivity extends AppCompatActivity {
                 onBackPressed();
                 break;
             case R.id.menu_share:
+                welfareDetailPresenter.shareWelfare();
                 break;
             case R.id.menu_save_img:
+                welfareDetailPresenter.saveWelfare(getIntent().getStringExtra(EXTRA_BUNDLE_URL));
                 break;
             case R.id.menu_save_as_wallpaper:
+                welfareDetailPresenter.setWelfareToWallpaper();
                 break;
         }
         return super.onOptionsItemSelected(item);
+    }
+
+    @Override
+    public void saveWelfareSuccess() {
+
+    }
+
+    @Override
+    public void setWelfareToWallpaperSuccess() {
+
     }
 }

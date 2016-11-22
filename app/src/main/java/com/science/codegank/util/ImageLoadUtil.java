@@ -22,7 +22,7 @@ public class ImageLoadUtil {
                 .placeholder(placeholder)
                 .diskCacheStrategy(DiskCacheStrategy.ALL)
                 .crossFade()
-                .into(new GlideDrawableImageViewTarget(imageView));
+                .into(new GlideDrawableImageViewTarget(imageView)); // 解决第一次加载图片拉伸问题
     }
 
 }

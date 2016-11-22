@@ -96,7 +96,7 @@ public class HomePresenter implements HomeContract.Presenter {
                 .subscribe(new MySubscriber<List<GankDayResults>>() {
                     @Override
                     protected void onMyCompleted() {
-                        mCurrentDate = new Date(mCurrentDate.getTime() - DAY_OF_MILLISECOND);
+
                     }
 
                     @Override
@@ -111,9 +111,11 @@ public class HomePresenter implements HomeContract.Presenter {
                             if (mCountOfGetMoreDataEmpty >= 8) {
                                 mHomeView.hasNoMoreData();
                             } else {
+                                mCurrentDate = new Date(mCurrentDate.getTime() - DAY_OF_MILLISECOND);
                                 getGankDayDataMore();
                             }
                         } else {
+                            mCurrentDate = new Date(mCurrentDate.getTime() - DAY_OF_MILLISECOND);
                             mCountOfGetMoreDataEmpty = 0;
                             mHomeView.getGankDayData(false, ganks);
                         }

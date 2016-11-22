@@ -1,1 +1,1 @@
-include ':app', ':MDStatusBar'
+include ':app'

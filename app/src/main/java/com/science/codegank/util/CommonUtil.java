@@ -4,6 +4,7 @@ import android.app.Activity;
 import android.content.Context;
 import android.support.annotation.AnimRes;
 import android.support.v4.content.ContextCompat;
+import android.util.DisplayMetrics;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.animation.Animation;
@@ -55,6 +56,11 @@ public class CommonUtil {
         statusBarView.setBackgroundColor(ContextCompat.getColor(activity, statusBarColor));
         contentView.addView(statusBarView, lp);
         return statusBarView;
+    }
+
+    public static int getWindowScreenWidth(Context context) {
+        DisplayMetrics dm = context.getResources().getDisplayMetrics();
+        return dm.widthPixels;
     }
 
     private static int getStatusBarHeight(Context context) {
@@ -129,5 +135,4 @@ public class CommonUtil {
         View decor = activity.getWindow().getDecorView();
         decor.setSystemUiVisibility(decor.getSystemUiVisibility() & ~FLAG_IMMERSIVE);
     }
-
 }

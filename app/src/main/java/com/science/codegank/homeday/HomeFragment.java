@@ -17,6 +17,7 @@ import com.science.codegank.data.bean.Gank;
 import com.science.codegank.data.bean.GankDayResults;
 import com.science.codegank.util.CommonUtil;
 import com.science.codegank.util.ImageLoadUtil;
+import com.science.codegank.util.MyLogger;
 import com.science.codegank.view.OnDoubleClickListener;
 import com.science.codegank.view.RatioImageView;
 import com.science.codegank.welfaredetail.WelfareDetailActivity;
