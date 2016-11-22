@@ -40,27 +40,30 @@ public class WelfareDetailPresenter implements WelfareDetailContract.Presenter {
     }
 
     @Override
-    public void shareWelfare() {
-        Intent intent = new Intent(Intent.ACTION_SEND);
-
+    public void shareWelfare(String url) {
+        if (!TextUtils.isEmpty(url)) {
+            new DownLoadWelfareTask().execute(url, "shareWelfare");
+        }
     }
 
     @Override
     public void saveWelfare(String url) {
         if (!TextUtils.isEmpty(url)) {
-            new DownLoadWelfareTask().execute(url);
+            new DownLoadWelfareTask().execute(url, "saveWelfare");
         }
     }
 
     @Override
-    public void setWelfareToWallpaper() {
-
+    public void setWelfareToWallpaper(String url) {
+        if (!TextUtils.isEmpty(url)) {
+            new DownLoadWelfareTask().execute(url, "setWelfareToWallpaper");
+        }
     }
 
-    class DownLoadWelfareTask extends AsyncTask<String, Object, Boolean> {
+    class DownLoadWelfareTask extends AsyncTask<String, Object, String> {
 
         @Override
-        protected Boolean doInBackground(String... strings) {
+        protected String doInBackground(String... strings) {
             String imgName = strings[0].substring(strings[0].lastIndexOf("/") + 1);
             Bitmap bitmap = null;
             try {
@@ -69,7 +72,7 @@ public class WelfareDetailPresenter implements WelfareDetailContract.Presenter {
                 e.printStackTrace();
             }
             if (bitmap == null) {
-                return false;
+
             }
             // 保存图片
             File imgDir = new File(Environment.getExternalStorageDirectory().toString(), mContext.getString(R.string.app_name));
@@ -84,7 +87,7 @@ public class WelfareDetailPresenter implements WelfareDetailContract.Presenter {
                 fos.close();
             } catch (IOException e) {
                 e.printStackTrace();
-                return false;
+
             }
             // 把文件插入到系统图库
             try {
@@ -96,12 +99,28 @@ public class WelfareDetailPresenter implements WelfareDetailContract.Presenter {
             // 通知图库更新
             Intent scannerIntent = new Intent(Intent.ACTION_MEDIA_SCANNER_SCAN_FILE, Uri.parse("file://" + file.getAbsolutePath()));
             mContext.sendBroadcast(scannerIntent);
-            return true;
+
+            if ("saveWelfare".equals(strings[1])) {
+                return strings[1] + "*" + imgDir.getAbsolutePath();
+            }
+            return strings[1] + "*" + file.getAbsolutePath();
         }
 
         @Override
-        protected void onPostExecute(Boolean aBoolean) {
-            super.onPostExecute(aBoolean);
+        protected void onPostExecute(String s) {
+            super.onPostExecute(s);
+            String[] str = s.split("\\*");
+            if (s.contains("saveWelfare")) {
+                mWelfareDetailView.saveWelfareSuccess(str[1]);
+            } else if (s.contains("setWelfareToWallpaper")) {
+                mWelfareDetailView.setWelfareToWallpaperSuccess(str[1]);
+            } else if (s.contains("shareWelfare")) {
+                Uri imgUri = Uri.fromFile(new File(s));
+                Intent intent = new Intent(Intent.ACTION_SEND);
+                intent.putExtra(Intent.EXTRA_STREAM, imgUri);
+                intent.setType("image/*");
+                mContext.startActivity(Intent.createChooser(intent, "分享到"));
+            }
         }
     }
 }

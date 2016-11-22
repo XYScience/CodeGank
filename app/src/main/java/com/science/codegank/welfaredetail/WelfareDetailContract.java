@@ -12,16 +12,16 @@ import com.science.codegank.base.BasePresenter;
 public interface WelfareDetailContract {
 
     interface View {
-        void saveWelfareSuccess();
+        void saveWelfareSuccess(String imgDir);
 
-        void setWelfareToWallpaperSuccess();
+        void setWelfareToWallpaperSuccess(String imgPath);
     }
 
     interface Presenter extends BasePresenter {
-        void shareWelfare();
+        void shareWelfare(String url);
 
         void saveWelfare(String url);
 
-        void setWelfareToWallpaper();
+        void setWelfareToWallpaper(String url);
     }
 }

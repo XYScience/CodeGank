@@ -3,7 +3,9 @@
     package="com.science.codegank">
 
     <uses-permission android:name="android.permission.INTERNET" />
+    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
     <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE"/>
+    <uses-permission android:name = "android.permission.SET_WALLPAPER"/>
 
     <application
         android:allowBackup="true"
@@ -60,6 +62,18 @@
             android:name=".setting.SettingActivity"
             android:launchMode="singleTop"
             android:screenOrientation="portrait" />
+
+        <provider
+            android:name="android.support.v4.content.FileProvider"
+            android:authorities="com.science.codegank.fileprovider"
+            android:exported="false"
+            android:grantUriPermissions="true">
+
+            <meta-data
+                android:name="android.support.FILE_PROVIDER_PATHS"
+                android:resource="@xml/images" />
+
+        </provider>
 
     </application>
 

@@ -37,4 +37,9 @@
 
     <string name="transition_name_welfare">welfare</string>
     <string name="transition_name_title">title</string>
+
+    <!-- 福利详情 -->
+    <string name="welfare_had_save_to">图片保持成功到%s文件夹!</string>
+    <string name="set_welfare_to_wallpaper_success">设置壁纸成功!</string>
+    <string name="chooser_wallpaper">选择壁纸来源</string>
 </resources>
