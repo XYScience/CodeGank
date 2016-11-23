@@ -10,6 +10,7 @@ import com.science.codegank.data.bean.Gank;
 import com.science.codegank.data.bean.GankDayResults;
 import com.science.codegank.util.CommonUtil;
 import com.science.codegank.util.ImageLoadUtil;
+import com.science.codegank.util.MyLogger;
 import com.science.codegank.view.RatioImageView;
 
 import java.util.ArrayList;
@@ -62,7 +63,12 @@ public class HomeAdapter extends BaseStickyAdapter<List<GankDayResults>> {
             viewHolder.getView(R.id.tv_desc).setVisibility(View.VISIBLE);
             viewHolder.getView(R.id.tv_who).setVisibility(View.VISIBLE);
             viewHolder.setText(R.id.tv_desc, gankList.get(position).getDesc());
-            viewHolder.setText(R.id.tv_who, gankList.get(position).getWho());
+            MyLogger.e("".equals(gankList.get(position).getWho()));
+            if (gankList.get(position).getWho() == null) {
+                viewHolder.setText(R.id.tv_who, "无");
+            } else {
+                viewHolder.setText(R.id.tv_who, gankList.get(position).getWho());
+            }
             if ("休息视频".equals(ganks.get(section).getHeader())) {
                 viewHolder.getView(R.id.view_bottom).setVisibility(View.VISIBLE);
                 viewHolder.getView(R.id.view_bg).setVisibility(View.VISIBLE);

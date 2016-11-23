@@ -54,6 +54,11 @@
             android:screenOrientation="portrait" />
 
         <activity
+            android:name=".gankdetail.GankDetailActivity"
+            android:launchMode="singleTop"
+            android:screenOrientation="portrait" />
+
+        <activity
             android:name=".searchresult.SearchResultActivity"
             android:launchMode="singleTop"
             android:screenOrientation="portrait" />

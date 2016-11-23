@@ -1,5 +1,6 @@
 package com.science.codegank.homeday;
 
+import android.content.Intent;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
@@ -15,6 +16,7 @@ import com.science.codegank.R;
 import com.science.codegank.base.BaseFragment;
 import com.science.codegank.data.bean.Gank;
 import com.science.codegank.data.bean.GankDayResults;
+import com.science.codegank.gankdetail.GankDetailActivity;
 import com.science.codegank.util.CommonUtil;
 import com.science.codegank.util.ImageLoadUtil;
 import com.science.codegank.view.OnDoubleClickListener;
@@ -38,7 +40,8 @@ import static com.science.codegank.R.id.toolbar;
 
 public class HomeFragment extends BaseFragment implements HomeContract.View<GankDayResults> {
 
-    public static final String WELFARE_URL = "welfare_url";
+    public static final String EXTRA_BUNDLE_DESC = "bundle_desc";
+    public static final String EXTRA_BUNDLE_URL = "bundle_url";
     @BindView(recyclerView)
     RecyclerView mRecyclerView;
     private HomeAdapter mHomeAdapter;
@@ -67,6 +70,11 @@ public class HomeFragment extends BaseFragment implements HomeContract.View<Gank
                             ganks.getGankList().get(i).getUrl(),
                             CommonUtil.toDate(ganks.getGankList().get(i).getPublishedAt()),
                             viewHolder.getView(R.id.iv_day_welfare));
+                } else {
+                    Intent intent = new Intent(getActivity(), GankDetailActivity.class);
+                    intent.putExtra(EXTRA_BUNDLE_URL, ganks.getGankList().get(i).getUrl());
+                    intent.putExtra(EXTRA_BUNDLE_DESC, ganks.getGankList().get(i).getDesc());
+                    startActivity(intent);
                 }
             }
 
