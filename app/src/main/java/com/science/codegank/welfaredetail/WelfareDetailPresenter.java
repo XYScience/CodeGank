@@ -1,21 +1,13 @@
 package com.science.codegank.welfaredetail;
 
+import android.app.WallpaperManager;
 import android.content.Context;
 import android.content.Intent;
-import android.graphics.Bitmap;
 import android.net.Uri;
-import android.os.AsyncTask;
-import android.os.Environment;
-import android.provider.MediaStore;
+import android.support.v4.content.FileProvider;
 import android.text.TextUtils;
 
-import com.science.codegank.R;
-import com.squareup.picasso.Picasso;
-
 import java.io.File;
-import java.io.FileNotFoundException;
-import java.io.FileOutputStream;
-import java.io.IOException;
 
 /**
  * @author SScience
@@ -28,10 +20,12 @@ public class WelfareDetailPresenter implements WelfareDetailContract.Presenter {
 
     private WelfareDetailContract.View mWelfareDetailView;
     private Context mContext;
+    private WelfareDetailModel mWelfareDetailModel;
 
     public WelfareDetailPresenter(Context context, WelfareDetailContract.View welfareDetailView) {
         mContext = context;
         mWelfareDetailView = welfareDetailView;
+        mWelfareDetailModel = new WelfareDetailModel();
     }
 
     @Override
@@ -42,85 +36,51 @@ public class WelfareDetailPresenter implements WelfareDetailContract.Presenter {
     @Override
     public void shareWelfare(String url) {
         if (!TextUtils.isEmpty(url)) {
-            new DownLoadWelfareTask().execute(url, "shareWelfare");
+            mWelfareDetailModel.welfareDetailDownLoad(mContext, url, "shareWelfare", new WelfareDetailModel.WelfareDownLoadCallback() {
+                @Override
+                public void onWelfareDownLoadSuccess(String path) {
+                    Uri imgUri = Uri.fromFile(new File(path));
+                    Intent intent = new Intent(Intent.ACTION_SEND);
+                    intent.putExtra(Intent.EXTRA_STREAM, imgUri);
+                    intent.setType("image/*");
+                    mContext.startActivity(Intent.createChooser(intent, "分享到"));
+                }
+            });
         }
     }
 
     @Override
     public void saveWelfare(String url) {
         if (!TextUtils.isEmpty(url)) {
-            new DownLoadWelfareTask().execute(url, "saveWelfare");
+            mWelfareDetailModel.welfareDetailDownLoad(mContext, url, "saveWelfare", new WelfareDetailModel.WelfareDownLoadCallback() {
+                @Override
+                public void onWelfareDownLoadSuccess(String path) {
+                    mWelfareDetailView.saveWelfareSuccess(path);
+                }
+            });
         }
     }
 
     @Override
     public void setWelfareToWallpaper(String url) {
         if (!TextUtils.isEmpty(url)) {
-            new DownLoadWelfareTask().execute(url, "setWelfareToWallpaper");
-        }
-    }
-
-    class DownLoadWelfareTask extends AsyncTask<String, Object, String> {
-
-        @Override
-        protected String doInBackground(String... strings) {
-            String imgName = strings[0].substring(strings[0].lastIndexOf("/") + 1);
-            Bitmap bitmap = null;
-            try {
-                bitmap = Picasso.with(mContext).load(strings[0]).get();
-            } catch (IOException e) {
-                e.printStackTrace();
-            }
-            if (bitmap == null) {
-
-            }
-            // 保存图片
-            File imgDir = new File(Environment.getExternalStorageDirectory().toString(), mContext.getString(R.string.app_name));
-            if (!imgDir.exists()) {
-                imgDir.mkdir();
-            }
-            File file = new File(imgDir, imgName);
-            try {
-                FileOutputStream fos = new FileOutputStream(file);
-                bitmap.compress(Bitmap.CompressFormat.JPEG, 100, fos);
-                fos.flush();
-                fos.close();
-            } catch (IOException e) {
-                e.printStackTrace();
-
-            }
-            // 把文件插入到系统图库
-            try {
-                MediaStore.Images.Media.insertImage(mContext.getContentResolver(), file.getAbsolutePath(), imgName, null);
-            } catch (FileNotFoundException e) {
-                e.printStackTrace();
-            }
-
-            // 通知图库更新
-            Intent scannerIntent = new Intent(Intent.ACTION_MEDIA_SCANNER_SCAN_FILE, Uri.parse("file://" + file.getAbsolutePath()));
-            mContext.sendBroadcast(scannerIntent);
-
-            if ("saveWelfare".equals(strings[1])) {
-                return strings[1] + "*" + imgDir.getAbsolutePath();
-            }
-            return strings[1] + "*" + file.getAbsolutePath();
-        }
-
-        @Override
-        protected void onPostExecute(String s) {
-            super.onPostExecute(s);
-            String[] str = s.split("\\*");
-            if (s.contains("saveWelfare")) {
-                mWelfareDetailView.saveWelfareSuccess(str[1]);
-            } else if (s.contains("setWelfareToWallpaper")) {
-                mWelfareDetailView.setWelfareToWallpaperSuccess(str[1]);
-            } else if (s.contains("shareWelfare")) {
-                Uri imgUri = Uri.fromFile(new File(s));
-                Intent intent = new Intent(Intent.ACTION_SEND);
-                intent.putExtra(Intent.EXTRA_STREAM, imgUri);
-                intent.setType("image/*");
-                mContext.startActivity(Intent.createChooser(intent, "分享到"));
-            }
+            mWelfareDetailModel.welfareDetailDownLoad(mContext, url, "setWelfareToWallpaper", new WelfareDetailModel.WelfareDownLoadCallback() {
+                @Override
+                public void onWelfareDownLoadSuccess(String path) {
+                    /**
+                     * 对于面向 Android N 的应用，Android 框架执行的 StrictMode，API 禁止向您的应用外公开 file://URI。
+                     * 如果一项包含文件 URI 的 Intent 离开您的应用，应用失败，并出现 FileUriExposedException异常。
+                     * 若要在应用间共享文件，您应发送一项 content://URI，并授予 URI 临时访问权限。
+                     * 进行此授权的最简单方式是使用 FileProvider类。
+                     */
+                    WallpaperManager wm = WallpaperManager.getInstance(mContext);
+                    Uri uri = FileProvider.getUriForFile(mContext, "com.science.codegank.fileprovider", new File(path));
+                    mContext.startActivity(wm.getCropAndSetWallpaperIntent(uri));
+                    //后台设置壁纸:
+                    //Bitmap bitmap = BitmapFactory.decodeFile(path);
+                    //wm.setBitmap(bitmap);
+                }
+            });
         }
     }
 }

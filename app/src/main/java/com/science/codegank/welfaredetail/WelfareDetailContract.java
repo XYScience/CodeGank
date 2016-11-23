@@ -13,8 +13,6 @@ public interface WelfareDetailContract {
 
     interface View {
         void saveWelfareSuccess(String imgDir);
-
-        void setWelfareToWallpaperSuccess(String imgPath);
     }
 
     interface Presenter extends BasePresenter {

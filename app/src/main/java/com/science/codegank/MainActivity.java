@@ -29,6 +29,7 @@ import com.science.codegank.homeday.HomePresenter;
 import com.science.codegank.random.RandomActivity;
 import com.science.codegank.searchresult.SearchResultActivity;
 import com.science.codegank.setting.SettingActivity;
+import com.science.codegank.util.ImageLoadUtil;
 import com.science.codegank.view.RatioImageView;
 import com.science.materialsearch.MaterialSearchView;
 import com.science.materialsearch.adapter.SearchAdapter;
@@ -87,6 +88,9 @@ public class MainActivity extends BaseActivity
         toggle.syncState();
 
         mNavigationView.setNavigationItemSelectedListener(this);
+        View view = mNavigationView.inflateHeaderView(R.layout.nav_header_main);
+        ImageView ivAccount = (ImageView) view.findViewById(R.id.iv_account);
+        ImageLoadUtil.loadCircleImage(this, R.mipmap.app_logo, ivAccount);
         NavigationMenuView menuView = (NavigationMenuView) mNavigationView.getChildAt(0);
         if (menuView != null) {
             menuView.setVerticalScrollBarEnabled(false);
