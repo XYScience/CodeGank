@@ -5,6 +5,8 @@ import android.content.Intent;
 import android.net.Uri;
 import android.text.TextUtils;
 
+import com.science.codegank.R;
+
 import java.io.File;
 
 /**
@@ -41,7 +43,7 @@ public class WelfareDetailPresenter implements WelfareDetailContract.Presenter {
                     Intent intent = new Intent(Intent.ACTION_SEND);
                     intent.putExtra(Intent.EXTRA_STREAM, imgUri);
                     intent.setType("image/*");
-                    mContext.startActivity(Intent.createChooser(intent, "分享到"));
+                    mContext.startActivity(Intent.createChooser(intent, mContext.getString(R.string.share_to)));
                 }
             });
         }

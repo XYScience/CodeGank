@@ -93,6 +93,11 @@ public class WelfareListFragment extends BaseFragment implements WelfareListCont
     }
 
     @Override
+    public void hasNoMoreData() {
+        mWelfareAdapter.showFooterNoMoreData();
+    }
+
+    @Override
     public void getDataError(String msg) {
         Toast.makeText(getActivity(), msg, Toast.LENGTH_SHORT).show();
         setRefreshing(false);

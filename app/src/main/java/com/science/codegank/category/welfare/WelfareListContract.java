@@ -18,6 +18,8 @@ public interface WelfareListContract {
     interface View<T extends BaseData> extends BaseView<Presenter> {
         void getWelfareData(boolean isFirst, List<T> data);
 
+        void hasNoMoreData();
+
         void refreshFinish();
     }
 

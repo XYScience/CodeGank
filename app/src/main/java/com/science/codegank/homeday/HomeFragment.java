@@ -1,6 +1,7 @@
 package com.science.codegank.homeday;
 
-import android.content.Intent;
+import android.net.Uri;
+import android.support.customtabs.CustomTabsIntent;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
@@ -16,7 +17,6 @@ import com.science.codegank.R;
 import com.science.codegank.base.BaseFragment;
 import com.science.codegank.data.bean.Gank;
 import com.science.codegank.data.bean.GankDayResults;
-import com.science.codegank.gankdetail.GankDetailActivity;
 import com.science.codegank.util.CommonUtil;
 import com.science.codegank.util.ImageLoadUtil;
 import com.science.codegank.view.OnDoubleClickListener;
@@ -71,10 +71,13 @@ public class HomeFragment extends BaseFragment implements HomeContract.View<Gank
                             CommonUtil.toDate(ganks.getGankList().get(i).getPublishedAt()),
                             viewHolder.getView(R.id.iv_day_welfare));
                 } else {
-                    Intent intent = new Intent(getActivity(), GankDetailActivity.class);
-                    intent.putExtra(EXTRA_BUNDLE_URL, ganks.getGankList().get(i).getUrl());
-                    intent.putExtra(EXTRA_BUNDLE_DESC, ganks.getGankList().get(i).getDesc());
-                    startActivity(intent);
+//                    Intent intent = new Intent(getActivity(), GankDetailActivity.class);
+//                    intent.putExtra(EXTRA_BUNDLE_URL, ganks.getGankList().get(i).getUrl());
+//                    intent.putExtra(EXTRA_BUNDLE_DESC, ganks.getGankList().get(i).getDesc());
+//                    startActivity(intent);
+                    CustomTabsIntent.Builder builder = new CustomTabsIntent.Builder();
+                    CustomTabsIntent customTabsIntent = builder.build();
+                    customTabsIntent.launchUrl(getActivity(), Uri.parse(ganks.getGankList().get(i).getUrl()));
                 }
             }
 

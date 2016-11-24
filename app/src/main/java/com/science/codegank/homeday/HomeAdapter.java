@@ -63,7 +63,6 @@ public class HomeAdapter extends BaseStickyAdapter<List<GankDayResults>> {
             viewHolder.getView(R.id.tv_desc).setVisibility(View.VISIBLE);
             viewHolder.getView(R.id.tv_who).setVisibility(View.VISIBLE);
             viewHolder.setText(R.id.tv_desc, gankList.get(position).getDesc());
-            MyLogger.e("".equals(gankList.get(position).getWho()));
             if (gankList.get(position).getWho() == null) {
                 viewHolder.setText(R.id.tv_who, "无");
             } else {

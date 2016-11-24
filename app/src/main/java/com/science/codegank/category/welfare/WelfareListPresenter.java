@@ -18,6 +18,7 @@ import rx.Subscription;
 
 public class WelfareListPresenter implements WelfareListContract.Presenter {
 
+    private int mCountOfGetMoreDataEmpty = 0;
     private WelfareListContract.View mWelfareView;
 
     public WelfareListPresenter(WelfareListContract.View welfareView) {
@@ -46,8 +47,14 @@ public class WelfareListPresenter implements WelfareListContract.Presenter {
                     @Override
                     protected void onMyNext(List<Gank> ganks) {
                         if (ganks.isEmpty()) {
-                            getWelfareData(category, page);
+                            mCountOfGetMoreDataEmpty += 1;
+                            if (mCountOfGetMoreDataEmpty >= 8) {
+                                mWelfareView.hasNoMoreData();
+                            } else {
+                                getWelfareData(category, page);
+                            }
                         } else {
+                            mCountOfGetMoreDataEmpty = 0;
                             if (page == 1) {
                                 mWelfareView.getWelfareData(true, ganks);
                             } else {
