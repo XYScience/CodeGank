@@ -8,4 +8,7 @@ package com.science.codegank.util;
  */
 public class CommonDefine {
     public static int REQUEST_PERMISSION_CODE = 88;
+    public static String SP_KEY_SMART_NO_PIC = "SmartNoPicModel";
+    public static String SP_KEY_CHROME_CUSTOM_TAB = "ChromeCustomTab";
+    public static String SP_KEY_QUIT_CLEAR_CACHE = "QuitClearCache";
 }

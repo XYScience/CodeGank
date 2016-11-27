@@ -8,6 +8,9 @@ import android.webkit.WebSettings;
 import android.webkit.WebView;
 import android.webkit.WebViewClient;
 
+import com.science.codegank.util.CommonDefine;
+import com.science.codegank.util.SharedPreferenceUtil;
+
 /**
  * @author SScience
  * @description
@@ -18,10 +21,12 @@ import android.webkit.WebViewClient;
 public class GankDetailPresenter implements GankDetailContract.Presenter {
 
     private GankDetailContract.View mGankDetailView;
+    private Context mContext;
 
     public GankDetailPresenter(Context context, GankDetailContract.View gankDetailView) {
         mGankDetailView = gankDetailView;
         mGankDetailView.setPresenter(this);
+        mContext = context;
     }
 
     @Override
@@ -37,6 +42,11 @@ public class GankDetailPresenter implements GankDetailContract.Presenter {
         settings.setAppCacheEnabled(true);
         settings.setLayoutAlgorithm(WebSettings.LayoutAlgorithm.SINGLE_COLUMN);
         settings.setSupportZoom(true);
+        if ((Boolean) SharedPreferenceUtil.get(mContext, CommonDefine.SP_KEY_SMART_NO_PIC, false)) {
+            settings.setBlockNetworkImage(true);
+        } else {
+            settings.setBlockNetworkImage(false);
+        }
         webView.setWebViewClient(new MyWebClient());
     }
 

@@ -34,9 +34,6 @@
     <string name="search">搜索</string>
     <string name="search_hint">请输入关键字</string>
 
-    <!-- 设置 -->
-    <string name="setting">设置</string>
-
     <!-- 福利详情 -->
     <string name="share">分享</string>
     <string name="save_img">保存图片</string>
@@ -47,5 +44,22 @@
     <string name="request_write_external_storage_permission">同意CodeGank请求读写权限才能保存图片</string>
     <string name="must_allow_permission_start_camera">必须同意权限才能保存图片！</string>
     <string name="share_to">分享到</string>
+
+    <!-- 设置 -->
+    <string name="setting">设置</string>
+    <string name="flow_control">流量控制</string>
+    <string name="smart_no_pic_model">智能无图模式</string>
+    <string name="smart_no_pic_model_detail">使用数据流量时不加载图片</string>
+    <string name="browse_control">浏览设置</string>
+    <string name="use_chrome_custom_tab">使用chrome custom tabs查看</string>
+    <string name="use_chrome_custom_tab_detail">浏览干货详情时，不使用系统WebView，通过chrome custom tab查看</string>
+    <string name="clear_data">清理数据</string>
+    <string name="quit_clear_cache">退出时清理缓存</string>
+    <string name="quit_clear_cache_detail">将在每次退出应用都清理缓存</string>
+    <string name="clear_cache">清除缓存</string>
+    <string name="clear_cache_detail">立即清除应用图片等缓存</string>
+    <string name="go_to_download_chrome">去下载Chrome</string>
+    <string name="custom_tabs_need_chrome">Custom Tabs需要Chrome浏览器提供技术支持</string>
+    <string name="smart_no_pic_support_webview">此模式暂支持非chrome custom tabs，若使用custom tabs，可以在Chrome-设置-流量节省程序中设置</string>
 
 </resources>

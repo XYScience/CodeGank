@@ -1,4 +1,4 @@
-package com.science.codegank.view;
+package com.science.codegank.util.customtabsutil;
 
 
 import android.app.Activity;
@@ -15,7 +15,7 @@ import com.science.codegank.homeday.HomeFragment;
  * @data 2016/11/24
  */
 
-public class WebViewFallback implements HomeFragment.CustomTabFallback {
+public class WebViewFallback implements CustomTabActivityHelper.CustomTabFallback {
     @Override
     public void openUri(Activity activity, Uri uri, String title) {
         Intent intent = new Intent(activity, GankDetailActivity.class);
