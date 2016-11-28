@@ -1,6 +1,8 @@
 package com.science.codegank.util;
 
 import android.app.Activity;
+import android.content.ClipData;
+import android.content.ClipboardManager;
 import android.content.Context;
 import android.support.annotation.AnimRes;
 import android.support.v4.content.ContextCompat;
@@ -134,5 +136,11 @@ public class CommonUtil {
     public static void setSystemUiInVisible(Activity activity) {
         View decor = activity.getWindow().getDecorView();
         decor.setSystemUiVisibility(decor.getSystemUiVisibility() & ~FLAG_IMMERSIVE);
+    }
+
+    public static void copyToClipBoard(Context context, String copyText) {
+        ClipData clipData = ClipData.newPlainText("codegank_copy", copyText);
+        ClipboardManager manager = (ClipboardManager) context.getSystemService(Context.CLIPBOARD_SERVICE);
+        manager.setPrimaryClip(clipData);
     }
 }

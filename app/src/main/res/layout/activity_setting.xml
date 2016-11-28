@@ -1,6 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<android.support.design.widget.CoordinatorLayout
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<android.support.design.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:id="@+id/coordinatorLayout"
     android:layout_width="match_parent"
@@ -8,7 +7,7 @@
     android:background="@color/white"
     android:orientation="vertical">
 
-    <include layout="@layout/app_bar_main"/>
+    <include layout="@layout/app_bar_main" />
 
     <ScrollView
         android:layout_width="match_parent"
@@ -28,7 +27,7 @@
                 android:paddingTop="16dp"
                 android:text="@string/flow_control"
                 android:textColor="@color/colorAccent"
-                android:textSize="14sp"/>
+                android:textSize="14sp" />
 
             <RelativeLayout
                 android:layout_width="match_parent"
@@ -41,7 +40,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_alignParentRight="true"
-                    android:layout_centerVertical="true"/>
+                    android:layout_centerVertical="true" />
 
                 <TextView
                     android:id="@+id/tv_smart_no_pic_model"
@@ -49,7 +48,7 @@
                     android:layout_height="wrap_content"
                     android:text="@string/smart_no_pic_model"
                     android:textColor="@color/textPrimary"
-                    android:textSize="16sp"/>
+                    android:textSize="16sp" />
 
                 <TextView
                     android:layout_width="wrap_content"
@@ -58,7 +57,7 @@
                     android:layout_marginTop="2dp"
                     android:text="@string/smart_no_pic_model_detail"
                     android:textColor="@color/textSecondary"
-                    android:textSize="14sp"/>
+                    android:textSize="14sp" />
 
             </RelativeLayout>
 
@@ -70,7 +69,7 @@
                 android:paddingTop="16dp"
                 android:text="@string/browse_control"
                 android:textColor="@color/colorAccent"
-                android:textSize="14sp"/>
+                android:textSize="14sp" />
 
             <RelativeLayout
                 android:layout_width="match_parent"
@@ -83,7 +82,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_alignParentRight="true"
-                    android:layout_centerVertical="true"/>
+                    android:layout_centerVertical="true" />
 
                 <TextView
                     android:id="@+id/tv_chrome_custom_tab"
@@ -91,7 +90,7 @@
                     android:layout_height="wrap_content"
                     android:text="@string/use_chrome_custom_tab"
                     android:textColor="@color/textPrimary"
-                    android:textSize="16sp"/>
+                    android:textSize="16sp" />
 
                 <TextView
                     android:layout_width="wrap_content"
@@ -101,7 +100,7 @@
                     android:layout_toLeftOf="@+id/cb_chrome_custom_tab"
                     android:text="@string/use_chrome_custom_tab_detail"
                     android:textColor="@color/textSecondary"
-                    android:textSize="14sp"/>
+                    android:textSize="14sp" />
 
             </RelativeLayout>
 
@@ -113,7 +112,7 @@
                 android:paddingTop="16dp"
                 android:text="@string/clear_data"
                 android:textColor="@color/colorAccent"
-                android:textSize="14sp"/>
+                android:textSize="14sp" />
 
             <RelativeLayout
                 android:layout_width="match_parent"
@@ -130,7 +129,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_alignParentRight="true"
-                    android:layout_centerVertical="true"/>
+                    android:layout_centerVertical="true" />
 
                 <TextView
                     android:id="@+id/tv_quit_clear_data"
@@ -138,7 +137,7 @@
                     android:layout_height="wrap_content"
                     android:text="@string/quit_clear_cache"
                     android:textColor="@color/textPrimary"
-                    android:textSize="16sp"/>
+                    android:textSize="16sp" />
 
                 <TextView
                     android:layout_width="wrap_content"
@@ -147,33 +146,46 @@
                     android:layout_marginTop="2dp"
                     android:text="@string/quit_clear_cache_detail"
                     android:textColor="@color/textSecondary"
-                    android:textSize="14sp"/>
+                    android:textSize="14sp" />
 
             </RelativeLayout>
 
-            <LinearLayout
+            <RelativeLayout
                 android:id="@+id/ll_clear_cache"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:background="@drawable/shape_ripple"
                 android:orientation="vertical"
                 android:padding="16dp">
 
                 <TextView
+                    android:id="@+id/tv_clear_cache"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="@string/clear_cache"
                     android:textColor="@color/textPrimary"
-                    android:textSize="16sp"/>
+                    android:textSize="16sp" />
 
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
+                    android:layout_below="@+id/tv_clear_cache"
                     android:layout_marginTop="2dp"
                     android:text="@string/clear_cache_detail"
                     android:textColor="@color/textSecondary"
-                    android:textSize="14sp"/>
+                    android:textSize="14sp" />
 
-            </LinearLayout>
+                <TextView
+                    android:id="@+id/tv_cache_size"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentRight="true"
+                    android:layout_centerVertical="true"
+                    android:layout_gravity="right"
+                    android:textColor="@color/textSecondary"
+                    android:textSize="14sp" />
+
+            </RelativeLayout>
 
         </LinearLayout>
 

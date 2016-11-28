@@ -29,7 +29,9 @@ import com.science.codegank.homeday.HomePresenter;
 import com.science.codegank.random.RandomActivity;
 import com.science.codegank.searchresult.SearchResultActivity;
 import com.science.codegank.setting.SettingActivity;
+import com.science.codegank.util.CommonDefine;
 import com.science.codegank.util.ImageLoadUtil;
+import com.science.codegank.util.SharedPreferenceUtil;
 import com.science.codegank.view.RatioImageView;
 import com.science.materialsearch.MaterialSearchView;
 import com.science.materialsearch.adapter.SearchAdapter;
@@ -240,6 +242,9 @@ public class MainActivity extends BaseActivity
                 exitTime = System.currentTimeMillis();
             } else {
                 super.onBackPressed();
+                if ((Boolean) SharedPreferenceUtil.get(this, CommonDefine.SP_KEY_QUIT_CLEAR_CACHE, false)) {
+                    ImageLoadUtil.clearImageAllCache(this, null);
+                }
             }
         }
     }

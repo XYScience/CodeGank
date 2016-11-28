@@ -58,6 +58,14 @@ public class GankDetailFragment extends BaseFragment implements GankDetailContra
         }
     }
 
+    public void shareGank() {
+        mGankDetailPresenter.shareGank(mWebView.getUrl());
+    }
+
+    public void openInBrowser() {
+        mGankDetailPresenter.openInBrowser(mWebView.getUrl());
+    }
+
     @Override
     public void getDataError(String msg) {
         setRefreshing(false);

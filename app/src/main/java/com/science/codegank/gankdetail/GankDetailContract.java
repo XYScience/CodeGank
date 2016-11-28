@@ -25,5 +25,9 @@ public interface GankDetailContract {
         void setUpWebView(WebView webView);
 
         void loadUrl(WebView webView, String url);
+
+        void shareGank(String url);
+
+        void openInBrowser(String url);
     }
 }

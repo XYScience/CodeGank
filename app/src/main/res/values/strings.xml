@@ -60,6 +60,12 @@
     <string name="clear_cache_detail">立即清除应用图片等缓存</string>
     <string name="go_to_download_chrome">去下载Chrome</string>
     <string name="custom_tabs_need_chrome">Custom Tabs需要Chrome浏览器提供技术支持</string>
-    <string name="smart_no_pic_support_webview">此模式暂支持非chrome custom tabs，若使用custom tabs，可以在Chrome-设置-流量节省程序中设置</string>
+    <string name="smart_no_pic_support_webView">暂不支持Chrome Custom Tabs，Chrome流量控制可在Chrome-设置-流量节省程序中设置</string>
+    <string name="smart_no_pic_support_webView_custom_tabs">Chrome Custom Tabs暂不支持智能无图模式，请先关闭智能无图模式</string>
+
+    <!-- 干货详情 -->
+    <string name="copy_link">复制链接</string>
+    <string name="open_in_browser">在浏览器钟打开</string>
+    <string name="copy_success">复制成功</string>
 
 </resources>

@@ -35,7 +35,6 @@ public class CustomTabsHelper {
     public static final String STABLE_PACKAGE = "com.android.chrome";
     static final String BETA_PACKAGE = "com.chrome.beta";
     static final String DEV_PACKAGE = "com.chrome.dev";
-    static final String LOCAL_PACKAGE = "com.google.android.apps.chrome";
     private static final String EXTRA_CUSTOM_TABS_KEEP_ALIVE =
             "android.support.customtabs.extra.KEEP_ALIVE";
     private static final String ACTION_CUSTOM_TABS_CONNECTION =
@@ -59,27 +58,12 @@ public class CustomTabsHelper {
      * <p>
      * This is <strong>not</strong> threadsafe.
      *
-     * @param context {@link Context} to use for accessing {@link PackageManager}.
+     * param context {@link Context} to use for accessing {@link PackageManager}.
      * @return The package name recommended to use for connecting to custom tabs related components.
      */
     public static String getPackageNameToUse(Context context) {
         if (sPackageNameToUse != null) return sPackageNameToUse;
-
-        PackageManager pm = context.getPackageManager();
-        Intent activityIntent = new Intent(Intent.ACTION_VIEW, Uri.parse("https://www.baidu.com"));
-        // Get all apps that can handle VIEW intents.
-        List<ResolveInfo> resolvedActivityList = pm.queryIntentActivities(activityIntent, 0);
-        for (ResolveInfo info : resolvedActivityList) {
-            if (info.activityInfo.packageName.contains(STABLE_PACKAGE)) {
-                sPackageNameToUse = STABLE_PACKAGE;
-            } else if (info.activityInfo.packageName.contains(BETA_PACKAGE)) {
-                sPackageNameToUse = BETA_PACKAGE;
-            } else if (info.activityInfo.packageName.contains(DEV_PACKAGE)) {
-                sPackageNameToUse = DEV_PACKAGE;
-            } else if (info.activityInfo.packageName.contains(LOCAL_PACKAGE)) {
-                sPackageNameToUse = LOCAL_PACKAGE;
-            }
-        }
+        getChromePackageName(context);
 //        PackageManager pm = context.getPackageManager();
 //        // Get default VIEW intent handler.
 //        Intent activityIntent = new Intent(Intent.ACTION_VIEW, Uri.parse("http://www.example.com"));
@@ -123,6 +107,27 @@ public class CustomTabsHelper {
         return sPackageNameToUse;
     }
 
+    public static Boolean getChromePackageName(Context context) {
+
+        PackageManager pm = context.getPackageManager();
+        Intent activityIntent = new Intent(Intent.ACTION_VIEW, Uri.parse("https://www.baidu.com"));
+        // Get all apps that can handle VIEW intents.
+        List<ResolveInfo> resolvedActivityList = pm.queryIntentActivities(activityIntent, 0);
+        for (ResolveInfo info : resolvedActivityList) {
+            if (info.activityInfo.packageName.contains(STABLE_PACKAGE)) {
+                sPackageNameToUse = STABLE_PACKAGE;
+                return true;
+            } else if (info.activityInfo.packageName.contains(BETA_PACKAGE)) {
+                sPackageNameToUse = BETA_PACKAGE;
+                return true;
+            } else if (info.activityInfo.packageName.contains(DEV_PACKAGE)) {
+                sPackageNameToUse = DEV_PACKAGE;
+                return true;
+            }
+        }
+        return false;
+    }
+
     /**
      * Used to check whether there is a specialized handler for a given intent.
      *
@@ -155,6 +160,6 @@ public class CustomTabsHelper {
      * @return All possible chrome package names that provide custom tabs feature.
      */
     public static String[] getPackages() {
-        return new String[]{"", STABLE_PACKAGE, BETA_PACKAGE, DEV_PACKAGE, LOCAL_PACKAGE};
+        return new String[]{"", STABLE_PACKAGE, BETA_PACKAGE, DEV_PACKAGE};
     }
 }

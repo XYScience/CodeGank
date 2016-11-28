@@ -1,13 +1,16 @@
 package com.science.codegank.gankdetail;
 
 import android.content.Context;
+import android.content.Intent;
 import android.graphics.Bitmap;
+import android.net.Uri;
 import android.text.TextUtils;
 import android.webkit.WebResourceRequest;
 import android.webkit.WebSettings;
 import android.webkit.WebView;
 import android.webkit.WebViewClient;
 
+import com.science.codegank.R;
 import com.science.codegank.util.CommonDefine;
 import com.science.codegank.util.SharedPreferenceUtil;
 
@@ -53,6 +56,20 @@ public class GankDetailPresenter implements GankDetailContract.Presenter {
     @Override
     public void loadUrl(WebView webView, String url) {
         webView.loadUrl(url);
+    }
+
+    @Override
+    public void shareGank(String url) {
+        Intent intent = new Intent(Intent.ACTION_SEND);
+        intent.putExtra(Intent.EXTRA_TEXT, url);
+        intent.setType("text/plain");
+        mContext.startActivity(Intent.createChooser(intent, mContext.getString(R.string.share_to)));
+    }
+
+    @Override
+    public void openInBrowser(String url) {
+        Intent intent = new Intent(Intent.ACTION_VIEW, Uri.parse(url));
+        mContext.startActivity(intent);
     }
 
     private class MyWebClient extends WebViewClient {

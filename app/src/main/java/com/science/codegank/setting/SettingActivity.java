@@ -5,16 +5,17 @@ import android.net.Uri;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.design.widget.CoordinatorLayout;
-import android.support.design.widget.Snackbar;
 import android.support.v7.widget.AppCompatCheckBox;
 import android.view.View;
 import android.widget.CompoundButton;
-import android.widget.LinearLayout;
+import android.widget.RelativeLayout;
+import android.widget.TextView;
 
 import com.science.codegank.MainActivity;
 import com.science.codegank.R;
 import com.science.codegank.base.BaseActivity;
 import com.science.codegank.util.CommonDefine;
+import com.science.codegank.util.ImageLoadUtil;
 import com.science.codegank.util.SharedPreferenceUtil;
 import com.science.codegank.util.customtabsutil.CustomTabsHelper;
 
@@ -37,9 +38,11 @@ public class SettingActivity extends BaseActivity {
     @BindView(R.id.cb_quit_clear_cache)
     AppCompatCheckBox mCbQuitClearCache;
     @BindView(R.id.ll_clear_cache)
-    LinearLayout mLlClearCache;
+    RelativeLayout mRlClearCache;
     @BindView(R.id.coordinatorLayout)
     CoordinatorLayout mCoordinatorLayout;
+    @BindView(R.id.tv_cache_size)
+    TextView mTvCacheSize;
 
     @Override
     protected int getContentLayout() {
@@ -59,6 +62,7 @@ public class SettingActivity extends BaseActivity {
         mCbSmartNoPicModel.setChecked((Boolean) SharedPreferenceUtil.get(this, CommonDefine.SP_KEY_SMART_NO_PIC, false));
         mCbChromeCustomTab.setChecked((Boolean) SharedPreferenceUtil.get(this, CommonDefine.SP_KEY_CHROME_CUSTOM_TAB, false));
         mCbQuitClearCache.setChecked((Boolean) SharedPreferenceUtil.get(this, CommonDefine.SP_KEY_QUIT_CLEAR_CACHE, false));
+        mTvCacheSize.setText(ImageLoadUtil.getCacheSize(this));
     }
 
     private void initListener() {
@@ -69,8 +73,7 @@ public class SettingActivity extends BaseActivity {
                     SharedPreferenceUtil.put(SettingActivity.this, CommonDefine.SP_KEY_SMART_NO_PIC, b);
                 } else {
                     compoundButton.setChecked(false);
-                    Snackbar.make(mCoordinatorLayout, R.string.smart_no_pic_support_webview,
-                            Snackbar.LENGTH_LONG).show();
+                    snackBarShow(mCoordinatorLayout, R.string.smart_no_pic_support_webView);
                 }
             }
         });
@@ -78,21 +81,26 @@ public class SettingActivity extends BaseActivity {
         mCbChromeCustomTab.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
             @Override
             public void onCheckedChanged(CompoundButton compoundButton, boolean b) {
-                String packageName = CustomTabsHelper.getPackageNameToUse(SettingActivity.this);
-                if (packageName == null) {
+                Boolean hasChrome = CustomTabsHelper.getChromePackageName(SettingActivity.this);
+                if (!hasChrome) {
                     compoundButton.setChecked(false);
-                    Snackbar.make(mCoordinatorLayout, R.string.custom_tabs_need_chrome, Snackbar.LENGTH_LONG).
-                            setAction(R.string.go_to_download_chrome, new View.OnClickListener() {
+                    snackBarShow(mCoordinatorLayout, R.string.custom_tabs_need_chrome, R.string.go_to_download_chrome,
+                            new View.OnClickListener() {
                                 @Override
                                 public void onClick(View view) {
                                     Uri uri = Uri.parse("market://details?id=" + CustomTabsHelper.STABLE_PACKAGE);
                                     Intent goToMarket = new Intent(Intent.ACTION_VIEW, uri);
                                     startActivity(goToMarket);
                                 }
-                            }).show();
+                            });
                 } else {
-                    mCbSmartNoPicModel.setChecked(false);
-                    SharedPreferenceUtil.put(SettingActivity.this, CommonDefine.SP_KEY_CHROME_CUSTOM_TAB, b);
+                    if (!mCbSmartNoPicModel.isChecked()) {
+                        SharedPreferenceUtil.put(SettingActivity.this, CommonDefine.SP_KEY_CHROME_CUSTOM_TAB, b);
+                    } else {
+                        compoundButton.setChecked(false);
+
+                        snackBarShow(mCoordinatorLayout, R.string.smart_no_pic_support_webView_custom_tabs);
+                    }
                 }
             }
         });
@@ -115,6 +123,6 @@ public class SettingActivity extends BaseActivity {
 
     @OnClick(R.id.ll_clear_cache)
     public void onClick() {
-
+        ImageLoadUtil.clearImageAllCache(this, mTvCacheSize);
     }
 }

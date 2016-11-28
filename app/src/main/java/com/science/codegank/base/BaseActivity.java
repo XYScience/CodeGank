@@ -6,6 +6,7 @@ import android.content.pm.PackageManager;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
+import android.support.design.widget.Snackbar;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AlertDialog;
@@ -214,6 +215,23 @@ public abstract class BaseActivity extends AppCompatActivity {
             }
         }
         return true;
+    }
+
+    public void snackBarShow(View view, int contentRes) {
+        snackBarShow(view, getString(contentRes));
+    }
+
+    public void snackBarShow(View view, String content) {
+        snackBarShow(view, content, null, null);
+    }
+
+    public void snackBarShow(View view, int content, int actionRes, View.OnClickListener listener) {
+        snackBarShow(view, getString(content), getString(actionRes), listener);
+    }
+
+    public void snackBarShow(View view, String content, String actionStr, View.OnClickListener listener) {
+        Snackbar.make(view, content, Snackbar.LENGTH_LONG)
+                .setAction(actionStr, listener).show();
     }
 }
 
