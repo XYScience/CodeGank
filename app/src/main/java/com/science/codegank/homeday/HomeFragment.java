@@ -16,9 +16,11 @@ import com.science.codegank.R;
 import com.science.codegank.base.BaseFragment;
 import com.science.codegank.data.bean.Gank;
 import com.science.codegank.data.bean.GankDayResults;
+import com.science.codegank.util.CommonDefine;
 import com.science.codegank.util.CommonUtil;
 import com.science.codegank.util.ImageLoadUtil;
 import com.science.codegank.util.MyLogger;
+import com.science.codegank.util.SharedPreferenceUtil;
 import com.science.codegank.util.customtabsutil.CustomTabActivityHelper;
 import com.science.codegank.util.customtabsutil.WebViewFallback;
 import com.science.codegank.view.OnDoubleClickListener;
@@ -122,7 +124,9 @@ public class HomeFragment extends BaseFragment implements HomeContract.View<Gank
             customTabActivityHelper.mayLaunchUrl(Uri.parse(gank.getUrl()), null, null);
             String todayWelfareUrl = gank.getUrl();
             final RatioImageView ivWelfareToday = ((MainActivity) getActivity()).mIvWelfareToday;
-            ImageLoadUtil.loadImage(getActivity(), todayWelfareUrl, R.drawable.welfare, ivWelfareToday);
+            if (!(Boolean) SharedPreferenceUtil.get(getActivity(), CommonDefine.SP_KEY_SMART_NO_PIC, false)) {
+                ImageLoadUtil.loadImage(getActivity(), todayWelfareUrl, R.drawable.welfare, ivWelfareToday);
+            }
             final TextView tvTimeToday = (TextView) getActivity().findViewById(R.id.tv_time_today);
             tvTimeToday.setText(CommonUtil.toDate(gank.getPublishedAt()));
             CommonUtil.animateIn(tvTimeToday, R.anim.viewer_toolbar_fade_in);
@@ -167,6 +171,10 @@ public class HomeFragment extends BaseFragment implements HomeContract.View<Gank
     @Override
     public void refreshFinish() {
         setRefreshing(false);
+    }
+
+    public void setNoPic() {
+        mHomeAdapter.setNoPic();
     }
 
     @Override

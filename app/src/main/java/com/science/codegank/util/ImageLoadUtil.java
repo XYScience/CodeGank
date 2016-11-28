@@ -27,7 +27,7 @@ import jp.wasabeef.glide.transformations.CropCircleTransformation;
 
 public class ImageLoadUtil {
 
-    public static void loadImage(Context context, String url, int placeholder, final ImageView imageView) {
+    public static void loadImage(Context context, Object url, int placeholder, final ImageView imageView) {
         DrawableRequestBuilder builder = Glide.with(context)
                 .load(url)
                 .placeholder(placeholder)

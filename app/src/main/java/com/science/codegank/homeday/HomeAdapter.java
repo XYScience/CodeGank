@@ -8,9 +8,10 @@ import com.science.baserecyclerviewadapter.base.ViewHolder;
 import com.science.codegank.R;
 import com.science.codegank.data.bean.Gank;
 import com.science.codegank.data.bean.GankDayResults;
+import com.science.codegank.util.CommonDefine;
 import com.science.codegank.util.CommonUtil;
 import com.science.codegank.util.ImageLoadUtil;
-import com.science.codegank.util.MyLogger;
+import com.science.codegank.util.SharedPreferenceUtil;
 import com.science.codegank.view.RatioImageView;
 
 import java.util.ArrayList;
@@ -27,10 +28,16 @@ public class HomeAdapter extends BaseStickyAdapter<List<GankDayResults>> {
 
     private List<GankDayResults> list = new ArrayList<>();
     private Context mContext;
+    private Boolean isNoPic;
 
     public HomeAdapter(Context context) {
         super(context);
         mContext = context;
+        setNoPic();
+    }
+
+    public void setNoPic() {
+        isNoPic = (Boolean) SharedPreferenceUtil.get(mContext, CommonDefine.SP_KEY_SMART_NO_PIC, false);
     }
 
     @Override
@@ -56,7 +63,11 @@ public class HomeAdapter extends BaseStickyAdapter<List<GankDayResults>> {
             viewHolder.getView(R.id.view_bg).setVisibility(View.GONE);
             viewHolder.getView(R.id.rl_item).setElevation(0);
             viewHolder.setText(R.id.tv_welfare_desc, CommonUtil.toDate(gankList.get(0).getPublishedAt()));
-            ImageLoadUtil.loadImage(mContext, gankList.get(0).getUrl(), 0, imgWelfare);
+            if (isNoPic) {
+                ImageLoadUtil.loadImage(mContext, R.drawable.welfare, 0, imgWelfare);
+            } else {
+                ImageLoadUtil.loadImage(mContext, gankList.get(0).getUrl(), 0, imgWelfare);
+            }
         } else {
             imgWelfare.setVisibility(View.GONE);
             viewHolder.getView(R.id.tv_welfare_desc).setVisibility(View.GONE);

@@ -13,6 +13,9 @@ import com.science.baserecyclerviewadapter.interfaces.OnLoadMoreListener;
 import com.science.codegank.R;
 import com.science.codegank.base.BaseFragment;
 import com.science.codegank.data.bean.Gank;
+import com.science.codegank.util.MyLogger;
+import com.science.codegank.util.customtabsutil.CustomTabActivityHelper;
+import com.science.codegank.util.customtabsutil.WebViewFallback;
 
 import java.util.List;
 
@@ -26,13 +29,14 @@ import rx.Subscription;
  * @data 2016/11/10
  */
 
-public class CategoryFragment extends BaseFragment implements CategoryContract.View<Gank> {
+public class CategoryFragment extends BaseFragment implements CategoryContract.View<Gank>, CustomTabActivityHelper.ConnectionCallback {
 
     public static final String TAB_CATEGORY = "tab_category";
     @BindView(R.id.recyclerView)
     RecyclerView mRecyclerView;
     private CategoryAdapter mCategoryAdapter;
     private CategoryContract.Presenter mCategoryPresenter;
+    private CustomTabActivityHelper customTabActivityHelper;
 
     public static CategoryFragment newInstance(String tabCategory) {
         CategoryFragment fragment = new CategoryFragment();
@@ -49,6 +53,8 @@ public class CategoryFragment extends BaseFragment implements CategoryContract.V
 
     @Override
     protected void doCreateView(View view) {
+        customTabActivityHelper = new CustomTabActivityHelper();
+        customTabActivityHelper.setConnectionCallback(this);
         final Bundle args = getArguments();
         LinearLayoutManager linearLayoutManager = new LinearLayoutManager(getActivity());
         mRecyclerView.setHasFixedSize(true);
@@ -58,7 +64,8 @@ public class CategoryFragment extends BaseFragment implements CategoryContract.V
         mCategoryAdapter.setOnItemClickListener(new OnItemClickListener<Gank>() {
             @Override
             public void onItemClick(ViewHolder viewHolder, Gank gank, int i) {
-                Toast.makeText(getActivity(), gank.getDesc(), Toast.LENGTH_SHORT).show();
+                customTabActivityHelper.openCustomTab(getActivity(), gank,
+                        customTabActivityHelper.getSession(), new WebViewFallback());
             }
 
             @Override
@@ -78,12 +85,6 @@ public class CategoryFragment extends BaseFragment implements CategoryContract.V
         mCategoryPresenter.getCategoryData(args.getString(TAB_CATEGORY), 1);
 
         initRefreshLayout(view);
-    }
-
-    @Override
-    public void onDestroy() {
-        super.onDestroy();
-        Bundle args = getArguments();
     }
 
     @Override
@@ -122,5 +123,33 @@ public class CategoryFragment extends BaseFragment implements CategoryContract.V
     @Override
     public void refreshFinish() {
         setRefreshing(false);
+    }
+
+    @Override
+    public void onCustomTabsConnected() {
+        MyLogger.e("onCustomTabsConnected()");
+    }
+
+    @Override
+    public void onCustomTabsDisconnected() {
+        MyLogger.e("onCustomTabsDisconnected()");
+    }
+
+    @Override
+    public void onStart() {
+        super.onStart();
+        customTabActivityHelper.bindCustomTabsService(getActivity());
+    }
+
+    @Override
+    public void onStop() {
+        super.onStop();
+        customTabActivityHelper.unbindCustomTabsService(getActivity());
+    }
+
+    @Override
+    public void onDestroy() {
+        super.onDestroy();
+        customTabActivityHelper.setConnectionCallback(null);
     }
 }

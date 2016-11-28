@@ -43,6 +43,7 @@ public class MainActivity extends BaseActivity
 
     private static final int SEARCH = 1;
     private static final int CATEGORY = 2;
+    private static final int NOPIC = 3;
     public static final String SEARCH_QUERY = "query";
     @BindView(R.id.searchView)
     MaterialSearchView mSearchView;
@@ -137,6 +138,8 @@ public class MainActivity extends BaseActivity
             mSearchView.onTextChanged(strQuery);
         } else if (requestCode == CATEGORY) {
             mNavigationView.getMenu().getItem(0).setChecked(true);
+        } else if (requestCode == NOPIC) {
+            mHomeFragment.setNoPic();
         }
     }
 
@@ -166,7 +169,7 @@ public class MainActivity extends BaseActivity
             startActivityForResult(intent, CATEGORY);
         } else if (id == R.id.nav_settings) {
             Intent intent = new Intent(this, SettingActivity.class);
-            startActivity(intent);
+            startActivityForResult(intent, NOPIC);
         } else if (id == R.id.nav_about) {
             Intent intent = new Intent(this, SettingActivity.class);
             startActivity(intent);

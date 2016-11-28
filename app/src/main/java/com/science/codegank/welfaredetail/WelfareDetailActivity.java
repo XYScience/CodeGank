@@ -20,8 +20,10 @@ import android.widget.Toast;
 
 import com.science.codegank.R;
 import com.science.codegank.base.BaseActivity;
+import com.science.codegank.util.CommonDefine;
 import com.science.codegank.util.CommonUtil;
 import com.science.codegank.util.ImageLoadUtil;
+import com.science.codegank.util.SharedPreferenceUtil;
 
 import java.io.File;
 
@@ -70,7 +72,11 @@ public class WelfareDetailActivity extends BaseActivity implements WelfareDetail
         final Toolbar toolbar = setToolbar("");
 
         mToolbarTitle.setText(getIntent().getStringExtra(EXTRA_BUNDLE_TITLE));
-        ImageLoadUtil.loadImage(this, getIntent().getStringExtra(EXTRA_BUNDLE_URL), 0, mIvWelfare);
+        if ((Boolean) SharedPreferenceUtil.get(this, CommonDefine.SP_KEY_SMART_NO_PIC, false)) {
+            ImageLoadUtil.loadImage(this, R.drawable.welfare, 0, mIvWelfare);
+        } else {
+            ImageLoadUtil.loadImage(this, getIntent().getStringExtra(EXTRA_BUNDLE_URL), 0, mIvWelfare);
+        }
         mIvWelfare.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {

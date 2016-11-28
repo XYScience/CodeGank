@@ -12,6 +12,9 @@ import com.science.baserecyclerviewadapter.interfaces.OnItemClickListener;
 import com.science.codegank.R;
 import com.science.codegank.base.BaseFragment;
 import com.science.codegank.data.bean.Gank;
+import com.science.codegank.util.MyLogger;
+import com.science.codegank.util.customtabsutil.CustomTabActivityHelper;
+import com.science.codegank.util.customtabsutil.WebViewFallback;
 
 import java.util.List;
 
@@ -25,7 +28,7 @@ import rx.Subscription;
  * @data 2016/11/12
  */
 
-public class RandomFragment extends BaseFragment implements RandomContract.View<Gank> {
+public class RandomFragment extends BaseFragment implements RandomContract.View<Gank>, CustomTabActivityHelper.ConnectionCallback  {
 
     @BindView(R.id.recyclerView)
     RecyclerView mRecyclerView;
@@ -33,6 +36,7 @@ public class RandomFragment extends BaseFragment implements RandomContract.View<
     private RandomContract.Presenter mRandomPresenter;
     private Toolbar mToolbar;
     private String mCategory;
+    private CustomTabActivityHelper customTabActivityHelper;
 
     @Override
     protected int getContentLayout() {
@@ -41,6 +45,8 @@ public class RandomFragment extends BaseFragment implements RandomContract.View<
 
     @Override
     protected void doCreateView(View view) {
+        customTabActivityHelper = new CustomTabActivityHelper();
+        customTabActivityHelper.setConnectionCallback(this);
         mCategory = getString(R.string.all);
         LinearLayoutManager linearLayoutManager = new LinearLayoutManager(getActivity());
         mRecyclerView.setHasFixedSize(true);
@@ -50,7 +56,8 @@ public class RandomFragment extends BaseFragment implements RandomContract.View<
         mRandomAdapter.setOnItemClickListener(new OnItemClickListener<Gank>() {
             @Override
             public void onItemClick(ViewHolder viewHolder, Gank gank, int i) {
-                Toast.makeText(getActivity(), gank.getDesc(), Toast.LENGTH_SHORT).show();
+                customTabActivityHelper.openCustomTab(getActivity(), gank,
+                        customTabActivityHelper.getSession(), new WebViewFallback());
             }
 
             @Override
@@ -115,5 +122,33 @@ public class RandomFragment extends BaseFragment implements RandomContract.View<
     @Override
     public void refreshFinish() {
         setRefreshing(false);
+    }
+
+    @Override
+    public void onCustomTabsConnected() {
+        MyLogger.e("onCustomTabsConnected()");
+    }
+
+    @Override
+    public void onCustomTabsDisconnected() {
+        MyLogger.e("onCustomTabsDisconnected()");
+    }
+
+    @Override
+    public void onStart() {
+        super.onStart();
+        customTabActivityHelper.bindCustomTabsService(getActivity());
+    }
+
+    @Override
+    public void onStop() {
+        super.onStop();
+        customTabActivityHelper.unbindCustomTabsService(getActivity());
+    }
+
+    @Override
+    public void onDestroy() {
+        super.onDestroy();
+        customTabActivityHelper.setConnectionCallback(null);
     }
 }

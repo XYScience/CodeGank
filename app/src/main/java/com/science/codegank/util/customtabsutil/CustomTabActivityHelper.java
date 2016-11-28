@@ -15,6 +15,7 @@ import android.support.customtabs.CustomTabsSession;
 
 import com.science.codegank.R;
 import com.science.codegank.data.bean.Gank;
+import com.science.codegank.data.bean.SearchResult;
 import com.science.codegank.util.CommonDefine;
 import com.science.codegank.util.SharedPreferenceUtil;
 
@@ -42,7 +43,16 @@ public class CustomTabActivityHelper implements ServiceConnectionCallback {
      */
     public static void openCustomTab(Activity activity,
                                      Gank gank, CustomTabsSession session, CustomTabFallback fallback) {
+        openCustomTab(activity, gank.getUrl(), gank.getDesc(), session, fallback);
+    }
 
+    public static void openCustomTab(Activity activity,
+                                     SearchResult searchResult, CustomTabsSession session, CustomTabFallback fallback) {
+        openCustomTab(activity, searchResult.getUrl(), searchResult.getDesc(), session, fallback);
+    }
+
+    public static void openCustomTab(Activity activity,
+                                     String url, String title, CustomTabsSession session, CustomTabFallback fallback) {
         CustomTabsIntent.Builder builder = new CustomTabsIntent.Builder(session);
         builder.setToolbarColor(activity.getResources().getColor(R.color.colorPrimary));
         builder.setSecondaryToolbarColor(activity.getResources().getColor(R.color.colorAccent));
@@ -51,7 +61,7 @@ public class CustomTabActivityHelper implements ServiceConnectionCallback {
         String shareLabel = activity.getString(R.string.share_to);
         Bitmap icon = BitmapFactory.decodeResource(activity.getResources(), R.drawable.ic_share_white);
         Intent actionIntent = new Intent(Intent.ACTION_SEND);
-        actionIntent.putExtra(Intent.EXTRA_TEXT, gank.getUrl());
+        actionIntent.putExtra(Intent.EXTRA_TEXT, url);
         actionIntent.setType("text/plain");
         PendingIntent pendingIntent = PendingIntent.getActivity(activity, 0, actionIntent, 0);
         builder.setActionButton(icon, shareLabel, pendingIntent, true);
@@ -64,21 +74,21 @@ public class CustomTabActivityHelper implements ServiceConnectionCallback {
         //Chrome Custom Tabs installed. So, we fallback to the webview
         if (packageName == null) {
             if (fallback != null) {
-                fallback.openUri(activity, Uri.parse(gank.getUrl()), gank.getDesc());
+                fallback.openUri(activity, Uri.parse(url), title);
             }
         } else {
             if ((Boolean) SharedPreferenceUtil.get(activity, CommonDefine.SP_KEY_CHROME_CUSTOM_TAB, false)) {
                 try {
                     customTabsIntent.intent.setPackage(packageName);
-                    customTabsIntent.launchUrl(activity, Uri.parse(gank.getUrl()));
+                    customTabsIntent.launchUrl(activity, Uri.parse(url));
                 } catch (ActivityNotFoundException e) {
                     if (fallback != null) {
-                        fallback.openUri(activity, Uri.parse(gank.getUrl()), gank.getDesc());
+                        fallback.openUri(activity, Uri.parse(url), title);
                     }
                 }
             } else {
                 if (fallback != null) {
-                    fallback.openUri(activity, Uri.parse(gank.getUrl()), gank.getDesc());
+                    fallback.openUri(activity, Uri.parse(url), title);
                 }
             }
         }
