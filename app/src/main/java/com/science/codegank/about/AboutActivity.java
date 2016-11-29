@@ -4,6 +4,7 @@ import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.design.widget.AppBarLayout;
 import android.support.v4.view.ViewCompat;
+import android.view.MenuItem;
 import android.widget.TextView;
 
 import com.science.codegank.R;
@@ -47,5 +48,13 @@ public class AboutActivity extends BaseActivity {
         });
 
         mTvVersion.setText(getString(R.string.version, CommonUtil.getAppVersion(this)));
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        if (item.getItemId() == android.R.id.home) {
+            finish();
+        }
+        return super.onOptionsItemSelected(item);
     }
 }

@@ -68,4 +68,20 @@
     <string name="open_in_browser">在浏览器钟打开</string>
     <string name="copy_success">复制成功</string>
 
+    <!-- 关于 -->
+    <string name="codegank_detail">CodeGank，每日分享妹子图和技术干货，还有供大家中午休息的休闲视频</string>
+    <string name="project_address">开源地址</string>
+    <string name="xyscience_codegank_address">XYScience/CodeGank</string>
+    <string name="xyscience_codegank_issues_address">XYScience/CodeGank/issues</string>
+    <string name="gank_source">App数据</string>
+    <string name="gank_io">干货集中营</string>
+    <string name="issues">报告错误</string>
+    <string name="libraries_used">开源项目</string>
+    <string name="reactivex_rxjava_address">ReactiveX/RxJava</string> <!-- https://github.com/ReactiveX/RxJava -->
+    <string name="reactivex_rxandroid_address">ReactiveX/RxAndroid</string> <!-- https://github.com/ReactiveX/RxAndroid -->
+    <string name="square_retrofit_address">square/retrofit</string> <!-- https://github.com/square/retrofit -->
+    <string name="glide_address">bumptech/glide</string> <!-- https://github.com/bumptech/glide -->
+    <string name="picasso_address">square/picasso</string> <!-- https://github.com/square/picasso -->
+    <string name="butterknife_address">JakeWharton/butterknife</string> <!-- https://github.com/JakeWharton/butterknife -->
+
 </resources>
