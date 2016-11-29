@@ -4,6 +4,8 @@ import android.app.Activity;
 import android.content.ClipData;
 import android.content.ClipboardManager;
 import android.content.Context;
+import android.content.pm.PackageInfo;
+import android.content.pm.PackageManager;
 import android.support.annotation.AnimRes;
 import android.support.v4.content.ContextCompat;
 import android.util.DisplayMetrics;
@@ -142,5 +144,19 @@ public class CommonUtil {
         ClipData clipData = ClipData.newPlainText("codegank_copy", copyText);
         ClipboardManager manager = (ClipboardManager) context.getSystemService(Context.CLIPBOARD_SERVICE);
         manager.setPrimaryClip(clipData);
+    }
+
+    // 获取app版本号
+    public static String getAppVersion(Context context) {
+        String version = null;
+        try {
+            PackageManager packageManager = context.getPackageManager();
+            PackageInfo packageInfo = packageManager.getPackageInfo(context.getPackageName(), 0);
+            version = packageInfo.versionName;
+            return version;
+        } catch (PackageManager.NameNotFoundException e) {
+            e.printStackTrace();
+        }
+        return version;
     }
 }

@@ -20,6 +20,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.science.codegank.about.AboutActivity;
 import com.science.codegank.base.BaseActivity;
 import com.science.codegank.category.CategoryActivity;
 import com.science.codegank.category.restvideo.RestVideoActivity;
@@ -171,7 +172,7 @@ public class MainActivity extends BaseActivity
             Intent intent = new Intent(this, SettingActivity.class);
             startActivityForResult(intent, NOPIC);
         } else if (id == R.id.nav_about) {
-            Intent intent = new Intent(this, SettingActivity.class);
+            Intent intent = new Intent(this, AboutActivity.class);
             startActivity(intent);
         }
         return true;

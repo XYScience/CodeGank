@@ -69,6 +69,11 @@
             android:launchMode="singleTop"
             android:screenOrientation="portrait" />
 
+        <activity
+            android:name=".about.AboutActivity"
+            android:launchMode="singleTop"
+            android:screenOrientation="portrait" />
+
         <provider
             android:name="android.support.v4.content.FileProvider"
             android:authorities="com.science.codegank.fileprovider"

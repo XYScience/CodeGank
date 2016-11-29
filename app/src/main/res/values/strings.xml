@@ -2,6 +2,12 @@
     <string name="app_name">CodeGank</string>
 
     <string name="quit_again">再按一次退出</string>
+    <string name="transition_name_welfare">welfare</string>
+    <string name="transition_name_title">title</string>
+    <string name="tip">提示</string>
+    <string name="deny">拒绝</string>
+    <string name="allow">允许</string>
+    <string name="version">V %s</string>
 
     <!-- 侧边栏菜单 -->
     <string name="home">主页</string>
@@ -23,12 +29,6 @@
     <string name="other">其它</string>
     <string name="navigation_drawer_open">Open navigation drawer</string>
     <string name="navigation_drawer_close">Close navigation drawer</string>
-
-    <string name="transition_name_welfare">welfare</string>
-    <string name="transition_name_title">title</string>
-    <string name="tip">提示</string>
-    <string name="deny">拒绝</string>
-    <string name="allow">允许</string>
 
     <!-- 搜索 -->
     <string name="search">搜索</string>
