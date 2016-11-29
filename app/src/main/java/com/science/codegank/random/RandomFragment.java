@@ -70,6 +70,7 @@ public class RandomFragment extends BaseFragment implements RandomContract.View<
         mRandomPresenter.getRandomData(mCategory, 10);
 
         initRefreshLayout(view);
+        setSwipeRefreshEnable(false);
     }
 
     /**
@@ -96,6 +97,7 @@ public class RandomFragment extends BaseFragment implements RandomContract.View<
 
     @Override
     public void getRandomData(List<Gank> data) {
+        setSwipeRefreshEnable(true);
         if (mToolbar != null) {
             mToolbar.setTitle(getString(R.string.random_, mCategory));
         }

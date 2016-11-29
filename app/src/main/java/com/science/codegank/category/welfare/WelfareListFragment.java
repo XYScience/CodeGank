@@ -62,6 +62,7 @@ public class WelfareListFragment extends BaseFragment implements WelfareListCont
         mWelfareAdapter.setOnLoadMoreListener(new OnLoadMoreListener() {
             @Override
             public void onLoadMore(int i) {
+                setSwipeRefreshEnable(false);
                 mWelfarePresenter.getWelfareData(getString(R.string.welfare), i);
             }
         });
@@ -69,6 +70,7 @@ public class WelfareListFragment extends BaseFragment implements WelfareListCont
         mWelfarePresenter.getWelfareData(getString(R.string.welfare), 1);
 
         initRefreshLayout(view);
+        setSwipeRefreshEnable(false);
     }
 
     @Override
@@ -85,6 +87,7 @@ public class WelfareListFragment extends BaseFragment implements WelfareListCont
 
     @Override
     public void getWelfareData(boolean isFirst, List<Gank> data) {
+        setSwipeRefreshEnable(true);
         if (isFirst) {
             mWelfareAdapter.setData(false, data);
         } else {

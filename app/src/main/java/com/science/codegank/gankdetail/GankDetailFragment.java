@@ -2,10 +2,12 @@ package com.science.codegank.gankdetail;
 
 import android.view.View;
 import android.webkit.WebView;
+import android.widget.FrameLayout;
 
 import com.science.codegank.R;
 import com.science.codegank.base.BaseFragment;
 import com.science.codegank.homeday.HomeFragment;
+import com.science.codegank.view.MySwipeRefreshLayout;
 
 import butterknife.BindView;
 import rx.Subscription;
@@ -21,6 +23,8 @@ public class GankDetailFragment extends BaseFragment implements GankDetailContra
 
     @BindView(R.id.content_webView)
     public WebView mWebView;
+    @BindView(R.id.videoContainer)
+    public FrameLayout mVideoWebView;
     private GankDetailContract.Presenter mGankDetailPresenter;
 
     @Override
@@ -30,8 +34,9 @@ public class GankDetailFragment extends BaseFragment implements GankDetailContra
 
     @Override
     protected void doCreateView(View view) {
-        initRefreshLayout(view);
-        mGankDetailPresenter.setUpWebView(mWebView);
+        MySwipeRefreshLayout swipeRefreshLayout = (MySwipeRefreshLayout) initRefreshLayout(view);
+        swipeRefreshLayout.setScrollUpChild(mWebView);
+        mGankDetailPresenter.setUpWebView(mWebView, mVideoWebView);
         mGankDetailPresenter.loadUrl(mWebView, getActivity().getIntent().getStringExtra(HomeFragment.EXTRA_BUNDLE_URL));
     }
 
@@ -74,5 +79,14 @@ public class GankDetailFragment extends BaseFragment implements GankDetailContra
     @Override
     public void addSubscription(Subscription subscription) {
 
+    }
+
+
+    public boolean inCustomView() {
+        return mGankDetailPresenter.inCustomView();
+    }
+
+    public void hideCustomView() {
+        mGankDetailPresenter.hideCustomView();
     }
 }

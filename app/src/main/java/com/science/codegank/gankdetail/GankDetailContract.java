@@ -1,6 +1,7 @@
 package com.science.codegank.gankdetail;
 
 import android.webkit.WebView;
+import android.widget.FrameLayout;
 
 import com.science.codegank.base.BasePresenter;
 import com.science.codegank.base.BaseView;
@@ -22,12 +23,16 @@ public interface GankDetailContract {
     }
 
     interface Presenter extends BasePresenter {
-        void setUpWebView(WebView webView);
+        void setUpWebView(WebView webView, FrameLayout mVideoWebView);
 
         void loadUrl(WebView webView, String url);
 
         void shareGank(String url);
 
         void openInBrowser(String url);
+
+        boolean inCustomView();
+
+        void hideCustomView();
     }
 }

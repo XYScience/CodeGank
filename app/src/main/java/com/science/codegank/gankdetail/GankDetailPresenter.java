@@ -2,16 +2,21 @@ package com.science.codegank.gankdetail;
 
 import android.content.Context;
 import android.content.Intent;
+import android.content.pm.ActivityInfo;
 import android.graphics.Bitmap;
 import android.net.Uri;
 import android.text.TextUtils;
+import android.view.View;
+import android.webkit.WebChromeClient;
 import android.webkit.WebResourceRequest;
 import android.webkit.WebSettings;
 import android.webkit.WebView;
 import android.webkit.WebViewClient;
+import android.widget.FrameLayout;
 
 import com.science.codegank.R;
 import com.science.codegank.util.CommonDefine;
+import com.science.codegank.util.CommonUtil;
 import com.science.codegank.util.SharedPreferenceUtil;
 
 /**
@@ -25,6 +30,9 @@ public class GankDetailPresenter implements GankDetailContract.Presenter {
 
     private GankDetailContract.View mGankDetailView;
     private Context mContext;
+    private MyWebChromeClient mMyWebChromeClient;
+    private View xCustomView;
+    private WebChromeClient.CustomViewCallback xCustomViewCallback;
 
     public GankDetailPresenter(Context context, GankDetailContract.View gankDetailView) {
         mGankDetailView = gankDetailView;
@@ -38,7 +46,7 @@ public class GankDetailPresenter implements GankDetailContract.Presenter {
     }
 
     @Override
-    public void setUpWebView(WebView webView) {
+    public void setUpWebView(WebView webView, FrameLayout videoWebView) {
         WebSettings settings = webView.getSettings();
         settings.setJavaScriptEnabled(true);
         settings.setLoadWithOverviewMode(true);
@@ -51,6 +59,9 @@ public class GankDetailPresenter implements GankDetailContract.Presenter {
             settings.setBlockNetworkImage(false);
         }
         webView.setWebViewClient(new MyWebClient());
+
+        mMyWebChromeClient = new MyWebChromeClient(webView, videoWebView);
+        webView.setWebChromeClient(mMyWebChromeClient);
     }
 
     @Override
@@ -106,5 +117,74 @@ public class GankDetailPresenter implements GankDetailContract.Presenter {
             super.onReceivedError(view, errorCode, description, failingUrl);
             mGankDetailView.getDataError(description);
         }
+    }
+
+    private class MyWebChromeClient extends WebChromeClient {
+        FrameLayout mVideoWebView;
+        WebView mWebView;
+
+        public MyWebChromeClient(WebView webView, FrameLayout videoWebView) {
+            mVideoWebView = videoWebView;
+            mWebView = webView;
+        }
+
+        @Override
+        public void onShowCustomView(View view, CustomViewCallback callback) {
+            ((GankDetailActivity) mContext).setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_LANDSCAPE);
+            mWebView.setVisibility(View.GONE);
+            //如果一个视图已经存在，那么立刻终止并新建一个
+            if (xCustomView != null) {
+                callback.onCustomViewHidden();
+                return;
+            }
+            mVideoWebView.addView(view);
+            xCustomView = view;
+            xCustomViewCallback = callback;
+            mVideoWebView.setVisibility(View.VISIBLE);
+
+            ((GankDetailActivity) mContext).mToolbar.setVisibility(View.GONE);
+            CommonUtil.setSystemUiVisible(((GankDetailActivity) mContext));
+        }
+
+        @Override
+        public void onHideCustomView() {
+            if (xCustomView == null)//不是全屏播放状态
+                return;
+            // Hide the custom view.
+            ((GankDetailActivity) mContext).setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
+            xCustomView.setVisibility(View.GONE);
+            // Remove the custom view from its container.
+            mVideoWebView.removeView(xCustomView);
+            xCustomView = null;
+            mVideoWebView.setVisibility(View.GONE);
+            xCustomViewCallback.onCustomViewHidden();
+            mWebView.setVisibility(View.VISIBLE);
+
+            ((GankDetailActivity) mContext).mToolbar.setVisibility(View.VISIBLE);
+            CommonUtil.setSystemUiInVisible(((GankDetailActivity) mContext));
+        }
+
+        @Override
+        public void onReceivedTitle(WebView view, String title) {
+            super.onReceivedTitle(view, title);
+        }
+    }
+
+    /**
+     * 判断是否是全屏
+     *
+     * @return
+     */
+    @Override
+    public boolean inCustomView() {
+        return (xCustomView != null);
+    }
+
+    /**
+     * 全屏时按返加键执行退出全屏方法
+     */
+    @Override
+    public void hideCustomView() {
+        mMyWebChromeClient.onHideCustomView();
     }
 }

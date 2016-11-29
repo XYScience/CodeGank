@@ -3,6 +3,7 @@ package com.science.codegank.gankdetail;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.design.widget.CoordinatorLayout;
+import android.support.v7.widget.Toolbar;
 import android.view.KeyEvent;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -26,6 +27,7 @@ public class GankDetailActivity extends BaseActivity {
     @BindView(R.id.coordinatorLayout)
     CoordinatorLayout mCoordinatorLayout;
     private GankDetailFragment mGankDetailFragment;
+    public Toolbar mToolbar;
 
     @Override
     protected int getContentLayout() {
@@ -35,7 +37,7 @@ public class GankDetailActivity extends BaseActivity {
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setToolbar(getIntent().getStringExtra(HomeFragment.EXTRA_BUNDLE_DESC));
+        mToolbar = setToolbar(getIntent().getStringExtra(HomeFragment.EXTRA_BUNDLE_DESC));
         mGankDetailFragment = new GankDetailFragment();
         getSupportFragmentManager().beginTransaction().add(R.id.content_gank_detail, mGankDetailFragment).commit();
         new GankDetailPresenter(this, mGankDetailFragment);
@@ -54,7 +56,30 @@ public class GankDetailActivity extends BaseActivity {
     protected void onDestroy() {
         super.onDestroy();
         if (mGankDetailFragment.mWebView != null) {
+            mGankDetailFragment.mWebView.loadUrl("about:blank");
+            mGankDetailFragment.mWebView.stopLoading();
+            mGankDetailFragment.mWebView.setWebChromeClient(null);
+            mGankDetailFragment.mWebView.setWebViewClient(null);
             mGankDetailFragment.mWebView.destroy();
+            mGankDetailFragment.mWebView = null;
+        }
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        if (mGankDetailFragment.mWebView != null) {
+            mGankDetailFragment.mWebView.onResume();
+            mGankDetailFragment.mWebView.resumeTimers();
+        }
+    }
+
+    @Override
+    protected void onPause() {
+        super.onPause();
+        if (mGankDetailFragment.mWebView != null) {
+            mGankDetailFragment.mWebView.onPause();
+            mGankDetailFragment.mWebView.pauseTimers();
         }
     }
 
@@ -76,5 +101,14 @@ public class GankDetailActivity extends BaseActivity {
             mGankDetailFragment.shareGank();
         }
         return super.onOptionsItemSelected(item);
+    }
+
+    @Override
+    public void onBackPressed() {
+        if (mGankDetailFragment.inCustomView()) {
+            mGankDetailFragment.hideCustomView();
+        } else {
+            super.onBackPressed();
+        }
     }
 }

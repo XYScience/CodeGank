@@ -62,12 +62,14 @@ public class SearchResultFragment extends BaseFragment implements SearchResultCo
         mSearchResultAdapter.setOnLoadMoreListener(new OnLoadMoreListener() {
             @Override
             public void onLoadMore(int i) {
+                setSwipeRefreshEnable(false);
                 searchGank(query, i);
             }
         });
         mRecyclerView.setAdapter(mSearchResultAdapter);
 
         initRefreshLayout(view);
+        setSwipeRefreshEnable(false);
     }
 
     public void searchGank(String query, int page) {
@@ -84,6 +86,7 @@ public class SearchResultFragment extends BaseFragment implements SearchResultCo
 
     @Override
     public void getSearchResultData(boolean isFirst, List<SearchResult> data) {
+        setSwipeRefreshEnable(true);
         if (isFirst) {
             mSearchResultAdapter.setData(false, data);
         } else {

@@ -91,6 +91,7 @@ public class HomeFragment extends BaseFragment implements HomeContract.View<Gank
         mHomeAdapter.setOnLoadMoreListener(new OnLoadMoreListener() {
             @Override
             public void onLoadMore(int i) {
+                setSwipeRefreshEnable(false);
                 mHomePresenter.getGankDayDataMore();
             }
         });
@@ -108,6 +109,7 @@ public class HomeFragment extends BaseFragment implements HomeContract.View<Gank
         });
 
         initRefreshLayout(view);
+        setSwipeRefreshEnable(false);
     }
 
     @Override
@@ -119,6 +121,7 @@ public class HomeFragment extends BaseFragment implements HomeContract.View<Gank
 
     @Override
     public void getGankDayData(boolean isFirst, List<GankDayResults> data) {
+        setSwipeRefreshEnable(true);
         if (isFirst) {
             final Gank gank = data.get(0).getGankList().get(0);
             customTabActivityHelper.mayLaunchUrl(Uri.parse(gank.getUrl()), null, null);

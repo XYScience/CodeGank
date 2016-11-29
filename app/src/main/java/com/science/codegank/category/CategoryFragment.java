@@ -76,6 +76,7 @@ public class CategoryFragment extends BaseFragment implements CategoryContract.V
         mCategoryAdapter.setOnLoadMoreListener(new OnLoadMoreListener() {
             @Override
             public void onLoadMore(int i) {
+                setSwipeRefreshEnable(false);
                 mCategoryPresenter.getCategoryData(args.getString(TAB_CATEGORY), i);
             }
         });
@@ -85,6 +86,7 @@ public class CategoryFragment extends BaseFragment implements CategoryContract.V
         mCategoryPresenter.getCategoryData(args.getString(TAB_CATEGORY), 1);
 
         initRefreshLayout(view);
+        setSwipeRefreshEnable(false);
     }
 
     @Override
@@ -101,6 +103,7 @@ public class CategoryFragment extends BaseFragment implements CategoryContract.V
 
     @Override
     public void getCategoryData(boolean isFirst, List<Gank> data) {
+        setSwipeRefreshEnable(true);
         if (isFirst) {
             mCategoryAdapter.setData(false, data);
         } else {
