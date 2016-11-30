@@ -44,7 +44,7 @@ public class WelfareListFragment extends BaseFragment implements WelfareListCont
         mRecyclerView.setHasFixedSize(true);
         mRecyclerView.setLayoutManager(layoutManager);
         mRecyclerView.setPadding(CommonUtil.dipToPx(getActivity(), 4), 0, CommonUtil.dipToPx(getActivity(), 4), 0);
-        mWelfareAdapter = new WelfareListAdapter(getActivity());
+        mWelfareAdapter = new WelfareListAdapter(getActivity(), mRecyclerView);
         mWelfareAdapter.setOnItemClickListener(new OnItemClickListener<Gank>() {
             @Override
             public void onItemClick(ViewHolder viewHolder, Gank gank, int i) {

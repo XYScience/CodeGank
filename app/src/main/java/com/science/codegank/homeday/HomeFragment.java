@@ -67,7 +67,7 @@ public class HomeFragment extends BaseFragment implements HomeContract.View<Gank
         mRecyclerView.setHasFixedSize(true);
         mRecyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
         mRecyclerView.addItemDecoration(new StickyHeaderItemDecoration());
-        mHomeAdapter = new HomeAdapter(getActivity());
+        mHomeAdapter = new HomeAdapter(getActivity(), mRecyclerView);
         mHomeAdapter.setOnItemClickListener(new OnItemClickListener<GankDayResults>() {
 
             @Override

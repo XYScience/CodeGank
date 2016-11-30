@@ -1,6 +1,7 @@
 package com.science.codegank.category;
 
 import android.content.Context;
+import android.support.v7.widget.RecyclerView;
 
 import com.science.baserecyclerviewadapter.base.BaseCommonAdapter;
 import com.science.baserecyclerviewadapter.base.ViewHolder;
@@ -21,8 +22,8 @@ public class CategoryAdapter extends BaseCommonAdapter<List<Gank>> {
 
     private Context mContext;
 
-    public CategoryAdapter(Context context) {
-        super(context);
+    public CategoryAdapter(Context context, RecyclerView recyclerView) {
+        super(context, recyclerView);
         mContext = context;
     }
 

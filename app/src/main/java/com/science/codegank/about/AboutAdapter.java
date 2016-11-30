@@ -1,6 +1,7 @@
 package com.science.codegank.about;
 
 import android.content.Context;
+import android.support.v7.widget.RecyclerView;
 import android.view.View;
 
 import com.science.baserecyclerviewadapter.base.BaseSectionAdapter;
@@ -16,8 +17,8 @@ import com.science.codegank.R;
 
 public class AboutAdapter extends BaseSectionAdapter<AboutSection> {
 
-    public AboutAdapter(Context context) {
-        super(context);
+    public AboutAdapter(Context context, RecyclerView recyclerView) {
+        super(context, recyclerView);
     }
 
     @Override

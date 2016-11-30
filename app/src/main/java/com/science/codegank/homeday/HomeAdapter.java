@@ -1,6 +1,7 @@
 package com.science.codegank.homeday;
 
 import android.content.Context;
+import android.support.v7.widget.RecyclerView;
 import android.view.View;
 
 import com.science.baserecyclerviewadapter.base.BaseStickyAdapter;
@@ -30,8 +31,8 @@ public class HomeAdapter extends BaseStickyAdapter<List<GankDayResults>> {
     private Context mContext;
     private Boolean isNoPic;
 
-    public HomeAdapter(Context context) {
-        super(context);
+    public HomeAdapter(Context context, RecyclerView recyclerView) {
+        super(context, recyclerView);
         mContext = context;
         setNoPic();
     }

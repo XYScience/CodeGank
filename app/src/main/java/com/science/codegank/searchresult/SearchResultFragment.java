@@ -51,7 +51,7 @@ public class SearchResultFragment extends BaseFragment implements SearchResultCo
         mRecyclerView.setHasFixedSize(true);
         mRecyclerView.setLayoutManager(linearLayoutManager);
         mRecyclerView.addItemDecoration(new DividerItemDecoration(getActivity(), linearLayoutManager.getOrientation()));
-        mSearchResultAdapter = new SearchResultAdapter(getActivity());
+        mSearchResultAdapter = new SearchResultAdapter(getActivity(), mRecyclerView);
         mSearchResultAdapter.setOnItemClickListener(new OnItemClickListener<SearchResult>() {
             @Override
             public void onItemClick(ViewHolder viewHolder, SearchResult searchResult, int i) {

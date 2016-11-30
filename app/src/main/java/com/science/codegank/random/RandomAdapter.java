@@ -1,6 +1,7 @@
 package com.science.codegank.random;
 
 import android.content.Context;
+import android.support.v7.widget.RecyclerView;
 import android.view.View;
 
 import com.science.baserecyclerviewadapter.base.BaseCommonAdapter;
@@ -23,8 +24,8 @@ public class RandomAdapter extends BaseCommonAdapter<List<Gank>> {
     private Context mContext;
     private String mCategory;
 
-    public RandomAdapter(Context context) {
-        super(context);
+    public RandomAdapter(Context context, RecyclerView recyclerView) {
+        super(context, recyclerView);
         mContext = context;
     }
 

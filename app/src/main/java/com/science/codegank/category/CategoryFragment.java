@@ -60,7 +60,7 @@ public class CategoryFragment extends BaseFragment implements CategoryContract.V
         mRecyclerView.setHasFixedSize(true);
         mRecyclerView.setLayoutManager(linearLayoutManager);
         mRecyclerView.addItemDecoration(new DividerItemDecoration(getActivity(), linearLayoutManager.getOrientation()));
-        mCategoryAdapter = new CategoryAdapter(getActivity());
+        mCategoryAdapter = new CategoryAdapter(getActivity(), mRecyclerView);
         mCategoryAdapter.setOnItemClickListener(new OnItemClickListener<Gank>() {
             @Override
             public void onItemClick(ViewHolder viewHolder, Gank gank, int i) {

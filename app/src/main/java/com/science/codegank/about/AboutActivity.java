@@ -73,7 +73,7 @@ public class AboutActivity extends BaseActivity {
         mRecyclerView.setHasFixedSize(true);
         mRecyclerView.setLayoutManager(new LinearLayoutManager(this));
 
-        AboutAdapter aboutAdapter = new AboutAdapter(this);
+        AboutAdapter aboutAdapter = new AboutAdapter(this, mRecyclerView);
         aboutAdapter.setOnItemClickListener(new OnItemClickListener<AboutSection>() {
             @Override
             public void onItemClick(ViewHolder viewHolder, AboutSection data, int position) {

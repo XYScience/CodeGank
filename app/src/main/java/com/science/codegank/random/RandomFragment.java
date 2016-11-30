@@ -52,7 +52,7 @@ public class RandomFragment extends BaseFragment implements RandomContract.View<
         mRecyclerView.setHasFixedSize(true);
         mRecyclerView.setLayoutManager(linearLayoutManager);
         mRecyclerView.addItemDecoration(new DividerItemDecoration(getActivity(), linearLayoutManager.getOrientation()));
-        mRandomAdapter = new RandomAdapter(getActivity());
+        mRandomAdapter = new RandomAdapter(getActivity(), mRecyclerView);
         mRandomAdapter.setOnItemClickListener(new OnItemClickListener<Gank>() {
             @Override
             public void onItemClick(ViewHolder viewHolder, Gank gank, int i) {

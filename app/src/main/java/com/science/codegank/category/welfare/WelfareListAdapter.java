@@ -1,6 +1,7 @@
 package com.science.codegank.category.welfare;
 
 import android.content.Context;
+import android.support.v7.widget.RecyclerView;
 
 import com.science.baserecyclerviewadapter.base.BaseCommonAdapter;
 import com.science.baserecyclerviewadapter.base.ViewHolder;
@@ -26,8 +27,8 @@ public class WelfareListAdapter extends BaseCommonAdapter<List<Gank>> {
     private Context mContext;
     private Boolean isNoPic;
 
-    public WelfareListAdapter(Context context) {
-        super(context);
+    public WelfareListAdapter(Context context, RecyclerView recyclerView) {
+        super(context, recyclerView);
         mContext = context;
         isNoPic = (Boolean) SharedPreferenceUtil.get(mContext, CommonDefine.SP_KEY_SMART_NO_PIC, false);
     }

@@ -1,6 +1,7 @@
 package com.science.codegank.searchresult;
 
 import android.content.Context;
+import android.support.v7.widget.RecyclerView;
 
 import com.science.baserecyclerviewadapter.base.BaseCommonAdapter;
 import com.science.baserecyclerviewadapter.base.ViewHolder;
@@ -21,8 +22,8 @@ public class SearchResultAdapter extends BaseCommonAdapter<List<SearchResult>> {
 
     private Context mContext;
 
-    public SearchResultAdapter(Context context) {
-        super(context);
+    public SearchResultAdapter(Context context, RecyclerView recyclerView) {
+        super(context, recyclerView);
         mContext = context;
     }
 
