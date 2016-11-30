@@ -1,11 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
-<android.support.design.widget.CoordinatorLayout
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<android.support.design.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:id="@+id/coordinator"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/white"
     android:fitsSystemWindows="true">
 
     <android.support.design.widget.AppBarLayout
@@ -27,13 +25,14 @@
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
+                android:fitsSystemWindows="true"
                 android:gravity="center"
                 android:orientation="vertical">
 
                 <ImageView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:src="@drawable/app_logo_about"/>
+                    android:src="@drawable/app_logo_about" />
 
                 <TextView
                     android:layout_width="wrap_content"
@@ -41,7 +40,7 @@
                     android:layout_marginTop="16dp"
                     android:text="@string/app_name"
                     android:textAppearance="@style/TextAppearance.Widget.AppCompat.Toolbar.Title"
-                    android:textColor="@color/colorLightPrimary"/>
+                    android:textColor="@color/colorLightPrimary" />
 
                 <TextView
                     android:id="@+id/tv_version"
@@ -49,7 +48,7 @@
                     android:layout_height="wrap_content"
                     android:layout_marginTop="4dp"
                     android:textColor="@color/colorLightPrimary"
-                    android:textSize="14sp"/>
+                    android:textSize="14sp" />
 
             </LinearLayout>
 
@@ -66,7 +65,7 @@
                     android:layout_height="wrap_content"
                     android:alpha="0"
                     android:text="@string/about"
-                    android:textAppearance="@style/TextAppearance.Widget.AppCompat.Toolbar.Title"/>
+                    android:textAppearance="@style/TextAppearance.Widget.AppCompat.Toolbar.Title" />
 
             </android.support.v7.widget.Toolbar>
 
@@ -74,167 +73,11 @@
 
     </android.support.design.widget.AppBarLayout>
 
-    <android.support.v4.widget.NestedScrollView
-        android:id="@+id/content_main"
+    <android.support.v7.widget.RecyclerView
+        android:id="@+id/recyclerView"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        app:layout_behavior="@string/appbar_scrolling_view_behavior">
-
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="vertical"
-            android:paddingBottom="16dp">
-
-            <TextView
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_margin="16dp"
-                android:text="@string/codegank_detail"
-                android:textColor="@color/textPrimary"
-                android:textSize="16sp"/>
-
-            <TextView
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginLeft="16dp"
-                android:layout_marginRight="16dp"
-                android:layout_marginTop="16dp"
-                android:text="@string/project_address"
-                android:textColor="@color/colorAccent"
-                android:textSize="14sp"/>
-
-            <TextView
-                android:id="@+id/tv_xyscience_codegank_address"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:background="@drawable/shape_ripple"
-                android:padding="16dp"
-                android:text="@string/xyscience_codegank_address"
-                android:textColor="@color/textPrimary"
-                android:textSize="16sp"/>
-
-            <TextView
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginLeft="16dp"
-                android:layout_marginRight="16dp"
-                android:layout_marginTop="16dp"
-                android:text="@string/issues"
-                android:textColor="@color/colorAccent"
-                android:textSize="14sp"/>
-
-            <TextView
-                android:id="@+id/tv_smart_no_pic_model"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:background="@drawable/shape_ripple"
-                android:padding="16dp"
-                android:text="@string/xyscience_codegank_issues_address"
-                android:textColor="@color/textPrimary"
-                android:textSize="16sp"/>
-
-            <TextView
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginLeft="16dp"
-                android:layout_marginRight="16dp"
-                android:layout_marginTop="16dp"
-                android:text="@string/gank_source"
-                android:textColor="@color/colorAccent"
-                android:textSize="14sp"/>
-
-            <TextView
-                android:id="@+id/tv_gank_source"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:background="@drawable/shape_ripple"
-                android:padding="16dp"
-                android:text="@string/gank_io"
-                android:textColor="@color/textPrimary"
-                android:textSize="16sp"/>
-
-            <TextView
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginLeft="16dp"
-                android:layout_marginRight="16dp"
-                android:layout_marginTop="16dp"
-                android:text="@string/libraries_used"
-                android:textColor="@color/colorAccent"
-                android:textSize="14sp"/>
-
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:divider="@drawable/shape_layout_space"
-                android:orientation="vertical"
-                android:showDividers="middle">
-
-                <TextView
-                    android:id="@+id/tv_rxjava"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:background="@drawable/shape_ripple"
-                    android:padding="16dp"
-                    android:text="@string/reactivex_rxjava_address"
-                    android:textColor="@color/textPrimary"
-                    android:textSize="16sp"/>
-
-                <TextView
-                    android:id="@+id/tv_rxandroid"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:background="@drawable/shape_ripple"
-                    android:padding="16dp"
-                    android:text="@string/reactivex_rxandroid_address"
-                    android:textColor="@color/textPrimary"
-                    android:textSize="16sp"/>
-
-                <TextView
-                    android:id="@+id/tv_retrofit"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:background="@drawable/shape_ripple"
-                    android:padding="16dp"
-                    android:text="@string/square_retrofit_address"
-                    android:textColor="@color/textPrimary"
-                    android:textSize="16sp"/>
-
-                <TextView
-                    android:id="@+id/tv_glide"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:background="@drawable/shape_ripple"
-                    android:padding="16dp"
-                    android:text="@string/glide_address"
-                    android:textColor="@color/textPrimary"
-                    android:textSize="16sp"/>
-
-                <TextView
-                    android:id="@+id/tv_picasso"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:background="@drawable/shape_ripple"
-                    android:padding="16dp"
-                    android:text="@string/picasso_address"
-                    android:textColor="@color/textPrimary"
-                    android:textSize="16sp"/>
-
-                <TextView
-                    android:id="@+id/tv_butterknife"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:background="@drawable/shape_ripple"
-                    android:padding="16dp"
-                    android:text="@string/butterknife_address"
-                    android:textColor="@color/textPrimary"
-                    android:textSize="16sp"/>
-
-            </LinearLayout>
-
-        </LinearLayout>
-
-    </android.support.v4.widget.NestedScrollView>
+        android:background="@color/white"
+        app:layout_behavior="@string/appbar_scrolling_view_behavior" />
 
 </android.support.design.widget.CoordinatorLayout>

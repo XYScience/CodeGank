@@ -206,5 +206,6 @@ public class HomeFragment extends BaseFragment implements HomeContract.View<Gank
     public void onDestroy() {
         super.onDestroy();
         customTabActivityHelper.setConnectionCallback(null);
+        mHomeAdapter = null;
     }
 }

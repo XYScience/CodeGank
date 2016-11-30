@@ -245,10 +245,10 @@ public class MainActivity extends BaseActivity
                 Toast.makeText(this, getString(R.string.quit_again), Toast.LENGTH_SHORT).show();
                 exitTime = System.currentTimeMillis();
             } else {
-                super.onBackPressed();
                 if ((Boolean) SharedPreferenceUtil.get(this, CommonDefine.SP_KEY_QUIT_CLEAR_CACHE, false)) {
                     ImageLoadUtil.clearImageAllCache(this, null);
                 }
+                super.onBackPressed();
             }
         }
     }
