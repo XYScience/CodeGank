@@ -57,6 +57,11 @@ public class GankDetailFragment extends BaseFragment implements GankDetailContra
     }
 
     @Override
+    public void onLazyLoad() {
+
+    }
+
+    @Override
     public void setPresenter(GankDetailContract.Presenter presenter) {
         if (presenter != null) {
             mGankDetailPresenter = presenter;

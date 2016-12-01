@@ -83,7 +83,6 @@ public class CategoryFragment extends BaseFragment implements CategoryContract.V
         mRecyclerView.setAdapter(mCategoryAdapter);
 
         new CategoryPresenter(this);
-        mCategoryPresenter.getCategoryData(args.getString(TAB_CATEGORY), 1);
 
         initRefreshLayout(view);
         setSwipeRefreshEnable(false);
@@ -120,6 +119,11 @@ public class CategoryFragment extends BaseFragment implements CategoryContract.V
 
     @Override
     public void onRefresh() {
+        mCategoryPresenter.getCategoryData(getArguments().getString(TAB_CATEGORY), 1);
+    }
+
+    @Override
+    public void onLazyLoad() {
         mCategoryPresenter.getCategoryData(getArguments().getString(TAB_CATEGORY), 1);
     }
 

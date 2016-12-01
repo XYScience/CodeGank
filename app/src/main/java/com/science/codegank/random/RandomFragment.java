@@ -122,6 +122,11 @@ public class RandomFragment extends BaseFragment implements RandomContract.View<
     }
 
     @Override
+    public void onLazyLoad() {
+
+    }
+
+    @Override
     public void refreshFinish() {
         setRefreshing(false);
     }

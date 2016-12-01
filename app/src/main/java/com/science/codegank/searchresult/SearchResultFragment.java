@@ -100,6 +100,11 @@ public class SearchResultFragment extends BaseFragment implements SearchResultCo
     }
 
     @Override
+    public void onLazyLoad() {
+
+    }
+
+    @Override
     public void refreshFinish() {
         setRefreshing(false);
     }

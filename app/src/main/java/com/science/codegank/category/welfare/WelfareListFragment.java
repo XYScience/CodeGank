@@ -86,6 +86,11 @@ public class WelfareListFragment extends BaseFragment implements WelfareListCont
     }
 
     @Override
+    public void onLazyLoad() {
+
+    }
+
+    @Override
     public void getWelfareData(boolean isFirst, List<Gank> data) {
         setSwipeRefreshEnable(true);
         if (isFirst) {

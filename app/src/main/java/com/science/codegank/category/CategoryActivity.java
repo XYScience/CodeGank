@@ -39,6 +39,7 @@ public class CategoryActivity extends BaseActivity {
 
         MyPagerAdapter pagerAdapter = new MyPagerAdapter(getSupportFragmentManager(), this);
         mViewpager.setAdapter(pagerAdapter);
+        mViewpager.setOffscreenPageLimit(6);
         mTabLayout.setupWithViewPager(mViewpager);
     }
 

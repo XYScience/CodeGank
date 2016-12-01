@@ -139,7 +139,7 @@ public class WelfareDetailActivity extends BaseActivity implements WelfareDetail
 
             @Override
             public void noPermission() {
-                Toast.makeText(WelfareDetailActivity.this, getString(R.string.must_allow_permission_start_camera), Toast.LENGTH_SHORT).show();
+                Toast.makeText(WelfareDetailActivity.this, getString(R.string.you_have_refused_permission), Toast.LENGTH_SHORT).show();
             }
         }, permission);
     }

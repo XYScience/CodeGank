@@ -172,6 +172,11 @@ public class HomeFragment extends BaseFragment implements HomeContract.View<Gank
     }
 
     @Override
+    public void onLazyLoad() {
+
+    }
+
+    @Override
     public void refreshFinish() {
         setRefreshing(false);
     }

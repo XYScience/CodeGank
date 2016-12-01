@@ -154,6 +154,12 @@ public abstract class BaseActivity extends AppCompatActivity {
         }
     }
 
+    /**
+     * 首次安装请求返回false；如果用户之前拒绝过权限，则返回true；用户在权限对话框中选择了"不再显示”后，则返回false
+     * (MIUI阉割了这个方法/(ㄒoㄒ)/~~)
+     * @param permissions
+     * @return
+     */
     private boolean shouldShowRequestPermissionRationale(String[] permissions) {
         boolean flag = false;
         for (String p : permissions) {
