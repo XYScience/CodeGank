@@ -6,7 +6,7 @@
     android:background="@android:color/black"
     android:orientation="vertical">
 
-    <com.science.codegank.view.PinchImageView
+    <com.science.codegank.widget.PinchImageView
         android:id="@+id/iv_welfare"
         android:layout_width="match_parent"
         android:layout_height="match_parent"

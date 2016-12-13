@@ -5,8 +5,8 @@ import android.app.Activity;
 import android.content.Intent;
 import android.net.Uri;
 
-import com.science.codegank.gankdetail.GankDetailActivity;
-import com.science.codegank.homeday.HomeFragment;
+import com.science.codegank.module.gankdetail.GankDetailActivity;
+import com.science.codegank.module.homeday.HomeFragment;
 
 /**
  * @author SScience

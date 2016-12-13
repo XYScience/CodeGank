@@ -44,7 +44,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content">
 
-            <com.science.codegank.view.RatioImageView
+            <com.science.codegank.widget.RatioImageView
                 android:id="@+id/iv_day_welfare"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -77,7 +77,6 @@
         android:id="@+id/view_bg"
         android:layout_width="match_parent"
         android:layout_height="22dp"
-        android:layout_below="@+id/tv_who"
         android:background="@color/colorBackground"
         android:visibility="gone"/>
 

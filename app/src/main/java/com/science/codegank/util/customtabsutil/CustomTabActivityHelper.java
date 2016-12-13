@@ -53,43 +53,42 @@ public class CustomTabActivityHelper implements ServiceConnectionCallback {
 
     public static void openCustomTab(Activity activity,
                                      String url, String title, CustomTabsSession session, CustomTabFallback fallback) {
-        CustomTabsIntent.Builder builder = new CustomTabsIntent.Builder(session);
-        builder.setToolbarColor(activity.getResources().getColor(R.color.colorPrimary));
-        builder.setSecondaryToolbarColor(activity.getResources().getColor(R.color.colorAccent));
-        builder.setShowTitle(true);
-        // start 添加一个分享按钮
-        String shareLabel = activity.getString(R.string.share_to);
-        Bitmap icon = BitmapFactory.decodeResource(activity.getResources(), R.drawable.ic_share_white);
-        Intent actionIntent = new Intent(Intent.ACTION_SEND);
-        actionIntent.putExtra(Intent.EXTRA_TEXT, url);
-        actionIntent.setType("text/plain");
-        PendingIntent pendingIntent = PendingIntent.getActivity(activity, 0, actionIntent, 0);
-        builder.setActionButton(icon, shareLabel, pendingIntent, true);
-        // end
-        CustomTabsIntent customTabsIntent = builder.build();
+        if ((Boolean) SharedPreferenceUtil.get(activity, CommonDefine.SP_KEY_CHROME_CUSTOM_TAB, false)) {
+            CustomTabsIntent.Builder builder = new CustomTabsIntent.Builder(session);
+            builder.setToolbarColor(activity.getResources().getColor(R.color.colorPrimary));
+            builder.setSecondaryToolbarColor(activity.getResources().getColor(R.color.colorAccent));
+            builder.setShowTitle(true);
+            // start 添加一个分享按钮到toolbar
+            String share = activity.getString(R.string.share_to);
+            Bitmap icon = BitmapFactory.decodeResource(activity.getResources(), R.drawable.ic_collections_white);
+            Intent intent = new Intent(Intent.ACTION_SEND);
+            intent.putExtra(Intent.EXTRA_TEXT, url);
+            intent.setType("text/plain");
+            PendingIntent pi = PendingIntent.getActivity(activity, 0, intent, 0);
+            builder.setActionButton(icon, share, pi, true);
+            // end
+            // start 添加一个分享到options menu
+            String shareLabel = activity.getString(R.string.share_to);
+            Intent actionIntent = new Intent(Intent.ACTION_SEND);
+            actionIntent.putExtra(Intent.EXTRA_TEXT, url);
+            actionIntent.setType("text/plain");
+            PendingIntent pendingIntent = PendingIntent.getActivity(activity, 0, actionIntent, 0);
+            builder.addMenuItem(shareLabel, pendingIntent);
+            // end
+            CustomTabsIntent customTabsIntent = builder.build();
 
-        String packageName = CustomTabsHelper.getPackageNameToUse(activity);
-
-        //If we cant find a package name, it means theres no browser that supports
-        //Chrome Custom Tabs installed. So, we fallback to the webview
-        if (packageName == null) {
-            if (fallback != null) {
-                fallback.openUri(activity, Uri.parse(url), title);
-            }
-        } else {
-            if ((Boolean) SharedPreferenceUtil.get(activity, CommonDefine.SP_KEY_CHROME_CUSTOM_TAB, false)) {
-                try {
-                    customTabsIntent.intent.setPackage(packageName);
-                    customTabsIntent.launchUrl(activity, Uri.parse(url));
-                } catch (ActivityNotFoundException e) {
-                    if (fallback != null) {
-                        fallback.openUri(activity, Uri.parse(url), title);
-                    }
-                }
-            } else {
+            String packageName = CustomTabsHelper.getPackageNameToUse(activity);
+            try {
+                customTabsIntent.intent.setPackage(packageName);
+                customTabsIntent.launchUrl(activity, Uri.parse(url));
+            } catch (ActivityNotFoundException e) {
                 if (fallback != null) {
                     fallback.openUri(activity, Uri.parse(url), title);
                 }
+            }
+        } else {
+            if (fallback != null) {
+                fallback.openUri(activity, Uri.parse(url), title);
             }
         }
     }

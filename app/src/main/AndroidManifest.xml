@@ -14,7 +14,7 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
         <meta-data
-            android:name="com.science.codegank.view.MyGlideModule"
+            android:name="com.science.codegank.widget.MyGlideModule"
             android:value="GlideModule" />
 
         <activity
@@ -29,48 +29,48 @@
         </activity>
 
         <activity
-            android:name=".category.CategoryActivity"
+            android:name=".module.category.CategoryActivity"
             android:launchMode="singleTop"
             android:screenOrientation="portrait" />
 
         <activity
-            android:name=".category.restvideo.RestVideoActivity"
+            android:name=".module.category.restvideo.RestVideoActivity"
             android:launchMode="singleTop"
             android:screenOrientation="portrait" />
 
         <activity
-            android:name=".category.welfare.WelfareListActivity"
+            android:name=".module.category.welfare.WelfareListActivity"
             android:launchMode="singleTop"
             android:screenOrientation="portrait" />
 
         <activity
-            android:name=".random.RandomActivity"
+            android:name=".module.random.RandomActivity"
             android:launchMode="singleTop"
             android:screenOrientation="portrait" />
 
         <activity
-            android:name=".welfaredetail.WelfareDetailActivity"
+            android:name=".module.welfaredetail.WelfareDetailActivity"
             android:launchMode="singleTop"
             android:screenOrientation="portrait" />
 
         <activity
-            android:name=".gankdetail.GankDetailActivity"
+            android:name=".module.gankdetail.GankDetailActivity"
             android:configChanges="keyboardHidden|orientation|screenSize"
             android:hardwareAccelerated="true"
             android:launchMode="singleTop" />
 
         <activity
-            android:name=".searchresult.SearchResultActivity"
+            android:name=".module.searchresult.SearchResultActivity"
             android:launchMode="singleTop"
             android:screenOrientation="portrait" />
 
         <activity
-            android:name=".setting.SettingActivity"
+            android:name=".module.setting.SettingActivity"
             android:launchMode="singleTop"
             android:screenOrientation="portrait" />
 
         <activity
-            android:name=".about.AboutActivity"
+            android:name=".module.about.AboutActivity"
             android:launchMode="singleTop"
             android:screenOrientation="portrait" />
 
