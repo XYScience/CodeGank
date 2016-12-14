@@ -1,15 +1,17 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-              xmlns:app="http://schemas.android.com/apk/res-auto"
-              android:layout_width="match_parent"
-              android:layout_height="wrap_content"
-              android:orientation="vertical">
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/ll_item_root"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:background="@color/white"
+    android:orientation="vertical">
 
     <LinearLayout
-        android:id="@+id/rl_item"
+        android:id="@+id/ll_item"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:background="@drawable/shape_ripple"
+        android:background="?android:attr/selectableItemBackground"
         android:orientation="vertical">
 
         <TextView
@@ -20,7 +22,7 @@
             android:layout_marginRight="16dp"
             android:layout_marginTop="16dp"
             android:textColor="@color/textPrimary"
-            android:textSize="16sp"/>
+            android:textSize="16sp" />
 
         <TextView
             android:id="@+id/tv_who"
@@ -31,53 +33,46 @@
             android:layout_marginRight="16dp"
             android:layout_marginTop="4dp"
             android:textColor="@color/textSecondary"
-            android:textSize="14sp"/>
-
-        <View
-            android:id="@+id/view_bottom"
-            android:layout_width="match_parent"
-            android:layout_height="8dp"
-            android:background="@color/white"
-            android:visibility="gone"/>
-
-        <FrameLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content">
-
-            <com.science.codegank.widget.RatioImageView
-                android:id="@+id/iv_day_welfare"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:scaleType="centerCrop"
-                android:transitionName="@string/transition_name_welfare"
-                android:visibility="gone"
-                app:ratio_height="110"
-                app:ratio_width="200"/>
-
-            <TextView
-                android:id="@+id/tv_welfare_desc"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_gravity="bottom"
-                android:background="@color/translucentBg"
-                android:paddingBottom="6dp"
-                android:paddingLeft="16dp"
-                android:paddingRight="16dp"
-                android:paddingTop="6dp"
-                android:textColor="@color/white"
-                android:textSize="30sp"
-                android:transitionName="@string/transition_name_title"
-                android:visibility="gone"/>
-
-        </FrameLayout>
+            android:textSize="14sp" />
 
     </LinearLayout>
 
-    <View
-        android:id="@+id/view_bg"
+    <RelativeLayout
+        android:id="@+id/rl_welfare"
         android:layout_width="match_parent"
-        android:layout_height="22dp"
-        android:background="@color/colorBackground"
-        android:visibility="gone"/>
+        android:layout_height="wrap_content"
+        android:visibility="gone">
+
+        <View
+            android:id="@+id/view_bg"
+            android:layout_width="match_parent"
+            android:layout_height="22dp"
+            android:background="@color/colorBackground" />
+
+        <com.science.codegank.widget.RatioImageView
+            android:id="@+id/iv_day_welfare"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/view_bg"
+            android:scaleType="centerCrop"
+            android:transitionName="@string/transition_name_welfare"
+            app:ratio_height="110"
+            app:ratio_width="200" />
+
+        <TextView
+            android:id="@+id/tv_welfare_desc"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_alignParentBottom="true"
+            android:background="@color/translucentBg"
+            android:paddingBottom="6dp"
+            android:paddingLeft="16dp"
+            android:paddingRight="16dp"
+            android:paddingTop="6dp"
+            android:textColor="@color/white"
+            android:textSize="30sp"
+            android:transitionName="@string/transition_name_title" />
+
+    </RelativeLayout>
 
 </LinearLayout>

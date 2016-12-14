@@ -54,41 +54,18 @@ public class HomeAdapter extends BaseStickyAdapter<List<GankDayResults>> {
     @Override
     public void convertCommon(ViewHolder viewHolder, List<GankDayResults> ganks, int section, int position) {
         List<Gank> gankList = ganks.get(section).getGankList();
-        RatioImageView imgWelfare = viewHolder.getView(R.id.iv_day_welfare);
         if (mContext.getResources().getString(R.string.welfare).equals(ganks.get(section).getHeader())) {
-            imgWelfare.setVisibility(View.VISIBLE);
-            viewHolder.getView(R.id.tv_welfare_desc).setVisibility(View.VISIBLE);
-            viewHolder.getView(R.id.tv_desc).setVisibility(View.GONE);
-            viewHolder.getView(R.id.tv_who).setVisibility(View.GONE);
-            viewHolder.getView(R.id.view_bottom).setVisibility(View.GONE);
-            viewHolder.getView(R.id.view_bg).setVisibility(View.GONE);
-            viewHolder.getView(R.id.rl_item).setElevation(0);
+            viewHolder.getView(R.id.rl_welfare).setVisibility(View.VISIBLE);
+            viewHolder.getView(R.id.ll_item).setVisibility(View.GONE);
             viewHolder.setText(R.id.tv_welfare_desc, CommonUtil.toDate(gankList.get(0).getPublishedAt()));
-            if (isNoPic) {
-                ImageLoadUtil.loadImage(mContext, R.drawable.welfare, 0, imgWelfare);
-            } else {
-                ImageLoadUtil.loadImage(mContext, gankList.get(0).getUrl(), 0, imgWelfare);
-            }
+            ImageLoadUtil.loadImage(mContext, isNoPic ? R.drawable.welfare : gankList.get(0).getUrl(), 0, (RatioImageView) viewHolder.getView(R.id.iv_day_welfare));
+            viewHolder.getView(R.id.ll_item_root).setElevation(0);
         } else {
-            imgWelfare.setVisibility(View.GONE);
-            viewHolder.getView(R.id.tv_welfare_desc).setVisibility(View.GONE);
-            viewHolder.getView(R.id.tv_desc).setVisibility(View.VISIBLE);
-            viewHolder.getView(R.id.tv_who).setVisibility(View.VISIBLE);
+            viewHolder.getView(R.id.rl_welfare).setVisibility(View.GONE);
+            viewHolder.getView(R.id.ll_item).setVisibility(View.VISIBLE);
             viewHolder.setText(R.id.tv_desc, gankList.get(position).getDesc());
-            if (gankList.get(position).getWho() == null) {
-                viewHolder.setText(R.id.tv_who, "无");
-            } else {
-                viewHolder.setText(R.id.tv_who, gankList.get(position).getWho());
-            }
-            if ("休息视频".equals(ganks.get(section).getHeader())) {
-                viewHolder.getView(R.id.view_bottom).setVisibility(View.VISIBLE);
-                viewHolder.getView(R.id.view_bg).setVisibility(View.VISIBLE);
-                viewHolder.getView(R.id.rl_item).setElevation(4);
-            } else {
-                viewHolder.getView(R.id.view_bottom).setVisibility(View.GONE);
-                viewHolder.getView(R.id.view_bg).setVisibility(View.GONE);
-                viewHolder.getView(R.id.rl_item).setElevation(0);
-            }
+            viewHolder.setText(R.id.tv_who, (gankList.get(position).getWho() == null) ? "无" : gankList.get(position).getWho());
+            viewHolder.getView(R.id.ll_item_root).setElevation(mContext.getString(R.string.rest_video).equals(ganks.get(section).getHeader()) ? 4 : 0);
         }
     }
 
@@ -99,9 +76,9 @@ public class HomeAdapter extends BaseStickyAdapter<List<GankDayResults>> {
             viewHolder.getView(R.id.iv_category).setVisibility(View.GONE);
             viewHolder.getView(R.id.tv_gank_day_header).setVisibility(View.GONE);
         } else {
+            viewHolder.getView(R.id.iv_category).setVisibility(View.VISIBLE);
             viewHolder.getView(R.id.tv_gank_day_header).setVisibility(View.VISIBLE);
             viewHolder.setText(R.id.tv_gank_day_header, gankDayResults.getHeader(), R.color.textPrimary);
-            viewHolder.getView(R.id.iv_category).setVisibility(View.VISIBLE);
             viewHolder.setImageResource(R.id.iv_category, gankDayResults.getHeaderImg());
         }
     }

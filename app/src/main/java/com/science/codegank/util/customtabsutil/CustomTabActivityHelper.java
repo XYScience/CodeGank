@@ -4,8 +4,6 @@ import android.app.Activity;
 import android.app.PendingIntent;
 import android.content.ActivityNotFoundException;
 import android.content.Intent;
-import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.customtabs.CustomTabsClient;
@@ -16,6 +14,7 @@ import android.support.customtabs.CustomTabsSession;
 import com.science.codegank.R;
 import com.science.codegank.data.bean.Gank;
 import com.science.codegank.data.bean.SearchResult;
+import com.science.codegank.receiver.CustomTabsBroadcastReceiver;
 import com.science.codegank.util.CommonDefine;
 import com.science.codegank.util.SharedPreferenceUtil;
 
@@ -29,6 +28,7 @@ import java.util.List;
  */
 
 public class CustomTabActivityHelper implements ServiceConnectionCallback {
+
     private CustomTabsSession mCustomTabsSession;
     private CustomTabsClient mClient;
     private CustomTabsServiceConnection mConnection;
@@ -58,22 +58,30 @@ public class CustomTabActivityHelper implements ServiceConnectionCallback {
             builder.setToolbarColor(activity.getResources().getColor(R.color.colorPrimary));
             builder.setSecondaryToolbarColor(activity.getResources().getColor(R.color.colorAccent));
             builder.setShowTitle(true);
-            // start 添加一个分享按钮到toolbar
-            String share = activity.getString(R.string.share_to);
-            Bitmap icon = BitmapFactory.decodeResource(activity.getResources(), R.drawable.ic_collections_white);
-            Intent intent = new Intent(Intent.ACTION_SEND);
-            intent.putExtra(Intent.EXTRA_TEXT, url);
-            intent.setType("text/plain");
-            PendingIntent pi = PendingIntent.getActivity(activity, 0, intent, 0);
-            builder.setActionButton(icon, share, pi, true);
+
+            // start 添加一个收藏到options menu
+            String collectLabel = activity.getString(R.string.collections);
+            Intent collectIntent = new Intent(activity, CustomTabsBroadcastReceiver.class);
+            collectIntent.putExtra(CustomTabsBroadcastReceiver.EXTRA_RECEIVER, CustomTabsBroadcastReceiver.COLLECT);
+            // 2nd Parameter is the requestCode which should be different for different broadcast
+            PendingIntent collectPendingIntent = PendingIntent.getBroadcast(activity, CustomTabsBroadcastReceiver.COLLECT, collectIntent, 0);
+            builder.addMenuItem(collectLabel, collectPendingIntent);
             // end
             // start 添加一个分享到options menu
             String shareLabel = activity.getString(R.string.share_to);
-            Intent actionIntent = new Intent(Intent.ACTION_SEND);
-            actionIntent.putExtra(Intent.EXTRA_TEXT, url);
-            actionIntent.setType("text/plain");
-            PendingIntent pendingIntent = PendingIntent.getActivity(activity, 0, actionIntent, 0);
-            builder.addMenuItem(shareLabel, pendingIntent);
+            Intent shareIntent = new Intent(Intent.ACTION_SEND);
+            shareIntent.putExtra(Intent.EXTRA_TEXT, url);
+            shareIntent.setType("text/plain");
+            PendingIntent sharePendingIntent = PendingIntent.getActivity(activity, 0, shareIntent, 0);
+            builder.addMenuItem(shareLabel, sharePendingIntent);
+            // end
+            // start 添加一个复制链接到options menu
+            String copyLabel = activity.getString(R.string.copy_link);
+            Intent copyIntent = new Intent(activity, CustomTabsBroadcastReceiver.class);
+            copyIntent.putExtra(CustomTabsBroadcastReceiver.EXTRA_RECEIVER, CustomTabsBroadcastReceiver.COPY);
+            // 2nd Parameter is the requestCode which should be different for different broadcast
+            PendingIntent copyPendingIntent = PendingIntent.getBroadcast(activity, CustomTabsBroadcastReceiver.COPY, copyIntent, 0);
+            builder.addMenuItem(copyLabel, copyPendingIntent);
             // end
             CustomTabsIntent customTabsIntent = builder.build();
 

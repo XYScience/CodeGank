@@ -86,6 +86,10 @@
 
         </provider>
 
+        <receiver
+            android:name=".receiver.CustomTabsBroadcastReceiver"
+            android:enabled="true"/>
+
     </application>
 
 </manifest>

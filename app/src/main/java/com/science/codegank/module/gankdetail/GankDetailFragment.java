@@ -83,7 +83,7 @@ public class GankDetailFragment extends BaseFragment implements GankDetailContra
 
     @Override
     public void addSubscription(Subscription subscription) {
-
+        addCompositeSubscription(subscription);
     }
 
 

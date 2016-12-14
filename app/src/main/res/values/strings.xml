@@ -67,6 +67,7 @@
     <string name="copy_link">复制链接</string>
     <string name="open_in_browser">在浏览器钟打开</string>
     <string name="copy_success">复制成功</string>
+    <string name="collect_success">收藏成功</string>
 
     <!-- 关于 -->
     <string name="codegank_detail">CodeGank，每日分享妹子图和技术干货，还有供大家中午休息的休闲视频</string>
