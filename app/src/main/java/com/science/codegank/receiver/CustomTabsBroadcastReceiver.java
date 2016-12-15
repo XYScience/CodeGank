@@ -10,7 +10,7 @@ import com.science.codegank.util.CommonUtil;
 
 /**
  * @author SScience
- * @description
+ * @description CustomTabActivityHelper中，CustomTabs添加options menu，使用PendingIntent.getBroadcast继续后续操作
  * @email chentushen.science@gmail.com,274240671@qq.com
  * @data 2016/12/14
  */
@@ -25,6 +25,7 @@ public class CustomTabsBroadcastReceiver extends BroadcastReceiver {
     public void onReceive(Context context, Intent intent) {
         if (intent.getIntExtra(EXTRA_RECEIVER, -1) == COLLECT) {
             Toast.makeText(context, context.getString(R.string.collect_success), Toast.LENGTH_SHORT).show();
+            String link = intent.getDataString();
         } else if (intent.getIntExtra(EXTRA_RECEIVER, -1) == COPY) {
             String copyLink = intent.getDataString();
             CommonUtil.copyToClipBoard(context, copyLink);

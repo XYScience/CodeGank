@@ -7,6 +7,7 @@ import android.support.v7.widget.Toolbar;
 import android.view.KeyEvent;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.widget.Toast;
 
 import com.science.codegank.R;
 import com.science.codegank.base.BaseActivity;
@@ -92,13 +93,17 @@ public class GankDetailActivity extends BaseActivity {
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         int id = item.getItemId();
-        if (id == R.id.menu_copy_link) {
-            CommonUtil.copyToClipBoard(this, getIntent().getStringExtra(HomeFragment.EXTRA_BUNDLE_URL));
-            snackBarShow(mCoordinatorLayout, getString(R.string.copy_success));
-        } else if (id == R.id.menu_open_in_browser) {
-            mGankDetailFragment.openInBrowser();
-        } else if (id == R.id.menu_share) {
-            mGankDetailFragment.shareGank();
+        switch (id) {
+            case R.id.menu_copy_link:
+                CommonUtil.copyToClipBoard(this, getIntent().getStringExtra(HomeFragment.EXTRA_BUNDLE_URL));
+                Toast.makeText(this, getString(R.string.copy_success), Toast.LENGTH_SHORT).show();
+                break;
+            case R.id.menu_open_in_browser:
+                mGankDetailFragment.openInBrowser();
+                break;
+            case R.id.menu_share:
+                mGankDetailFragment.shareGank();
+                break;
         }
         return super.onOptionsItemSelected(item);
     }
