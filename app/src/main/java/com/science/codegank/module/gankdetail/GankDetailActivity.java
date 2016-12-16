@@ -2,7 +2,7 @@ package com.science.codegank.module.gankdetail;
 
 import android.os.Bundle;
 import android.support.annotation.Nullable;
-import android.support.design.widget.CoordinatorLayout;
+import android.support.design.widget.AppBarLayout;
 import android.support.v7.widget.Toolbar;
 import android.view.KeyEvent;
 import android.view.Menu;
@@ -25,8 +25,8 @@ import butterknife.BindView;
 
 public class GankDetailActivity extends BaseActivity {
 
-    @BindView(R.id.coordinatorLayout)
-    CoordinatorLayout mCoordinatorLayout;
+    @BindView(R.id.appbar_layout)
+    AppBarLayout mAppbarLayout;
     private GankDetailFragment mGankDetailFragment;
     public Toolbar mToolbar;
 
@@ -59,8 +59,6 @@ public class GankDetailActivity extends BaseActivity {
         if (mGankDetailFragment.mWebView != null) {
             mGankDetailFragment.mWebView.loadUrl("about:blank");
             mGankDetailFragment.mWebView.stopLoading();
-            mGankDetailFragment.mWebView.setWebChromeClient(null);
-            mGankDetailFragment.mWebView.setWebViewClient(null);
             mGankDetailFragment.mWebView.destroy();
             mGankDetailFragment.mWebView = null;
         }

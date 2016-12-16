@@ -1,13 +1,21 @@
 package com.science.codegank.module.gankdetail;
 
+import android.animation.Animator;
+import android.animation.AnimatorSet;
+import android.animation.ObjectAnimator;
+import android.support.design.widget.AppBarLayout;
 import android.view.View;
-import android.webkit.WebView;
 import android.widget.FrameLayout;
 
 import com.science.codegank.R;
 import com.science.codegank.base.BaseFragment;
 import com.science.codegank.module.homeday.HomeFragment;
+import com.science.codegank.widget.MyScrollView;
 import com.science.codegank.widget.MySwipeRefreshLayout;
+import com.science.codegank.widget.MyWebView;
+import com.science.codegank.widget.ToolbarListener;
+
+import java.util.ArrayList;
 
 import butterknife.BindView;
 import rx.Subscription;
@@ -19,12 +27,14 @@ import rx.Subscription;
  * @data 2016/11/24
  */
 
-public class GankDetailFragment extends BaseFragment implements GankDetailContract.View {
+public class GankDetailFragment extends BaseFragment implements GankDetailContract.View, ToolbarListener {
 
     @BindView(R.id.content_webView)
-    public WebView mWebView;
+    public MyWebView mWebView;
     @BindView(R.id.videoContainer)
     public FrameLayout mVideoWebView;
+    @BindView(R.id.scrollView)
+    MyScrollView mScrollView;
     private GankDetailContract.Presenter mGankDetailPresenter;
 
     @Override
@@ -38,6 +48,9 @@ public class GankDetailFragment extends BaseFragment implements GankDetailContra
         swipeRefreshLayout.setScrollUpChild(mWebView);
         mGankDetailPresenter.setUpWebView(mWebView, mVideoWebView);
         mGankDetailPresenter.loadUrl(mWebView, getActivity().getIntent().getStringExtra(HomeFragment.EXTRA_BUNDLE_URL));
+
+        mWebView.setToolbarListener(this);
+        mScrollView.setToolbarListener(this);
     }
 
     @Override
@@ -48,6 +61,7 @@ public class GankDetailFragment extends BaseFragment implements GankDetailContra
     @Override
     public void loadWebViewFinished() {
         setRefreshing(false);
+        setSwipeRefreshEnable(false);
     }
 
     @Override
@@ -93,5 +107,62 @@ public class GankDetailFragment extends BaseFragment implements GankDetailContra
 
     public void hideCustomView() {
         mGankDetailPresenter.hideCustomView();
+    }
+
+    @Override
+    public void showOrHideToolbar(Boolean state) {
+        if (state) {
+            animateBack(((GankDetailActivity) getActivity()).mAppbarLayout);
+        } else {
+            animateHide(((GankDetailActivity) getActivity()).mAppbarLayout);
+        }
+    }
+
+    // 恢复动画
+    private AnimatorSet mAnimatorSetBack;
+
+    private void animateBack(AppBarLayout appBarLayout) {
+        // 取消其他动画
+        if (mAnimatorSetHide != null && mAnimatorSetHide.isRunning()) {
+            mAnimatorSetHide.cancel();
+        }
+        if (mAnimatorSetBack != null && mAnimatorSetBack.isRunning()) {
+
+        } else {
+            mAnimatorSetBack = new AnimatorSet();
+            ObjectAnimator animateHeader = ObjectAnimator.ofFloat(appBarLayout, "translationY", appBarLayout.getTranslationY(), 0f);
+//            ObjectAnimator animateFooter = ObjectAnimator.ofFloat(mActionButton, "translationY", mActionButton.getTranslationY(), 0f);
+            ArrayList<Animator> animators = new ArrayList<>();
+            animators.add(animateHeader);
+//            animators.add(animateFooter);
+            mAnimatorSetBack.setDuration(300);
+            mAnimatorSetBack.playTogether(animators);
+            mAnimatorSetBack.start();
+        }
+    }
+
+    // 隐藏动画
+    private AnimatorSet mAnimatorSetHide;
+
+    private void animateHide(AppBarLayout appBarLayout) {
+        // 取消其他动画
+        if (mAnimatorSetBack != null && mAnimatorSetBack.isRunning()) {
+            mAnimatorSetBack.cancel();
+        }
+        if (mAnimatorSetHide != null && mAnimatorSetHide.isRunning()) {
+
+        } else {
+            mAnimatorSetHide = new AnimatorSet();
+            ObjectAnimator animateHeader = ObjectAnimator.ofFloat(appBarLayout, "translationY",
+                    appBarLayout.getTranslationY(), -appBarLayout.getHeight());
+//            ObjectAnimator animateFooter = ObjectAnimator.ofFloat(mActionButton, "translationY",
+//                    mActionButton.getTranslationY(), mActionButton.getHeight() + mActionButton.getBottom());
+            ArrayList<Animator> animators = new ArrayList<>();
+            animators.add(animateHeader);
+//            animators.add(animateFooter);
+            mAnimatorSetHide.setDuration(300);
+            mAnimatorSetHide.playTogether(animators);
+            mAnimatorSetHide.start();
+        }
     }
 }
