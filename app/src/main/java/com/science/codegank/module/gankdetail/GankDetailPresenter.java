@@ -15,6 +15,7 @@ import android.webkit.WebViewClient;
 import android.widget.FrameLayout;
 
 import com.science.codegank.R;
+import com.science.codegank.data.bean.Gank;
 import com.science.codegank.util.CommonDefine;
 import com.science.codegank.util.CommonUtil;
 import com.science.codegank.util.SharedPreferenceUtil;
@@ -50,16 +51,21 @@ public class GankDetailPresenter implements GankDetailContract.Presenter {
         WebSettings settings = webView.getSettings();
         settings.setJavaScriptEnabled(true);
         settings.setLoadWithOverviewMode(true);
-        settings.setAppCacheEnabled(true);
         settings.setLayoutAlgorithm(WebSettings.LayoutAlgorithm.SINGLE_COLUMN);
         settings.setSupportZoom(true);
-        if ((Boolean) SharedPreferenceUtil.get(mContext, CommonDefine.SP_KEY_SMART_NO_PIC, false)) {
-            settings.setBlockNetworkImage(true);
-        } else {
-            settings.setBlockNetworkImage(false);
-        }
-        webView.setWebViewClient(new MyWebClient());
+        settings.setBuiltInZoomControls(true);
+        settings.setDisplayZoomControls(false);
+        settings.setUseWideViewPort(true);
+        settings.setRenderPriority(WebSettings.RenderPriority.HIGH);
+        settings.setDatabaseEnabled(true);
+        settings.setDatabasePath("/data/data/com.science.codegank/databases/");
+        settings.setDomStorageEnabled(true);
+        settings.setMixedContentMode(0);
+        settings.setAppCacheEnabled(true);
+        settings.setCacheMode(CommonUtil.checkNet(mContext) == -1 ? WebSettings.LOAD_CACHE_ELSE_NETWORK : WebSettings.LOAD_DEFAULT);
+        settings.setBlockNetworkImage((Boolean) SharedPreferenceUtil.get(mContext, CommonDefine.SP_KEY_SMART_NO_PIC, false));
 
+        webView.setWebViewClient(new MyWebClient());
         mMyWebChromeClient = new MyWebChromeClient(webView, videoWebView);
         webView.setWebChromeClient(mMyWebChromeClient);
     }
@@ -110,6 +116,8 @@ public class GankDetailPresenter implements GankDetailContract.Presenter {
         public void onPageFinished(WebView view, String url) {
             super.onPageFinished(view, url);
             mGankDetailView.loadWebViewFinished();
+            view.loadUrl("javascript:document.body.style.padding=\""
+                    + "56px 0px 0px 0px\"; void 0");
         }
 
         @Override
@@ -186,5 +194,10 @@ public class GankDetailPresenter implements GankDetailContract.Presenter {
     @Override
     public void hideCustomView() {
         mMyWebChromeClient.onHideCustomView();
+    }
+
+    @Override
+    public void collectArticle(Gank gank) {
+
     }
 }

@@ -6,6 +6,8 @@ import android.content.ClipboardManager;
 import android.content.Context;
 import android.content.pm.PackageInfo;
 import android.content.pm.PackageManager;
+import android.net.ConnectivityManager;
+import android.net.NetworkInfo;
 import android.support.annotation.AnimRes;
 import android.support.v4.content.ContextCompat;
 import android.util.DisplayMetrics;
@@ -159,4 +161,11 @@ public class CommonUtil {
         }
         return version;
     }
+
+    public static int checkNet(Context context) {
+        ConnectivityManager connectivityManager = (ConnectivityManager) context.getSystemService(Context.CONNECTIVITY_SERVICE);
+        NetworkInfo activeNetworkInfo = connectivityManager == null ? null : connectivityManager.getActiveNetworkInfo();
+        return activeNetworkInfo == null ? -1 : activeNetworkInfo.getType();
+    }
+
 }

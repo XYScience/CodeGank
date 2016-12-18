@@ -12,6 +12,7 @@ import android.support.customtabs.CustomTabsServiceConnection;
 import android.support.customtabs.CustomTabsSession;
 
 import com.science.codegank.R;
+import com.science.codegank.data.bean.BaseData;
 import com.science.codegank.data.bean.Gank;
 import com.science.codegank.data.bean.SearchResult;
 import com.science.codegank.receiver.CustomTabsBroadcastReceiver;
@@ -41,18 +42,18 @@ public class CustomTabActivityHelper implements ServiceConnectionCallback {
      * @param session
      * @param fallback a CustomTabFallback to be used if Custom Tabs is not available.
      */
-    public static void openCustomTab(Activity activity,
-                                     Gank gank, CustomTabsSession session, CustomTabFallback fallback) {
-        openCustomTab(activity, gank.getUrl(), gank.getDesc(), session, fallback);
-    }
-
-    public static void openCustomTab(Activity activity,
-                                     SearchResult searchResult, CustomTabsSession session, CustomTabFallback fallback) {
-        openCustomTab(activity, searchResult.getUrl(), searchResult.getDesc(), session, fallback);
-    }
-
-    public static void openCustomTab(Activity activity,
-                                     String url, String title, CustomTabsSession session, CustomTabFallback fallback) {
+    public static void openCustomTab(Activity activity, BaseData data, CustomTabsSession session,
+                                     CustomTabFallback fallback) {
+        String url = null, title = null;
+        if (data instanceof Gank) {
+            Gank gank = (Gank) data;
+            url = gank.getUrl();
+            title = gank.getDesc();
+        } else if (data instanceof SearchResult) {
+            SearchResult searchResult = (SearchResult) data;
+            url = searchResult.getUrl();
+            title = searchResult.getDesc();
+        }
         if ((Boolean) SharedPreferenceUtil.get(activity, CommonDefine.SP_KEY_CHROME_CUSTOM_TAB, false)) {
             CustomTabsIntent.Builder builder = new CustomTabsIntent.Builder(session);
             builder.setToolbarColor(activity.getResources().getColor(R.color.colorPrimary));

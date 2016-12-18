@@ -1,21 +1,18 @@
 package com.science.codegank.module.gankdetail;
 
-import android.animation.Animator;
-import android.animation.AnimatorSet;
-import android.animation.ObjectAnimator;
 import android.support.design.widget.AppBarLayout;
+import android.support.design.widget.FloatingActionButton;
 import android.view.View;
+import android.view.animation.AccelerateInterpolator;
+import android.view.animation.DecelerateInterpolator;
 import android.widget.FrameLayout;
+import android.widget.Toast;
 
 import com.science.codegank.R;
 import com.science.codegank.base.BaseFragment;
 import com.science.codegank.module.homeday.HomeFragment;
-import com.science.codegank.widget.MyScrollView;
 import com.science.codegank.widget.MySwipeRefreshLayout;
 import com.science.codegank.widget.MyWebView;
-import com.science.codegank.widget.ToolbarListener;
-
-import java.util.ArrayList;
 
 import butterknife.BindView;
 import rx.Subscription;
@@ -27,14 +24,14 @@ import rx.Subscription;
  * @data 2016/11/24
  */
 
-public class GankDetailFragment extends BaseFragment implements GankDetailContract.View, ToolbarListener {
+public class GankDetailFragment extends BaseFragment implements GankDetailContract.View, MyWebView.OnScrollChangedCallback {
 
     @BindView(R.id.content_webView)
     public MyWebView mWebView;
     @BindView(R.id.videoContainer)
     public FrameLayout mVideoWebView;
-    @BindView(R.id.scrollView)
-    MyScrollView mScrollView;
+    @BindView(R.id.btn_collect)
+    FloatingActionButton mBtnCollect;
     private GankDetailContract.Presenter mGankDetailPresenter;
 
     @Override
@@ -46,11 +43,19 @@ public class GankDetailFragment extends BaseFragment implements GankDetailContra
     protected void doCreateView(View view) {
         MySwipeRefreshLayout swipeRefreshLayout = (MySwipeRefreshLayout) initRefreshLayout(view);
         swipeRefreshLayout.setScrollUpChild(mWebView);
+        int start = (int) (getActivity().getResources().getDisplayMetrics().density * 20.0f);
+        int end = (int) (getActivity().getResources().getDisplayMetrics().density * 56.0f) + start;
+        swipeRefreshLayout.setProgressViewOffset(true, start, end);
         mGankDetailPresenter.setUpWebView(mWebView, mVideoWebView);
         mGankDetailPresenter.loadUrl(mWebView, getActivity().getIntent().getStringExtra(HomeFragment.EXTRA_BUNDLE_URL));
 
-        mWebView.setToolbarListener(this);
-        mScrollView.setToolbarListener(this);
+        mWebView.setOnScrollChangedCallback(mWebView, this);
+        mBtnCollect.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Toast.makeText(view.getContext(), "click", Toast.LENGTH_SHORT).show();
+            }
+        });
     }
 
     @Override
@@ -61,7 +66,6 @@ public class GankDetailFragment extends BaseFragment implements GankDetailContra
     @Override
     public void loadWebViewFinished() {
         setRefreshing(false);
-        setSwipeRefreshEnable(false);
     }
 
     @Override
@@ -100,7 +104,6 @@ public class GankDetailFragment extends BaseFragment implements GankDetailContra
         addCompositeSubscription(subscription);
     }
 
-
     public boolean inCustomView() {
         return mGankDetailPresenter.inCustomView();
     }
@@ -110,59 +113,14 @@ public class GankDetailFragment extends BaseFragment implements GankDetailContra
     }
 
     @Override
-    public void showOrHideToolbar(Boolean state) {
-        if (state) {
-            animateBack(((GankDetailActivity) getActivity()).mAppbarLayout);
+    public void onScroll(Boolean isScrollDown) {
+        AppBarLayout appbarLayout = ((GankDetailActivity) getActivity()).mAppbarLayout;
+        if (isScrollDown) {
+            appbarLayout.animate().translationY(0).setInterpolator(new DecelerateInterpolator(2));
+            mBtnCollect.show();
         } else {
-            animateHide(((GankDetailActivity) getActivity()).mAppbarLayout);
-        }
-    }
-
-    // 恢复动画
-    private AnimatorSet mAnimatorSetBack;
-
-    private void animateBack(AppBarLayout appBarLayout) {
-        // 取消其他动画
-        if (mAnimatorSetHide != null && mAnimatorSetHide.isRunning()) {
-            mAnimatorSetHide.cancel();
-        }
-        if (mAnimatorSetBack != null && mAnimatorSetBack.isRunning()) {
-
-        } else {
-            mAnimatorSetBack = new AnimatorSet();
-            ObjectAnimator animateHeader = ObjectAnimator.ofFloat(appBarLayout, "translationY", appBarLayout.getTranslationY(), 0f);
-//            ObjectAnimator animateFooter = ObjectAnimator.ofFloat(mActionButton, "translationY", mActionButton.getTranslationY(), 0f);
-            ArrayList<Animator> animators = new ArrayList<>();
-            animators.add(animateHeader);
-//            animators.add(animateFooter);
-            mAnimatorSetBack.setDuration(300);
-            mAnimatorSetBack.playTogether(animators);
-            mAnimatorSetBack.start();
-        }
-    }
-
-    // 隐藏动画
-    private AnimatorSet mAnimatorSetHide;
-
-    private void animateHide(AppBarLayout appBarLayout) {
-        // 取消其他动画
-        if (mAnimatorSetBack != null && mAnimatorSetBack.isRunning()) {
-            mAnimatorSetBack.cancel();
-        }
-        if (mAnimatorSetHide != null && mAnimatorSetHide.isRunning()) {
-
-        } else {
-            mAnimatorSetHide = new AnimatorSet();
-            ObjectAnimator animateHeader = ObjectAnimator.ofFloat(appBarLayout, "translationY",
-                    appBarLayout.getTranslationY(), -appBarLayout.getHeight());
-//            ObjectAnimator animateFooter = ObjectAnimator.ofFloat(mActionButton, "translationY",
-//                    mActionButton.getTranslationY(), mActionButton.getHeight() + mActionButton.getBottom());
-            ArrayList<Animator> animators = new ArrayList<>();
-            animators.add(animateHeader);
-//            animators.add(animateFooter);
-            mAnimatorSetHide.setDuration(300);
-            mAnimatorSetHide.playTogether(animators);
-            mAnimatorSetHide.start();
+            appbarLayout.animate().translationY(-appbarLayout.getHeight()).setInterpolator(new AccelerateInterpolator(2));
+            mBtnCollect.hide();
         }
     }
 }

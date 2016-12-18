@@ -1,32 +1,35 @@
 <?xml version="1.0" encoding="utf-8"?>
-<com.science.codegank.widget.MySwipeRefreshLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<com.science.codegank.widget.MySwipeRefreshLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:id="@+id/swipeRefreshLayout"
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
-    <com.science.codegank.widget.MyScrollView
-        android:id="@+id/scrollView"
+    <FrameLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent">
 
-        <LinearLayout
+        <com.science.codegank.widget.MyWebView
+            android:id="@+id/content_webView"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:orientation="vertical">
+            android:layerType="hardware"/>
 
-            <com.science.codegank.widget.MyWebView
-                android:id="@+id/content_webView"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:layerType="hardware" />
+        <android.support.design.widget.FloatingActionButton
+            android:id="@+id/btn_collect"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="bottom|end"
+            android:layout_margin="@dimen/activity_vertical_margin"
+            app:srcCompat="@drawable/ic_favorite_border_white"/>
 
-            <FrameLayout
-                android:id="@+id/videoContainer"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:visibility="gone" />
+        <FrameLayout
+            android:id="@+id/videoContainer"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:visibility="gone"/>
 
-        </LinearLayout>
+    </FrameLayout>
 
-    </com.science.codegank.widget.MyScrollView>
 </com.science.codegank.widget.MySwipeRefreshLayout>

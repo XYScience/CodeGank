@@ -5,6 +5,7 @@ import android.widget.FrameLayout;
 
 import com.science.codegank.base.BasePresenter;
 import com.science.codegank.base.BaseView;
+import com.science.codegank.data.bean.Gank;
 
 /**
  * @author SScience
@@ -34,5 +35,7 @@ public interface GankDetailContract {
         boolean inCustomView();
 
         void hideCustomView();
+
+        void collectArticle(Gank gank);
     }
 }
