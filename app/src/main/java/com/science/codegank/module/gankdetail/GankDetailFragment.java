@@ -1,18 +1,13 @@
 package com.science.codegank.module.gankdetail;
 
-import android.support.design.widget.AppBarLayout;
-import android.support.design.widget.FloatingActionButton;
 import android.view.View;
-import android.view.animation.AccelerateInterpolator;
-import android.view.animation.DecelerateInterpolator;
 import android.widget.FrameLayout;
-import android.widget.Toast;
 
 import com.science.codegank.R;
 import com.science.codegank.base.BaseFragment;
 import com.science.codegank.module.homeday.HomeFragment;
 import com.science.codegank.widget.MySwipeRefreshLayout;
-import com.science.codegank.widget.MyWebView;
+import com.science.codegank.widget.NestedScrollWebView;
 
 import butterknife.BindView;
 import rx.Subscription;
@@ -24,14 +19,12 @@ import rx.Subscription;
  * @data 2016/11/24
  */
 
-public class GankDetailFragment extends BaseFragment implements GankDetailContract.View, MyWebView.OnScrollChangedCallback {
+public class GankDetailFragment extends BaseFragment implements GankDetailContract.View, NestedScrollWebView.OnScrollChangedCallback {
 
     @BindView(R.id.content_webView)
-    public MyWebView mWebView;
+    public NestedScrollWebView mWebView;
     @BindView(R.id.videoContainer)
     public FrameLayout mVideoWebView;
-    @BindView(R.id.btn_collect)
-    FloatingActionButton mBtnCollect;
     private GankDetailContract.Presenter mGankDetailPresenter;
 
     @Override
@@ -43,19 +36,10 @@ public class GankDetailFragment extends BaseFragment implements GankDetailContra
     protected void doCreateView(View view) {
         MySwipeRefreshLayout swipeRefreshLayout = (MySwipeRefreshLayout) initRefreshLayout(view);
         swipeRefreshLayout.setScrollUpChild(mWebView);
-        int start = (int) (getActivity().getResources().getDisplayMetrics().density * 20.0f);
-        int end = (int) (getActivity().getResources().getDisplayMetrics().density * 56.0f) + start;
-        swipeRefreshLayout.setProgressViewOffset(true, start, end);
         mGankDetailPresenter.setUpWebView(mWebView, mVideoWebView);
         mGankDetailPresenter.loadUrl(mWebView, getActivity().getIntent().getStringExtra(HomeFragment.EXTRA_BUNDLE_URL));
 
         mWebView.setOnScrollChangedCallback(mWebView, this);
-        mBtnCollect.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Toast.makeText(view.getContext(), "click", Toast.LENGTH_SHORT).show();
-            }
-        });
     }
 
     @Override
@@ -114,13 +98,10 @@ public class GankDetailFragment extends BaseFragment implements GankDetailContra
 
     @Override
     public void onScroll(Boolean isScrollDown) {
-        AppBarLayout appbarLayout = ((GankDetailActivity) getActivity()).mAppbarLayout;
         if (isScrollDown) {
-            appbarLayout.animate().translationY(0).setInterpolator(new DecelerateInterpolator(2));
-            mBtnCollect.show();
+            ((GankDetailActivity) getActivity()).mBtnCollect.show();
         } else {
-            appbarLayout.animate().translationY(-appbarLayout.getHeight()).setInterpolator(new AccelerateInterpolator(2));
-            mBtnCollect.hide();
+            ((GankDetailActivity) getActivity()).mBtnCollect.hide();
         }
     }
 }

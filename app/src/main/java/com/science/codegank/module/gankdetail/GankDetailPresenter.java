@@ -116,8 +116,8 @@ public class GankDetailPresenter implements GankDetailContract.Presenter {
         public void onPageFinished(WebView view, String url) {
             super.onPageFinished(view, url);
             mGankDetailView.loadWebViewFinished();
-            view.loadUrl("javascript:document.body.style.padding=\""
-                    + "56px 0px 0px 0px\"; void 0");
+//            view.loadUrl("javascript:document.body.style.padding=\""
+//                    + "56px 0px 0px 0px\"; void 0");
         }
 
         @Override

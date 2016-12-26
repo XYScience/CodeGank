@@ -2,7 +2,7 @@ package com.science.codegank.module.gankdetail;
 
 import android.os.Bundle;
 import android.support.annotation.Nullable;
-import android.support.design.widget.AppBarLayout;
+import android.support.design.widget.FloatingActionButton;
 import android.support.v7.widget.Toolbar;
 import android.view.KeyEvent;
 import android.view.Menu;
@@ -25,8 +25,8 @@ import butterknife.BindView;
 
 public class GankDetailActivity extends BaseActivity {
 
-    @BindView(R.id.appbar_layout)
-    AppBarLayout mAppbarLayout;
+    @BindView(R.id.btn_collect)
+    public FloatingActionButton mBtnCollect;
     private GankDetailFragment mGankDetailFragment;
     public Toolbar mToolbar;
 
