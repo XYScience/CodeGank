@@ -1,6 +1,10 @@
 package com.science.codegank.module.gankdetail;
 
+import android.support.design.widget.FloatingActionButton;
 import android.view.View;
+import android.view.ViewGroup;
+import android.view.animation.AccelerateInterpolator;
+import android.view.animation.DecelerateInterpolator;
 import android.widget.FrameLayout;
 
 import com.science.codegank.R;
@@ -26,6 +30,7 @@ public class GankDetailFragment extends BaseFragment implements GankDetailContra
     @BindView(R.id.videoContainer)
     public FrameLayout mVideoWebView;
     private GankDetailContract.Presenter mGankDetailPresenter;
+    private FloatingActionButton mFabCollect;
 
     @Override
     protected int getContentLayout() {
@@ -38,6 +43,7 @@ public class GankDetailFragment extends BaseFragment implements GankDetailContra
         swipeRefreshLayout.setScrollUpChild(mWebView);
         mGankDetailPresenter.setUpWebView(mWebView, mVideoWebView);
         mGankDetailPresenter.loadUrl(mWebView, getActivity().getIntent().getStringExtra(HomeFragment.EXTRA_BUNDLE_URL));
+        mFabCollect = ((GankDetailActivity) getActivity()).mBtnCollect;
 
         mWebView.setOnScrollChangedCallback(mWebView, this);
     }
@@ -99,9 +105,18 @@ public class GankDetailFragment extends BaseFragment implements GankDetailContra
     @Override
     public void onScroll(Boolean isScrollDown) {
         if (isScrollDown) {
-            ((GankDetailActivity) getActivity()).mBtnCollect.show();
+            mFabCollect.animate().translationY(0).setInterpolator(new DecelerateInterpolator(2));
         } else {
-            ((GankDetailActivity) getActivity()).mBtnCollect.hide();
+            mFabCollect.animate().translationY(mFabCollect.getHeight() + getMarginBottom(mFabCollect)).setInterpolator(new AccelerateInterpolator(2));
         }
+    }
+
+    private int getMarginBottom(View v) {
+        int marginBottom = 0;
+        final ViewGroup.LayoutParams layoutParams = v.getLayoutParams();
+        if (layoutParams instanceof ViewGroup.MarginLayoutParams) {
+            marginBottom = ((ViewGroup.MarginLayoutParams) layoutParams).bottomMargin;
+        }
+        return marginBottom;
     }
 }

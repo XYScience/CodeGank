@@ -92,6 +92,10 @@ public class NestedScrollWebView extends WebView implements NestedScrollingChild
 
         MotionEvent trackedEvent = MotionEvent.obtain(event);
 
+        /**
+         *  getAction获得的int值是由pointer的index值和事件类型值组合而成的;
+         *  getActionWithMasked则只返回事件的类型值
+         */
         final int action = MotionEventCompat.getActionMasked(event);
 
         if (action == MotionEvent.ACTION_DOWN) {
